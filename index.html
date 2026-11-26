@@ -1,0 +1,2012 @@
+```html
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>NEXORA AI — Built by Prashant</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #040711;
+      color: #f8fafc;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow: hidden;
+    }
+
+    .font-orbitron {
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    /* Reference Image 2: Deep Royal Purple Mesh Gradient */
+    .purple-auth-bg {
+      background:
+        radial-gradient(circle at 82% 18%, rgba(139, 12, 198, 0.55) 0%, transparent 48%),
+        radial-gradient(circle at 18% 45%, rgba(25, 2, 52, 0.78) 0%, transparent 55%),
+        radial-gradient(circle at 75% 82%, rgba(42, 4, 72, 0.85) 0%, transparent 55%),
+        linear-gradient(155deg, #4b0082 0%, #3a0078 45%, #240046 100%);
+    }
+
+    /* Reference Image 1: Midnight Navy to Deep Obsidian Radial Background */
+    .nexora-main-bg {
+      background:
+        radial-gradient(ellipse at 50% 18%, #102152 0%, #091330 38%, #040711 72%, #020308 100%);
+    }
+
+    /* Subtle Outer Grid on Desktop */
+    .desktop-grid-backdrop {
+      background-color: #02040a;
+      background-image:
+        linear-gradient(to right, rgba(30, 58, 138, 0.14) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(30, 58, 138, 0.14) 1px, transparent 1px);
+      background-size: 44px 44px;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(59, 130, 246, 0.35);
+      border-radius: 9999px;
+    }
+
+    /* Animations */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.65; transform: scale(0.98); }
+      50% { opacity: 1; transform: scale(1.04); }
+    }
+
+    @keyframes msgAppear {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-float-slow {
+      animation: floatSlow 4.5s ease-in-out infinite;
+    }
+
+    .animate-pulse-glow {
+      animation: pulseGlow 2.4s ease-in-out infinite;
+    }
+
+    .msg-bubble-anim {
+      animation: msgAppear 0.25s ease-out forwards;
+    }
+
+    /* Underline Input Autofill Fix for Purple Auth Screen */
+    .underline-input:-webkit-autofill,
+    .underline-input:-webkit-autofill:hover,
+    .underline-input:-webkit-autofill:focus {
+      -webkit-text-fill-color: #ffffff;
+      -webkit-box-shadow: 0 0 0px 1000px rgba(58, 0, 120, 0.01) inset;
+      transition: background-color 5000s ease-in-out 0s;
+    }
+  </style>
+</head>
+<body class="desktop-grid-backdrop flex items-center justify-center">
+
+  <!-- ===================================================================== -->
+  <!-- 1. STARTUP SPLASH SCREEN (Auto-transitions in 2.2s + Instant Skip)    -->
+  <!-- ===================================================================== -->
+  <section id="screen-splash" class="fixed inset-0 z-50 nexora-main-bg flex flex-col items-center justify-between py-10 px-6 transition-opacity duration-500">
+    <div class="w-full flex justify-end max-w-md">
+      <button type="button" onclick="finishSplash()" class="px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-slate-300 tracking-wide transition cursor-pointer">
+        Skip →
+      </button>
+    </div>
+
+    <div class="flex flex-col items-center text-center my-auto">
+      <!-- Holographic Face Preview Orb -->
+      <div class="relative w-44 h-44 sm:w-52 sm:h-52 mb-6 flex items-center justify-center animate-float-slow">
+        <div class="absolute inset-2 rounded-full bg-cyan-500/20 blur-2xl animate-pulse-glow"></div>
+        <div class="absolute inset-6 rounded-full bg-amber-500/15 blur-xl"></div>
+        <canvas id="splash-canvas" width="240" height="240" class="relative z-10 w-full h-full"></canvas>
+      </div>
+
+      <h1 class="font-orbitron text-3xl sm:text-4xl font-black tracking-[0.22em] text-white drop-shadow-[0_0_24px_rgba(56,189,248,0.55)]">
+        NEXORA AI
+      </h1>
+      <p class="mt-2.5 text-sm sm:text-base text-slate-300/85 font-light tracking-wide">
+        Your intelligent voice companion.
+      </p>
+
+      <!-- Progress Indicator -->
+      <div class="mt-8 w-48 h-1 bg-slate-800/90 rounded-full overflow-hidden">
+        <div id="splash-bar" class="h-full w-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-amber-400 transition-all duration-[2000ms] ease-out"></div>
+      </div>
+    </div>
+
+    <div class="text-[11px] uppercase tracking-[0.2em] text-slate-400/80">
+      Built by <span class="text-cyan-300 font-semibold">Prashant</span>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 2. AUTHENTICATION SCREEN (Exact Match to Reference Image 2)           -->
+  <!-- ===================================================================== -->
+  <section id="screen-auth" class="hidden fixed inset-0 z-40 purple-auth-bg overflow-y-auto flex flex-col items-center justify-center px-6 py-8">
+    <div class="w-full max-w-[360px] flex flex-col items-center my-auto">
+
+      <!-- Top Circular Vibrant Magenta-Purple Avatar Icon (#b812c4) -->
+      <div class="w-24 h-24 rounded-full bg-[#b812c4] flex items-center justify-center shadow-[0_10px_35px_rgba(184,18,196,0.45)] mb-10 animate-float-slow">
+        <svg class="w-12 h-12 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="4"></circle>
+          <path d="M5 20c0-3.87 3.13-7 7-7s7 3.13 7 7"></path>
+        </svg>
+      </div>
+
+      <!-- Inline Feedback Banner (Never simulates fake success) -->
+      <div id="auth-message" class="hidden w-full mb-5 px-3.5 py-2.5 rounded-lg text-xs leading-relaxed border"></div>
+
+      <!-- LOGIN FORM (Matches Image 2 Layout & Underline Inputs) -->
+      <form id="form-login" class="w-full space-y-6" onsubmit="handleLoginSubmit(event)">
+        <!-- Email ID Underline Input -->
+        <div class="relative flex items-center border-b border-white/75 pb-2.5 focus-within:border-white transition">
+          <svg class="w-5 h-5 text-white/90 mr-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/>
+          </svg>
+          <input id="login-email" type="email" required placeholder="Email ID"
+            class="underline-input w-full bg-transparent text-white placeholder-white/75 text-sm sm:text-[15px] focus:outline-none" />
+        </div>
+
+        <!-- Password Underline Input -->
+        <div class="relative flex items-center border-b border-white/75 pb-2.5 focus-within:border-white transition">
+          <svg class="w-5 h-5 text-white/90 mr-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+          </svg>
+          <input id="login-password" type="password" required placeholder="Password"
+            class="underline-input w-full bg-transparent text-white placeholder-white/75 text-sm sm:text-[15px] focus:outline-none pr-7" />
+          <button type="button" onclick="togglePassField('login-password', this)" aria-label="Toggle Password"
+            class="text-white/70 hover:text-white text-xs px-1 cursor-pointer">
+            Show
+          </button>
+        </div>
+
+        <!-- Remember me & Italic Forgot Password? Row -->
+        <div class="flex items-center justify-between text-xs sm:text-[13px] pt-0.5">
+          <label class="inline-flex items-center gap-2 cursor-pointer text-white/90 select-none">
+            <input id="login-remember" type="checkbox" checked class="w-3.5 h-3.5 rounded-xs accent-[#b812c4] cursor-pointer" />
+            <span>Remember me</span>
+          </label>
+          <button type="button" onclick="handleForgotPassword()" class="italic text-white/85 hover:text-white transition cursor-pointer">
+            Forgot Password?
+          </button>
+        </div>
+
+        <!-- Solid Vibrant Magenta-Purple LOGIN Button -->
+        <div class="pt-2 space-y-3">
+          <button type="submit"
+            class="w-full py-3.5 rounded-[3px] bg-[#b812c4] hover:bg-[#c916d6] active:scale-[0.99] text-white font-semibold text-xs sm:text-[13px] tracking-[0.14em] uppercase shadow-[0_8px_24px_rgba(184,18,196,0.4)] transition cursor-pointer">
+            LOGIN
+          </button>
+
+          <!-- Translucent Dark-Magenta Gradient REGISTER Button -->
+          <button type="button" onclick="toggleAuthForm('register')"
+            class="w-full py-3 rounded-[3px] bg-gradient-to-r from-[#580882]/80 to-[#870a85]/80 hover:from-[#670a96] hover:to-[#9b0d99] active:scale-[0.99] text-white/85 hover:text-white font-medium text-xs tracking-[0.14em] uppercase transition cursor-pointer">
+            REGISTER
+          </button>
+        </div>
+      </form>
+
+      <!-- REGISTER FORM (Clean Toggle with Name, Email, Password, Confirm) -->
+      <form id="form-register" class="hidden w-full space-y-5" onsubmit="handleRegisterSubmit(event)">
+        <div class="relative flex items-center border-b border-white/75 pb-2 focus-within:border-white transition">
+          <svg class="w-5 h-5 text-white/90 mr-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+          </svg>
+          <input id="reg-name" type="text" required placeholder="Full Name"
+            class="underline-input w-full bg-transparent text-white placeholder-white/75 text-sm focus:outline-none" />
+        </div>
+
+        <div class="relative flex items-center border-b border-white/75 pb-2 focus-within:border-white transition">
+          <svg class="w-5 h-5 text-white/90 mr-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/>
+          </svg>
+          <input id="reg-email" type="email" required placeholder="Email ID"
+            class="underline-input w-full bg-transparent text-white placeholder-white/75 text-sm focus:outline-none" />
+        </div>
+
+        <div class="relative flex items-center border-b border-white/75 pb-2 focus-within:border-white transition">
+          <svg class="w-5 h-5 text-white/90 mr-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+          </svg>
+          <input id="reg-password" type="password" required minlength="6" placeholder="Password (min 6 chars)"
+            class="underline-input w-full bg-transparent text-white placeholder-white/75 text-sm focus:outline-none" />
+        </div>
+
+        <div class="relative flex items-center border-b border-white/75 pb-2 focus-within:border-white transition">
+          <svg class="w-5 h-5 text-white/90 mr-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+          </svg>
+          <input id="reg-confirm" type="password" required minlength="6" placeholder="Confirm Password"
+            class="underline-input w-full bg-transparent text-white placeholder-white/75 text-sm focus:outline-none" />
+        </div>
+
+        <div class="pt-1 space-y-3">
+          <button type="submit"
+            class="w-full py-3.5 rounded-[3px] bg-[#b812c4] hover:bg-[#c916d6] text-white font-semibold text-xs tracking-[0.14em] uppercase shadow-[0_8px_24px_rgba(184,18,196,0.4)] transition cursor-pointer">
+            CREATE ACCOUNT
+          </button>
+          <button type="button" onclick="toggleAuthForm('login')"
+            class="w-full py-2.5 rounded-[3px] bg-white/10 hover:bg-white/15 text-white/85 font-medium text-xs tracking-[0.12em] uppercase transition cursor-pointer">
+            ← BACK TO LOGIN
+          </button>
+        </div>
+      </form>
+
+      <!-- OR Divider -->
+      <div class="w-full flex items-center gap-3 my-5">
+        <div class="flex-1 h-px bg-white/25"></div>
+        <span class="text-[11px] font-semibold tracking-widest text-white/70">OR</span>
+        <div class="flex-1 h-px bg-white/25"></div>
+      </div>
+
+      <!-- Continue with Google Button -->
+      <button type="button" onclick="handleGoogleSignIn()"
+        class="w-full py-3 px-4 rounded-[4px] bg-white hover:bg-slate-100 active:scale-[0.99] text-slate-800 font-semibold text-xs sm:text-[13px] flex items-center justify-center gap-3 shadow-lg transition cursor-pointer mb-3">
+        <svg class="w-4 h-4 shrink-0" viewBox="0 0 48 48">
+          <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+          <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+          <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+          <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+        </svg>
+        <span>Continue with Google</span>
+      </button>
+
+      <!-- Continue as Guest Button -->
+      <button type="button" onclick="continueAsGuest()"
+        class="w-full py-3 px-4 rounded-[4px] bg-white/12 hover:bg-white/20 active:scale-[0.99] border border-white/25 text-white font-medium text-xs sm:text-[13px] flex items-center justify-center gap-2 transition cursor-pointer">
+        <span>Continue as Guest</span>
+        <span class="text-white/75">→</span>
+      </button>
+
+      <!-- Firebase Setup Trigger & Footer -->
+      <div class="w-full mt-5 flex items-center justify-between text-[11px] text-white/65">
+        <button type="button" onclick="openModal('modal-firebase')" class="hover:text-white underline underline-offset-2 cursor-pointer">
+          <span id="firebase-badge-text">Configure Firebase Auth</span>
+        </button>
+        <span>NEXORA AI • Prashant</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 3. MAIN NEXORA AI ASSISTANT SCREEN (Exact Match to Reference Image 1) -->
+  <!-- ===================================================================== -->
+  <main id="screen-app" class="hidden relative w-full h-full md:w-[430px] md:h-[92dvh] md:max-h-[880px] md:rounded-[44px] md:border-[3px] md:border-slate-700/80 md:shadow-[0_0_70px_rgba(16,33,82,0.85)] nexora-main-bg flex flex-col overflow-hidden">
+
+    <!-- TOP BAR (Matches Image 1: Circular Left Menu, Center Title, Circular Right New Chat + Settings) -->
+    <header class="w-full px-4 pt-4 pb-2 flex items-center justify-between z-20 shrink-0">
+      <!-- Left: Circular Translucent Dark-Glass Menu / History Button -->
+      <button type="button" onclick="toggleDrawer(true)" title="History & Menu"
+        class="w-10 h-10 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.1] flex items-center justify-center text-slate-200 transition active:scale-95 cursor-pointer">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="4" y1="7" x2="20" y2="7"></line>
+          <line x1="4" y1="12" x2="20" y2="12"></line>
+          <line x1="4" y1="17" x2="15" y2="17"></line>
+        </svg>
+      </button>
+
+      <!-- Center: "New Chat" + Guest/User Pill -->
+      <div class="flex flex-col items-center">
+        <span id="header-chat-title" class="text-[14px] font-medium text-slate-100 tracking-wide">New Chat</span>
+        <div class="flex items-center gap-1.5 mt-0.5">
+          <span id="header-mode-pill" class="text-[10px] px-2 py-0.2 rounded-full bg-blue-500/15 border border-blue-400/25 text-blue-300 font-medium">
+            Guest Mode
+          </span>
+        </div>
+      </div>
+
+      <!-- Right: New Chat Icon + Settings Gear -->
+      <div class="flex items-center gap-2">
+        <button type="button" onclick="startNewChat()" title="New Chat"
+          class="w-10 h-10 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.1] flex items-center justify-center text-slate-200 transition active:scale-95 cursor-pointer">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9"></path>
+            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+          </svg>
+        </button>
+        <button type="button" onclick="openSettings()" title="Settings & API Key"
+          class="w-10 h-10 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.1] flex items-center justify-center text-slate-200 transition active:scale-95 cursor-pointer">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- FLOATING VOICE CONTROLLER BAR (Appears when speaking or audio available) -->
+    <div id="voice-bar" class="hidden mx-4 mb-1 px-3 py-1.5 rounded-full bg-slate-900/90 border border-cyan-400/30 flex items-center justify-between text-xs z-20 shrink-0 shadow-lg">
+      <div class="flex items-center gap-2">
+        <span id="voice-bar-dot" class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+        <span id="voice-bar-label" class="text-cyan-200 font-medium text-[11px]">Speaking...</span>
+      </div>
+      <div class="flex items-center gap-1.5">
+        <button type="button" onclick="replaySpeech()" title="Play / Replay" class="px-2 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-[11px] cursor-pointer">▶</button>
+        <button type="button" onclick="pauseSpeech()" title="Pause" class="px-2 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-[11px] cursor-pointer">❚❚</button>
+        <button type="button" onclick="resumeSpeech()" title="Resume" class="px-2 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-[11px] cursor-pointer">⏯</button>
+        <button type="button" onclick="stopSpeech()" title="Stop" class="px-2.5 py-1 rounded-full bg-rose-500/30 hover:bg-rose-500/50 text-rose-200 font-semibold text-[11px] cursor-pointer">Stop</button>
+        <button type="button" onclick="toggleMuteQuick()" id="btn-quick-mute" title="Mute / Unmute Auto-Speak" class="px-2 py-1 rounded-full bg-white/10 hover:bg-white/20 text-cyan-300 text-[11px] cursor-pointer">🔊</button>
+      </div>
+    </div>
+
+    <!-- HONEST API STATUS / ERROR BANNER -->
+    <div id="api-banner" class="hidden mx-4 mb-1.5 px-3.5 py-2 rounded-2xl bg-amber-950/85 border border-amber-500/40 text-amber-100 text-xs flex items-center justify-between gap-2 z-20 shrink-0">
+      <span id="api-banner-msg" class="leading-snug">Gemini API key required for live AI responses.</span>
+      <div class="flex items-center gap-1.5 shrink-0">
+        <button id="btn-api-retry" type="button" onclick="retryLastPrompt()" class="hidden px-2.5 py-1 rounded-lg bg-amber-500/25 hover:bg-amber-500/40 text-amber-100 font-medium cursor-pointer">Retry</button>
+        <button type="button" onclick="openSettings('api')" class="px-2.5 py-1 rounded-lg bg-blue-500 hover:bg-blue-400 text-white font-semibold cursor-pointer">API Key</button>
+      </div>
+    </div>
+
+    <!-- CENTERPIECE: REALISTIC HOLOGRAPHIC HUMANOID AI BUST & HEAD (Matches Image 1) -->
+    <div id="hero-face-container" class="relative w-full flex flex-col items-center justify-center transition-all duration-300 shrink-0" style="height: 270px;">
+      <!-- Soft Ambient Backlight -->
+      <div id="face-backglow" class="absolute w-56 h-56 rounded-full bg-blue-600/20 blur-3xl pointer-events-none transition-all duration-500"></div>
+      
+      <!-- High-Detail HTML5 Canvas 3D-Style Voxel Scanned Humanoid Bust -->
+      <canvas id="nexora-head-canvas" width="360" height="360" class="relative z-10 w-[265px] h-[265px] sm:w-[280px] sm:h-[280px] transition-all duration-300"></canvas>
+    </div>
+
+    <!-- WELCOME HERO TEXT (Shown when chat is empty — Exact match to Image 1) -->
+    <section id="welcome-hero-block" class="px-6 pt-1 pb-3 flex-1 flex flex-col justify-end z-10">
+      <div class="mb-2 flex items-center gap-2">
+        <span id="greeting-user-line" class="text-sm text-slate-400 font-normal">Hello, Guest!</span>
+        <span id="ai-live-pill" class="text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-400/25 text-cyan-300">
+          Ready • Tap mic or type
+        </span>
+      </div>
+
+      <h2 class="text-[34px] sm:text-[38px] leading-[1.14] tracking-tight mb-4">
+        <span class="text-slate-400 font-light">How </span><span class="text-white font-bold">can</span><br/>
+        <span class="text-white font-bold">I help </span><span class="text-slate-400 font-light">you?</span>
+      </h2>
+
+      <!-- Quick Voice/Chat Prompt Chips -->
+      <div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+        <button type="button" onclick="triggerPrompt('Hello NEXORA! Who are you and how can you help me?')"
+          class="px-3 py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.09] text-[11px] text-slate-300 whitespace-nowrap transition cursor-pointer">
+          ✨ Introduce yourself
+        </button>
+        <button type="button" onclick="triggerPrompt('Aaj ke liye 3 smart productivity tips do Hinglish mein.')"
+          class="px-3 py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.09] text-[11px] text-slate-300 whitespace-nowrap transition cursor-pointer">
+          🇮🇳 Hinglish tips
+        </button>
+        <button type="button" onclick="triggerPrompt('मुझे आर्टिफिशियल इंटेलिजेंस के बारे में संक्षेप में बताएं।')"
+          class="px-3 py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.09] text-[11px] text-slate-300 whitespace-nowrap transition cursor-pointer">
+          🗣️ हिंदी में बात करें
+        </button>
+      </div>
+    </section>
+
+    <!-- SCROLLABLE CHAT CONVERSATION FEED (Replaces Welcome Block once chat begins) -->
+    <section id="chat-feed" class="hidden flex-1 w-full overflow-y-auto px-4 py-2 space-y-3 z-10 scroll-smooth"></section>
+
+    <!-- ATTACHMENT PREVIEW BAR -->
+    <div id="attach-chip" class="hidden mx-4 mb-1.5 px-3 py-1.5 rounded-xl bg-blue-950/80 border border-blue-400/35 flex items-center justify-between text-xs text-blue-200 z-20 shrink-0">
+      <span id="attach-chip-name" class="truncate">attachment.txt</span>
+      <button type="button" onclick="removeAttachment()" class="text-rose-300 hover:text-rose-200 ml-2 font-bold cursor-pointer">✕</button>
+    </div>
+
+    <!-- LIVE VOICE LISTENING OVERLAY BAR -->
+    <div id="listening-bar" class="hidden mx-4 mb-1.5 px-3.5 py-2 rounded-2xl bg-blue-950/90 border border-cyan-400/45 flex items-center justify-between text-xs text-cyan-200 z-20 shrink-0">
+      <div class="flex items-center gap-2 min-w-0">
+        <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping shrink-0"></span>
+        <span id="listening-interim" class="truncate italic">Listening... Speak now</span>
+      </div>
+      <button type="button" onclick="toggleMic()" class="text-[11px] text-rose-300 font-semibold ml-2 shrink-0 cursor-pointer">Cancel</button>
+    </div>
+
+    <!-- BOTTOM INPUT DOCK (Exact match to Image 1: '+' circle, 'Message...' pill with inline mic, Royal Blue Send circle) -->
+    <footer class="w-full px-4 pt-2 pb-4 z-20 shrink-0">
+      <div class="flex items-center gap-2.5">
+        <input id="file-picker" type="file" class="hidden" accept=".txt,.md,.json,.csv,.js,.py,.html,image/*" onchange="onFilePicked(event)" />
+
+        <!-- Left: Circular Dark-Glass '+' Attachment Button -->
+        <button type="button" onclick="document.getElementById('file-picker').click()" title="Attach File or Image"
+          class="w-11 h-11 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.1] flex items-center justify-center text-slate-300 hover:text-white transition active:scale-95 shrink-0 cursor-pointer">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+        </button>
+
+        <!-- Center: Dark Pill Input with Inline Microphone Button -->
+        <div class="flex-1 h-11 rounded-full bg-white/[0.05] border border-white/[0.12] focus-within:border-blue-400/50 px-4 flex items-center gap-2 min-w-0 transition">
+          <input id="msg-input" type="text" placeholder="Message..." autocomplete="off"
+            onkeydown="if(event.key==='Enter' && !event.shiftKey){ event.preventDefault(); sendMessage(); }"
+            class="flex-1 bg-transparent text-[14px] text-white placeholder-slate-500 focus:outline-none min-w-0" />
+
+          <!-- Inline Microphone Button -->
+          <button id="btn-mic" type="button" onclick="toggleMic()" title="Voice Input"
+            class="w-7 h-7 rounded-full flex items-center justify-center text-slate-400 hover:text-cyan-300 transition shrink-0 cursor-pointer">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V20c0 .55.45 1 1 1s1-.45 1-1v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Right: Electric Royal Blue (#3b66f5) Circular Send Button -->
+        <button id="btn-send" type="button" onclick="sendMessage()" title="Send Message"
+          class="w-11 h-11 rounded-full bg-[#3b66f5] hover:bg-[#4c75ff] active:scale-95 flex items-center justify-center text-white shadow-[0_4px_20px_rgba(59,102,245,0.5)] transition shrink-0 cursor-pointer">
+          <svg class="w-4 h-4 translate-x-[0.5px]" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Subtle Footer -->
+      <div class="mt-2 text-center text-[10px] tracking-wider text-slate-500">
+        NEXORA AI • Built by <span class="text-slate-400 font-medium">Prashant</span>
+      </div>
+    </footer>
+
+    <!-- =================================================================== -->
+    <!-- SLIDE-OUT HISTORY & PROFILE DRAWER                                  -->
+    <!-- =================================================================== -->
+    <div id="drawer-backdrop" onclick="toggleDrawer(false)" class="hidden absolute inset-0 z-30 bg-black/70 backdrop-blur-xs"></div>
+    <aside id="history-drawer" class="absolute top-0 left-0 bottom-0 z-40 w-72 bg-[#070d1f] border-r border-white/10 transform -translate-x-full transition-transform duration-300 flex flex-col">
+      <!-- Drawer Header -->
+      <div class="p-4 border-b border-white/10 flex items-center justify-between">
+        <span class="font-orbitron text-xs font-bold tracking-widest text-cyan-300">NEXORA AI</span>
+        <button type="button" onclick="toggleDrawer(false)" class="text-slate-400 hover:text-white p-1 cursor-pointer">✕</button>
+      </div>
+
+      <!-- User Profile Card -->
+      <div class="p-4 border-b border-white/10 bg-white/[0.02]">
+        <div class="flex items-center gap-3">
+          <div id="drawer-avatar" class="w-10 h-10 rounded-full bg-blue-600/30 border border-blue-400/40 flex items-center justify-center text-sm font-bold text-cyan-200 overflow-hidden shrink-0">
+            G
+          </div>
+          <div class="min-w-0 flex-1">
+            <div id="drawer-user-name" class="text-xs font-semibold text-white truncate">Guest Mode</div>
+            <div id="drawer-user-email" class="text-[11px] text-slate-400 truncate">Local browser session</div>
+          </div>
+        </div>
+        <div class="mt-3 flex gap-2">
+          <button id="drawer-signin-btn" type="button" onclick="switchToAuth()"
+            class="flex-1 py-1.5 px-2.5 rounded-lg bg-[#b812c4] hover:bg-[#c916d6] text-white text-[11px] font-semibold transition cursor-pointer">
+            Sign in / Google
+          </button>
+          <button id="drawer-logout-btn" type="button" onclick="logoutUser()"
+            class="hidden flex-1 py-1.5 px-2.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/35 border border-rose-500/40 text-rose-200 text-[11px] font-semibold transition cursor-pointer">
+            Logout
+          </button>
+        </div>
+      </div>
+
+      <!-- New Chat & Search -->
+      <div class="p-3 space-y-2">
+        <button type="button" onclick="startNewChat(); toggleDrawer(false);"
+          class="w-full py-2 px-3 rounded-xl bg-blue-600/25 hover:bg-blue-600/35 border border-blue-400/35 text-blue-200 text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer">
+          <span>+ New Chat</span>
+        </button>
+        <input id="history-search" type="text" placeholder="Search conversations..." oninput="renderDrawerHistory()"
+          class="w-full px-3 py-1.5 rounded-lg bg-white/[0.05] border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-400/40" />
+      </div>
+
+      <!-- Saved Conversations List -->
+      <div id="drawer-chat-list" class="flex-1 overflow-y-auto px-3 pb-3 space-y-1.5"></div>
+
+      <!-- Drawer Footer -->
+      <div class="p-3 border-t border-white/10 flex items-center justify-between text-[11px] text-slate-400">
+        <span>Built by Prashant</span>
+        <button type="button" onclick="clearAllChats()" class="text-rose-400 hover:text-rose-300 cursor-pointer">Clear All</button>
+      </div>
+    </aside>
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- 4. SETTINGS & GEMINI API KEY MODAL                                    -->
+  <!-- ===================================================================== -->
+  <div id="modal-settings" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="w-full max-w-md rounded-3xl bg-[#0a1229] border border-blue-500/25 p-5 sm:p-6 text-slate-100 shadow-2xl max-h-[90dvh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-white/10">
+        <h3 class="font-orbitron text-sm font-bold tracking-wider text-cyan-300">NEXORA SETTINGS</h3>
+        <button type="button" onclick="closeModal('modal-settings')" class="text-slate-400 hover:text-white p-1 cursor-pointer">✕</button>
+      </div>
+
+      <div class="mt-4 space-y-4 text-xs">
+        <!-- Gemini API Key Setup -->
+        <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-blue-500/30 space-y-2">
+          <div class="flex items-center justify-between">
+            <label class="font-semibold text-cyan-300">Google Gemini API Key</label>
+            <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" class="text-blue-400 underline">Get API Key</a>
+          </div>
+          <div class="flex gap-2">
+            <input id="input-gemini-key" type="password" placeholder="AIzaSy..."
+              class="flex-1 px-3 py-2 rounded-xl bg-slate-900 border border-white/15 text-white focus:outline-none focus:border-cyan-400" />
+            <button type="button" onclick="saveApiKey()" class="px-3.5 py-2 rounded-xl bg-[#3b66f5] hover:bg-blue-500 text-white font-semibold cursor-pointer">
+              Save
+            </button>
+          </div>
+          <p class="text-[11px] text-slate-400">Saved locally in your browser. Uses <code class="text-cyan-300">gemini-2.5-flash</code> streaming.</p>
+        </div>
+
+        <!-- Voice Selection -->
+        <div>
+          <label class="block font-medium text-slate-300 mb-1">AI Voice (English / Hindi)</label>
+          <select id="select-voice" onchange="saveSettingsFromUI()"
+            class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-white/15 text-white focus:outline-none">
+            <option value="auto">Auto-Detect (English &amp; Hindi)</option>
+          </select>
+        </div>
+
+        <!-- Toggles -->
+        <div class="grid grid-cols-2 gap-2.5">
+          <label class="p-3 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-between cursor-pointer">
+            <span>Auto-Speak</span>
+            <input id="chk-autospeak" type="checkbox" checked onchange="saveSettingsFromUI()" class="accent-blue-500 w-4 h-4" />
+          </label>
+          <label class="p-3 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-between cursor-pointer">
+            <span>UI Sound FX</span>
+            <input id="chk-sfx" type="checkbox" checked onchange="saveSettingsFromUI()" class="accent-blue-500 w-4 h-4" />
+          </label>
+        </div>
+
+        <!-- Sliders: Speech Speed & Volume -->
+        <div class="grid grid-cols-2 gap-2.5">
+          <div class="p-3 rounded-xl bg-white/[0.04] border border-white/10">
+            <div class="flex justify-between mb-1">
+              <span>Speed</span>
+              <span id="lbl-speed" class="text-cyan-300 font-semibold">1.0x</span>
+            </div>
+            <input id="rng-speed" type="range" min="0.7" max="1.5" step="0.1" value="1.0" oninput="saveSettingsFromUI()" class="w-full accent-blue-500" />
+          </div>
+          <div class="p-3 rounded-xl bg-white/[0.04] border border-white/10">
+            <div class="flex justify-between mb-1">
+              <span>Volume</span>
+              <span id="lbl-volume" class="text-cyan-300 font-semibold">100%</span>
+            </div>
+            <input id="rng-volume" type="range" min="0" max="1" step="0.1" value="1.0" oninput="saveSettingsFromUI()" class="w-full accent-blue-500" />
+          </div>
+        </div>
+
+        <!-- Firebase Setup & Clear History -->
+        <div class="pt-2 border-t border-white/10 flex items-center justify-between">
+          <button type="button" onclick="closeModal('modal-settings'); openModal('modal-firebase');"
+            class="px-3 py-2 rounded-xl bg-purple-600/25 hover:bg-purple-600/40 border border-purple-400/35 text-purple-200 font-medium cursor-pointer">
+            Firebase Setup
+          </button>
+          <button type="button" onclick="clearAllChats(); closeModal('modal-settings');"
+            class="px-3 py-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/35 border border-rose-500/35 text-rose-200 font-medium cursor-pointer">
+            Clear History
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 5. FIREBASE CONFIGURATION MODAL                                       -->
+  <!-- ===================================================================== -->
+  <div id="modal-firebase" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="w-full max-w-md rounded-3xl bg-[#1c0736] border border-fuchsia-400/35 p-5 sm:p-6 text-white shadow-2xl">
+      <div class="flex items-center justify-between pb-3 border-b border-white/15">
+        <h3 class="font-orbitron text-xs sm:text-sm font-bold tracking-wider text-fuchsia-200">FIREBASE AUTH CONFIG</h3>
+        <button type="button" onclick="closeModal('modal-firebase')" class="text-white/70 hover:text-white p-1 cursor-pointer">✕</button>
+      </div>
+      <div class="mt-3 space-y-3 text-xs text-purple-100/85">
+        <p>Paste your Firebase Web App <code class="text-cyan-300">firebaseConfig</code> JSON to enable Email/Password &amp; Google Sign-In:</p>
+        <textarea id="input-firebase-json" rows="5" placeholder='{"apiKey":"...","authDomain":"...","projectId":"...","appId":"..."}'
+          class="w-full p-3 rounded-xl bg-black/40 border border-fuchsia-400/30 font-mono text-[11px] text-cyan-200 focus:outline-none"></textarea>
+        <div id="firebase-save-feedback" class="hidden p-2 rounded-lg text-[11px]"></div>
+        <div class="flex justify-end gap-2">
+          <button type="button" onclick="clearFirebaseConfig()" class="px-3 py-2 rounded-lg bg-rose-500/25 text-rose-200 cursor-pointer">Clear</button>
+          <button type="button" onclick="saveFirebaseConfig()" class="px-4 py-2 rounded-lg bg-[#b812c4] hover:bg-[#c916d6] font-semibold text-white cursor-pointer">Save Config</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- SELF-CONTAINED JAVASCRIPT (ZERO BLOCKING DEPENDENCIES)                -->
+  <!-- ===================================================================== -->
+  <script>
+    // =========================================================================
+    // 1. APPLICATION STATE & LOCAL STORAGE KEYS
+    // =========================================================================
+    const KEYS = {
+      GEMINI_KEY: 'nexora_v2_gemini_key',
+      FIREBASE_CFG: 'nexora_v2_firebase_cfg',
+      SESSION: 'nexora_v2_session',
+      CHATS: 'nexora_v2_chats',
+      ACTIVE_CHAT: 'nexora_v2_active_chat',
+      SETTINGS: 'nexora_v2_settings'
+    };
+
+    const state = {
+      user: null, // { mode: 'guest'|'firebase', name, email, photoURL }
+      chats: [],
+      activeChatId: null,
+      aiMode: 'idle', // 'idle' | 'listening' | 'thinking' | 'speaking'
+      isGenerating: false,
+      lastPrompt: '',
+      lastSpokenText: '',
+      attachment: null,
+      firebaseReady: false,
+      settings: {
+        voiceURI: 'auto',
+        autoSpeak: true,
+        sfx: true,
+        speed: 1.0,
+        volume: 1.0
+      }
+    };
+
+    let recognition = null;
+    let isMicActive = false;
+    let voices = [];
+    let splashTimer = null;
+
+    // =========================================================================
+    // 2. REALISTIC 3D VOXEL-SCANNED HUMANOID AI HEAD RENDERER (IMAGE 1 MATCH)
+    // =========================================================================
+    function renderHumanoidHead(canvas, timeSec, mode = 'idle') {
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+      const cx = w / 2;
+      const cy = h * 0.48;
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Subtle floating motion
+      const floatY = Math.sin(timeSec * 2.1) * 4;
+      ctx.save();
+      ctx.translate(0, floatY);
+
+      // Mode-dependent energy multipliers
+      const isSpeaking = mode === 'speaking';
+      const isListening = mode === 'listening';
+      const isThinking = mode === 'thinking';
+
+      const pulse = 0.5 + 0.5 * Math.sin(timeSec * (isThinking ? 7 : isSpeaking ? 9 : 2.6));
+      const mouthOpen = isSpeaking ? (0.35 + 0.65 * Math.abs(Math.sin(timeSec * 14) * Math.cos(timeSec * 8.5))) : 0;
+
+      // --- A. Listening / Speaking Holographic Aura Rings ---
+      if (isListening || isSpeaking) {
+        const ringCount = 3;
+        for (let i = 0; i < ringCount; i++) {
+          const prog = ((timeSec * 0.75 + i / ringCount) % 1);
+          const radius = 85 + prog * 75;
+          const alpha = (1 - prog) * 0.42;
+          ctx.beginPath();
+          ctx.arc(cx, cy - 8, radius, 0, Math.PI * 2);
+          ctx.strokeStyle = isListening
+            ? `rgba(56, 189, 248, ${alpha})`
+            : `rgba(251, 191, 36, ${alpha * 0.85})`;
+          ctx.lineWidth = 1.6;
+          ctx.stroke();
+        }
+      }
+
+      // --- B. Sculpted Humanoid Neck & Shoulders ---
+      const neckGrad = ctx.createLinearGradient(cx, cy + 52, cx, cy + 165);
+      neckGrad.addColorStop(0, '#09152e');
+      neckGrad.addColorStop(0.45, '#060d1f');
+      neckGrad.addColorStop(1, 'rgba(3, 6, 15, 0)');
+
+      ctx.beginPath();
+      ctx.moveTo(cx - 34, cy + 52);
+      ctx.quadraticCurveTo(cx - 36, cy + 95, cx - 78, cy + 148);
+      ctx.lineTo(cx + 78, cy + 148);
+      ctx.quadraticCurveTo(cx + 36, cy + 95, cx + 34, cy + 52);
+      ctx.closePath();
+      ctx.fillStyle = neckGrad;
+      ctx.fill();
+
+      // Subtle Cyan Edge Rim on Neck
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.24)';
+      ctx.lineWidth = 1.4;
+      ctx.stroke();
+
+      // Neck anatomical tendons highlight
+      ctx.beginPath();
+      ctx.moveTo(cx - 20, cy + 68);
+      ctx.quadraticCurveTo(cx - 16, cy + 105, cx - 32, cy + 135);
+      ctx.moveTo(cx + 20, cy + 68);
+      ctx.quadraticCurveTo(cx + 16, cy + 105, cx + 32, cy + 135);
+      ctx.strokeStyle = 'rgba(59, 130, 246, 0.16)';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      // --- C. Sculpted Humanoid Ears ---
+      [-1, 1].forEach(side => {
+        ctx.beginPath();
+        ctx.ellipse(cx + side * 62, cy - 2, 8.5, 20, side * 0.12, 0, Math.PI * 2);
+        const earGrad = ctx.createLinearGradient(cx + side * 54, cy - 18, cx + side * 70, cy + 16);
+        earGrad.addColorStop(0, '#0f2347');
+        earGrad.addColorStop(1, '#040914');
+        ctx.fillStyle = earGrad;
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.25)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      });
+
+      // --- D. Sculpted 3D Android Cranium & Jaw Silhouette ---
+      ctx.save();
+      ctx.beginPath();
+      // Top cranium dome
+      ctx.moveTo(cx - 60, cy - 22);
+      ctx.bezierCurveTo(cx - 64, cy - 88, cx + 64, cy - 88, cx + 60, cy - 22);
+      // Cheekbones & tapered chin
+      ctx.bezierCurveTo(cx + 60, cy + 18, cx + 44, cy + 52, cx + 18, cy + 66);
+      ctx.quadraticCurveTo(cx, cy + 74, cx - 18, cy + 66);
+      ctx.bezierCurveTo(cx - 44, cy + 52, cx - 60, cy + 18, cx - 60, cy - 22);
+      ctx.closePath();
+
+      // Base Dark Metallic Obsidian Shading
+      const headBaseGrad = ctx.createRadialGradient(cx, cy - 35, 10, cx, cy, 98);
+      headBaseGrad.addColorStop(0, '#10254a');
+      headBaseGrad.addColorStop(0.55, '#071024');
+      headBaseGrad.addColorStop(1, '#03060f');
+      ctx.fillStyle = headBaseGrad;
+      ctx.fill();
+
+      // Clip inside head silhouette for authentic voxel/pixel light scan bands (Reference Image 1)
+      ctx.clip();
+
+      // 1. Upper Forehead / Cranium Luminous Cyan-Blue Dome Glow (Image 1 top glow)
+      const scanShiftY = isThinking ? Math.sin(timeSec * 5) * 14 : Math.sin(timeSec * 1.8) * 3;
+      const domeGrad = ctx.createRadialGradient(cx, cy - 58 + scanShiftY * 0.3, 6, cx, cy - 48, 56);
+      domeGrad.addColorStop(0, 'rgba(224, 248, 255, 0.95)');
+      domeGrad.addColorStop(0.32, 'rgba(56, 189, 248, 0.85)');
+      domeGrad.addColorStop(0.7, 'rgba(37, 99, 235, 0.45)');
+      domeGrad.addColorStop(1, 'rgba(7, 16, 36, 0)');
+      ctx.fillStyle = domeGrad;
+      ctx.fillRect(cx - 65, cy - 92, 130, 68);
+
+      // Dark Visor Shadow Band across Eyes (Creates the dramatic shadowed brow look in Image 1)
+      const visorGrad = ctx.createLinearGradient(cx, cy - 28, cx, cy + 6);
+      visorGrad.addColorStop(0, 'rgba(3, 7, 18, 0.92)');
+      visorGrad.addColorStop(0.5, 'rgba(2, 5, 14, 0.96)');
+      visorGrad.addColorStop(1, 'rgba(6, 15, 34, 0.4)');
+      ctx.fillStyle = visorGrad;
+      ctx.fillRect(cx - 65, cy - 28, 130, 34);
+
+      // 2. Warm Amber-Gold & Cyan Holographic Cheek/Nose Scan Band (Signature look in Image 1!)
+      const bandY = cy + 12 + (isThinking ? Math.cos(timeSec * 5) * 16 : Math.sin(timeSec * 2.2) * 2.5);
+      const goldBandGrad = ctx.createLinearGradient(cx, bandY - 16, cx, bandY + 18);
+      goldBandGrad.addColorStop(0, 'rgba(56, 189, 248, 0)');
+      goldBandGrad.addColorStop(0.32, 'rgba(56, 189, 248, 0.55)');
+      goldBandGrad.addColorStop(0.52, `rgba(255, 210, 75, ${0.88 + pulse * 0.12})`);
+      goldBandGrad.addColorStop(0.68, `rgba(249, 115, 22, ${0.78 + pulse * 0.15})`);
+      goldBandGrad.addColorStop(1, 'rgba(15, 23, 42, 0)');
+      ctx.fillStyle = goldBandGrad;
+      ctx.fillRect(cx - 65, bandY - 18, 130, 38);
+
+      // 3. Pixelated / Voxel Hologram Matrix Overlay (Reproduces the digital mosaic cells from Image 1)
+      const cellSize = 4.5;
+      for (let py = cy - 86; py < cy + 68; py += cellSize) {
+        for (let px = cx - 60; px < cx + 60; px += cellSize) {
+          // Concentrate mosaic pixels on forehead dome and cheek/nose scan zone
+          const inForehead = py < cy - 26;
+          const inMidScan = Math.abs(py - bandY) < 16;
+          if (!inForehead && !inMidScan) continue;
+
+          const shimmer = Math.sin(px * 0.25 + py * 0.18 + timeSec * 4.5);
+          if (shimmer > 0.15) {
+            ctx.fillStyle = inForehead
+              ? `rgba(125, 211, 252, ${0.14 * shimmer})`
+              : `rgba(253, 186, 116, ${0.18 * shimmer})`;
+            ctx.fillRect(px, py, cellSize - 0.8, cellSize - 0.8);
+          }
+        }
+      }
+
+      // 4. Sculpted Nose Bridge & Nostrils
+      const noseGrad = ctx.createLinearGradient(cx, cy - 14, cx, cy + 16);
+      noseGrad.addColorStop(0, 'rgba(56, 189, 248, 0.18)');
+      noseGrad.addColorStop(0.6, 'rgba(147, 197, 253, 0.65)');
+      noseGrad.addColorStop(1, 'rgba(251, 191, 36, 0.5)');
+      ctx.fillStyle = noseGrad;
+      ctx.beginPath();
+      ctx.moveTo(cx - 4, cy - 12);
+      ctx.lineTo(cx + 4, cy - 12);
+      ctx.lineTo(cx + 8, cy + 13);
+      ctx.lineTo(cx - 8, cy + 13);
+      ctx.closePath();
+      ctx.fill();
+
+      // Nose tip shadow
+      ctx.beginPath();
+      ctx.ellipse(cx, cy + 14, 9, 4.5, 0, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(12, 8, 18, 0.65)';
+      ctx.fill();
+
+      // 5. Subtle Glowing Eyes inside Visor (Brighten during Listening/Thinking/Speaking)
+      const eyeAlpha = mode === 'idle' ? 0.22 : (0.65 + pulse * 0.35);
+      [-1, 1].forEach(side => {
+        ctx.beginPath();
+        ctx.ellipse(cx + side * 24, cy - 10, 9, 3.2, side * -0.06, 0, Math.PI * 2);
+        ctx.fillStyle = isListening
+          ? `rgba(56, 189, 248, ${eyeAlpha})`
+          : `rgba(125, 211, 252, ${eyeAlpha})`;
+        ctx.fill();
+      });
+
+      // 6. Sculpted Lips & Reactive Speaking Mouth Glow
+      const mouthY = cy + 31;
+      // Upper lip highlight
+      ctx.beginPath();
+      ctx.moveTo(cx - 17, mouthY);
+      ctx.quadraticCurveTo(cx - 6, mouthY - 4, cx, mouthY - 2);
+      ctx.quadraticCurveTo(cx + 6, mouthY - 4, cx + 17, mouthY);
+      ctx.quadraticCurveTo(cx, mouthY + 2, cx - 17, mouthY);
+      ctx.fillStyle = 'rgba(148, 197, 255, 0.55)';
+      ctx.fill();
+
+      // Speaking Mouth Aperture Glow
+      if (isSpeaking) {
+        ctx.beginPath();
+        ctx.ellipse(cx, mouthY + 2, 13, 1.5 + mouthOpen * 5.5, 0, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(56, 189, 248, ${0.75 + pulse * 0.25})`;
+        ctx.fill();
+      }
+
+      // Lower lip highlight
+      ctx.beginPath();
+      ctx.ellipse(cx, mouthY + 4.5 + mouthOpen * 3, 13, 3.2, 0, 0, Math.PI);
+      ctx.fillStyle = 'rgba(125, 211, 252, 0.45)';
+      ctx.fill();
+
+      // Chin specular highlight
+      ctx.beginPath();
+      ctx.ellipse(cx, cy + 53, 12, 5, 0, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.22)';
+      ctx.fill();
+
+      ctx.restore(); // End head clip
+
+      // Crisp Holographic Rim Outline around Head
+      ctx.beginPath();
+      ctx.moveTo(cx - 60, cy - 22);
+      ctx.bezierCurveTo(cx - 64, cy - 88, cx + 64, cy - 88, cx + 60, cy - 22);
+      ctx.bezierCurveTo(cx + 60, cy + 18, cx + 44, cy + 52, cx + 18, cy + 66);
+      ctx.quadraticCurveTo(cx, cy + 74, cx - 18, cy + 66);
+      ctx.bezierCurveTo(cx - 44, cy + 52, cx - 60, cy + 18, cx - 60, cy - 22);
+      ctx.strokeStyle = isListening
+        ? 'rgba(56, 189, 248, 0.75)'
+        : isThinking
+          ? 'rgba(251, 191, 36, 0.7)'
+          : 'rgba(96, 165, 250, 0.42)';
+      ctx.lineWidth = 1.6;
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    // Continuous 60fps Animation Loop
+    function startHeadAnimationLoop() {
+      const splashCanvas = document.getElementById('splash-canvas');
+      const mainCanvas = document.getElementById('nexora-head-canvas');
+
+      function frame(now) {
+        const t = now * 0.001;
+        if (!document.getElementById('screen-splash').classList.contains('hidden')) {
+          renderHumanoidHead(splashCanvas, t, 'idle');
+        }
+        if (!document.getElementById('screen-app').classList.contains('hidden')) {
+          renderHumanoidHead(mainCanvas, t, state.aiMode);
+        }
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    }
+
+    // =========================================================================
+    // 3. SOUND EFFECTS (WEB AUDIO API)
+    // =========================================================================
+    function playTone(type = 'tap') {
+      if (!state.settings.sfx) return;
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        const now = ctx.currentTime;
+        if (type === 'send') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(520, now);
+          osc.frequency.exponentialRampToValueAtTime(920, now + 0.11);
+          gain.gain.setValueAtTime(0.07, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.13);
+          osc.start(now);
+          osc.stop(now + 0.13);
+        } else if (type === 'mic') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(440, now);
+          osc.frequency.exponentialRampToValueAtTime(840, now + 0.14);
+          gain.gain.setValueAtTime(0.08, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+          osc.start(now);
+          osc.stop(now + 0.16);
+        } else {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(640, now);
+          gain.gain.setValueAtTime(0.04, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+          osc.start(now);
+          osc.stop(now + 0.06);
+        }
+      } catch (e) {}
+    }
+
+    // =========================================================================
+    // 4. STARTUP & SCREEN NAVIGATION (GUARANTEED IMMEDIATE RENDER)
+    // =========================================================================
+    window.addEventListener('DOMContentLoaded', () => {
+      loadSavedSettings();
+      loadSavedChats();
+      startHeadAnimationLoop();
+      setupSpeechVoices();
+      setupSpeechRecognition();
+      checkFirebaseSavedConfig();
+
+      // Trigger progress bar smoothly
+      const bar = document.getElementById('splash-bar');
+      if (bar) {
+        setTimeout(() => { bar.style.width = '100%'; }, 60);
+      }
+
+      // Auto-transition after 2.2s
+      splashTimer = setTimeout(() => {
+        finishSplash();
+      }, 2200);
+    });
+
+    function finishSplash() {
+      if (splashTimer) {
+        clearTimeout(splashTimer);
+        splashTimer = null;
+      }
+      const splash = document.getElementById('screen-splash');
+      if (splash.classList.contains('hidden')) return;
+
+      splash.style.opacity = '0';
+      setTimeout(() => {
+        splash.classList.add('hidden');
+        restoreSessionOrShowAuth();
+      }, 420);
+    }
+
+    function restoreSessionOrShowAuth() {
+      try {
+        const raw = localStorage.getItem(KEYS.SESSION);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && parsed.mode) {
+            state.user = parsed;
+            openMainAssistant();
+            return;
+          }
+        }
+      } catch (e) {
+        localStorage.removeItem(KEYS.SESSION);
+      }
+      document.getElementById('screen-auth').classList.remove('hidden');
+    }
+
+    // =========================================================================
+    // 5. AUTHENTICATION (LOGIN, REGISTER, GOOGLE FIREBASE, GUEST MODE)
+    // =========================================================================
+    function showAuthFeedback(htmlText, kind = 'error') {
+      const box = document.getElementById('auth-message');
+      box.className = 'w-full mb-5 px-3.5 py-2.5 rounded-lg text-xs leading-relaxed border block';
+      if (kind === 'warn') {
+        box.classList.add('bg-amber-950/75', 'border-amber-400/50', 'text-amber-100');
+      } else if (kind === 'ok') {
+        box.classList.add('bg-emerald-950/75', 'border-emerald-400/50', 'text-emerald-100');
+      } else {
+        box.classList.add('bg-rose-950/75', 'border-rose-400/50', 'text-rose-100');
+      }
+      box.innerHTML = htmlText;
+    }
+
+    function toggleAuthForm(target) {
+      playTone('tap');
+      document.getElementById('auth-message').classList.add('hidden');
+      if (target === 'register') {
+        document.getElementById('form-login').classList.add('hidden');
+        document.getElementById('form-register').classList.remove('hidden');
+      } else {
+        document.getElementById('form-register').classList.add('hidden');
+        document.getElementById('form-login').classList.remove('hidden');
+      }
+    }
+
+    function togglePassField(id, btn) {
+      const inp = document.getElementById(id);
+      if (inp.type === 'password') {
+        inp.type = 'text';
+        btn.textContent = 'Hide';
+      } else {
+        inp.type = 'password';
+        btn.textContent = 'Show';
+      }
+    }
+
+    function checkFirebaseSavedConfig() {
+      const raw = localStorage.getItem(KEYS.FIREBASE_CFG);
+      if (!raw) {
+        state.firebaseReady = false;
+        return;
+      }
+      try {
+        const cfg = JSON.parse(raw);
+        if (cfg && cfg.apiKey && cfg.authDomain) {
+          state.firebaseReady = true;
+          document.getElementById('firebase-badge-text').textContent = 'Firebase Auth Ready';
+          document.getElementById('input-firebase-json').value = JSON.stringify(cfg, null, 2);
+        }
+      } catch (e) {
+        state.firebaseReady = false;
+      }
+    }
+
+    function saveFirebaseConfig() {
+      const raw = document.getElementById('input-firebase-json').value.trim();
+      const fbBox = document.getElementById('firebase-save-feedback');
+      try {
+        const cfg = JSON.parse(raw);
+        if (!cfg.apiKey || !cfg.authDomain) {
+          throw new Error('JSON must include "apiKey" and "authDomain".');
+        }
+        localStorage.setItem(KEYS.FIREBASE_CFG, JSON.stringify(cfg));
+        state.firebaseReady = true;
+        document.getElementById('firebase-badge-text').textContent = 'Firebase Auth Ready';
+        fbBox.className = 'p-2 rounded-lg text-[11px] bg-emerald-500/20 border border-emerald-400/40 text-emerald-200 block';
+        fbBox.textContent = 'Firebase configuration saved! You can now sign in with Email or Google.';
+        setTimeout(() => closeModal('modal-firebase'), 1100);
+      } catch (err) {
+        fbBox.className = 'p-2 rounded-lg text-[11px] bg-rose-500/25 border border-rose-400/40 text-rose-200 block';
+        fbBox.textContent = 'Invalid JSON: ' + err.message;
+      }
+    }
+
+    function clearFirebaseConfig() {
+      localStorage.removeItem(KEYS.FIREBASE_CFG);
+      document.getElementById('input-firebase-json').value = '';
+      state.firebaseReady = false;
+      document.getElementById('firebase-badge-text').textContent = 'Configure Firebase Auth';
+      closeModal('modal-firebase');
+    }
+
+    // Lazy-load Firebase SDKs only when user actually attempts Firebase auth
+    function ensureFirebaseSDKLoaded() {
+      return new Promise((resolve, reject) => {
+        if (window.firebase && window.firebase.auth) {
+          return resolve(window.firebase);
+        }
+        const s1 = document.createElement('script');
+        s1.src = 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js';
+        s1.onload = () => {
+          const s2 = document.createElement('script');
+          s2.src = 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js';
+          s2.onload = () => resolve(window.firebase);
+          s2.onerror = () => reject(new Error('Failed to load Firebase Auth SDK.'));
+          document.head.appendChild(s2);
+        };
+        s1.onerror = () => reject(new Error('Failed to load Firebase SDK. Check your internet connection.'));
+        document.head.appendChild(s1);
+      });
+    }
+
+    async function getFirebaseAuthInstance() {
+      const raw = localStorage.getItem(KEYS.FIREBASE_CFG);
+      if (!raw) throw new Error('NOT_CONFIGURED');
+      const cfg = JSON.parse(raw);
+      const fb = await ensureFirebaseSDKLoaded();
+      if (!fb.apps.length) {
+        fb.initializeApp(cfg);
+      }
+      return fb.auth();
+    }
+
+    async function handleLoginSubmit(e) {
+      e.preventDefault();
+      playTone('tap');
+      if (!state.firebaseReady) {
+        showAuthFeedback(
+          '<strong>Firebase Authentication is not configured yet.</strong> Click <em>"Configure Firebase Auth"</em> below to add your Firebase config, or tap <strong>Continue as Guest</strong> to enter immediately.',
+          'warn'
+        );
+        return;
+      }
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+      const remember = document.getElementById('login-remember').checked;
+
+      try {
+        const auth = await getFirebaseAuthInstance();
+        await auth.setPersistence(
+          remember ? window.firebase.auth.Auth.Persistence.LOCAL : window.firebase.auth.Auth.Persistence.SESSION
+        );
+        const cred = await auth.signInWithEmailAndPassword(email, password);
+        state.user = {
+          mode: 'firebase',
+          name: cred.user.displayName || email.split('@')[0],
+          email: cred.user.email,
+          photoURL: cred.user.photoURL || ''
+        };
+        if (remember) {
+          localStorage.setItem(KEYS.SESSION, JSON.stringify(state.user));
+        }
+        openMainAssistant();
+      } catch (err) {
+        showAuthFeedback(err.message || 'Login failed. Please check your credentials.');
+      }
+    }
+
+    async function handleRegisterSubmit(e) {
+      e.preventDefault();
+      playTone('tap');
+      const name = document.getElementById('reg-name').value.trim();
+      const email = document.getElementById('reg-email').value.trim();
+      const pass = document.getElementById('reg-password').value;
+      const confirm = document.getElementById('reg-confirm').value;
+
+      if (pass !== confirm) {
+        showAuthFeedback('Passwords do not match.');
+        return;
+      }
+      if (!state.firebaseReady) {
+        showAuthFeedback(
+          '<strong>Firebase Authentication is not configured yet.</strong> Configure Firebase below or use <strong>Continue as Guest</strong> right now.',
+          'warn'
+        );
+        return;
+      }
+      try {
+        const auth = await getFirebaseAuthInstance();
+        const cred = await auth.createUserWithEmailAndPassword(email, pass);
+        if (name) {
+          await cred.user.updateProfile({ displayName: name });
+        }
+        state.user = {
+          mode: 'firebase',
+          name: name || email.split('@')[0],
+          email: cred.user.email,
+          photoURL: ''
+        };
+        localStorage.setItem(KEYS.SESSION, JSON.stringify(state.user));
+        openMainAssistant();
+      } catch (err) {
+        showAuthFeedback(err.message || 'Account creation failed.');
+      }
+    }
+
+    async function handleForgotPassword() {
+      playTone('tap');
+      if (!state.firebaseReady) {
+        showAuthFeedback(
+          'Password reset requires Firebase setup. Click <em>"Configure Firebase Auth"</em> below or use <strong>Continue as Guest</strong>.',
+          'warn'
+        );
+        return;
+      }
+      const email = document.getElementById('login-email').value.trim();
+      if (!email) {
+        showAuthFeedback('Enter your Email ID above first, then click <em>Forgot Password?</em>.');
+        return;
+      }
+      try {
+        const auth = await getFirebaseAuthInstance();
+        await auth.sendPasswordResetEmail(email);
+        showAuthFeedback(`Password reset link sent to <strong>${escapeHTML(email)}</strong>.`, 'ok');
+      } catch (err) {
+        showAuthFeedback(err.message || 'Could not send reset email.');
+      }
+    }
+
+    async function handleGoogleSignIn() {
+      playTone('tap');
+      if (!state.firebaseReady) {
+        showAuthFeedback(
+          '<strong>Google Sign-In is ready for Firebase setup.</strong> Click <em>"Configure Firebase Auth"</em> below to connect your project, or tap <strong>Continue as Guest</strong> to enter immediately.',
+          'warn'
+        );
+        return;
+      }
+      try {
+        const auth = await getFirebaseAuthInstance();
+        const provider = new window.firebase.auth.GoogleAuthProvider();
+        const res = await auth.signInWithPopup(provider);
+        state.user = {
+          mode: 'firebase',
+          name: res.user.displayName || 'Google User',
+          email: res.user.email,
+          photoURL: res.user.photoURL || ''
+        };
+        localStorage.setItem(KEYS.SESSION, JSON.stringify(state.user));
+        openMainAssistant();
+      } catch (err) {
+        showAuthFeedback(err.message || 'Google Sign-In cancelled or failed.');
+      }
+    }
+
+    // Immediate Guest Mode Entry (Zero registration, zero fake popups)
+    function continueAsGuest() {
+      playTone('mic');
+      state.user = {
+        mode: 'guest',
+        name: 'Guest',
+        email: 'Local Guest Session',
+        photoURL: ''
+      };
+      localStorage.setItem(KEYS.SESSION, JSON.stringify(state.user));
+      openMainAssistant();
+    }
+
+    function switchToAuth() {
+      stopSpeech();
+      toggleDrawer(false);
+      document.getElementById('screen-app').classList.add('hidden');
+      document.getElementById('screen-auth').classList.remove('hidden');
+    }
+
+    async function logoutUser() {
+      stopSpeech();
+      if (window.firebase && window.firebase.auth && window.firebase.auth().currentUser) {
+        try { await window.firebase.auth().signOut(); } catch (e) {}
+      }
+      localStorage.removeItem(KEYS.SESSION);
+      state.user = null;
+      switchToAuth();
+    }
+
+    // =========================================================================
+    // 6. MAIN ASSISTANT UI & STATE UPDATES
+    // =========================================================================
+    function openMainAssistant() {
+      document.getElementById('screen-auth').classList.add('hidden');
+      document.getElementById('screen-app').classList.remove('hidden');
+
+      const u = state.user || { mode: 'guest', name: 'Guest', email: 'Local session' };
+      const firstName = (u.name || 'Guest').split(' ')[0];
+
+      document.getElementById('greeting-user-line').textContent = `Hello, ${firstName}!`;
+      document.getElementById('header-mode-pill').textContent = u.mode === 'guest' ? 'Guest Mode' : u.name;
+      document.getElementById('drawer-user-name').textContent = u.mode === 'guest' ? 'Guest Mode' : u.name;
+      document.getElementById('drawer-user-email').textContent = u.email || 'Local browser session';
+
+      const avatarEl = document.getElementById('drawer-avatar');
+      if (u.photoURL) {
+        avatarEl.innerHTML = `<img src="${escapeHTML(u.photoURL)}" class="w-full h-full object-cover" alt="Avatar" />`;
+      } else {
+        avatarEl.textContent = firstName.charAt(0).toUpperCase();
+      }
+
+      if (u.mode === 'guest') {
+        document.getElementById('drawer-signin-btn').classList.remove('hidden');
+        document.getElementById('drawer-logout-btn').classList.add('hidden');
+      } else {
+        document.getElementById('drawer-signin-btn').classList.add('hidden');
+        document.getElementById('drawer-logout-btn').classList.remove('hidden');
+      }
+
+      updateApiBannerVisibility();
+      renderActiveConversation();
+      renderDrawerHistory();
+    }
+
+    function setAIMode(mode) {
+      state.aiMode = mode;
+      const pill = document.getElementById('ai-live-pill');
+      const glow = document.getElementById('face-backglow');
+
+      if (mode === 'listening') {
+        if (pill) pill.textContent = 'Listening... Speak now';
+        glow.className = 'absolute w-64 h-64 rounded-full bg-cyan-400/35 blur-3xl pointer-events-none transition-all duration-300';
+      } else if (mode === 'thinking') {
+        if (pill) pill.textContent = 'Thinking...';
+        glow.className = 'absolute w-64 h-64 rounded-full bg-amber-400/30 blur-3xl pointer-events-none transition-all duration-300';
+      } else if (mode === 'speaking') {
+        if (pill) pill.textContent = 'Speaking...';
+        glow.className = 'absolute w-64 h-64 rounded-full bg-blue-500/35 blur-3xl pointer-events-none transition-all duration-300';
+      } else {
+        if (pill) pill.textContent = 'Ready • Tap mic or type';
+        glow.className = 'absolute w-56 h-56 rounded-full bg-blue-600/20 blur-3xl pointer-events-none transition-all duration-500';
+      }
+    }
+
+    // =========================================================================
+    // 7. VOICE OUTPUT (TTS) & VOICE INPUT (STT)
+    // =========================================================================
+    function setupSpeechVoices() {
+      if (!('speechSynthesis' in window)) return;
+      const load = () => {
+        voices = window.speechSynthesis.getVoices();
+        const sel = document.getElementById('select-voice');
+        if (!sel) return;
+        const saved = state.settings.voiceURI;
+        sel.innerHTML = '<option value="auto">Auto-Detect (English &amp; Hindi)</option>';
+        voices.forEach(v => {
+          const opt = document.createElement('option');
+          opt.value = v.voiceURI;
+          opt.textContent = `${v.name} (${v.lang})`;
+          sel.appendChild(opt);
+        });
+        sel.value = saved || 'auto';
+      };
+      load();
+      window.speechSynthesis.onvoiceschanged = load;
+    }
+
+    function speakResponse(text) {
+      if (!('speechSynthesis' in window)) return;
+      const clean = text
+        .replace(/```[\s\S]*?```/g, ' Code snippet omitted. ')
+        .replace(/[*#_`~>]/g, '')
+        .trim();
+      if (!clean) return;
+
+      state.lastSpokenText = clean;
+      document.getElementById('voice-bar').classList.remove('hidden');
+
+      if (!state.settings.autoSpeak) {
+        document.getElementById('voice-bar-label').textContent = 'Audio Ready (Muted)';
+        document.getElementById('voice-bar-dot').className = 'w-2 h-2 rounded-full bg-slate-400';
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(clean);
+      utter.rate = parseFloat(state.settings.speed) || 1.0;
+      utter.volume = parseFloat(state.settings.volume) ?? 1.0;
+
+      const isHindi = /[\u0900-\u097F]/.test(clean);
+      if (state.settings.voiceURI && state.settings.voiceURI !== 'auto') {
+        const match = voices.find(v => v.voiceURI === state.settings.voiceURI);
+        if (match) utter.voice = match;
+      } else if (isHindi) {
+        const hi = voices.find(v => v.lang.toLowerCase().includes('hi'));
+        if (hi) utter.voice = hi;
+        utter.lang = 'hi-IN';
+      } else {
+        const en = voices.find(v => v.lang.toLowerCase().startsWith('en') && (v.name.includes('Google') || v.name.includes('Natural')))
+          || voices.find(v => v.lang.toLowerCase().startsWith('en'));
+        if (en) utter.voice = en;
+        utter.lang = 'en-US';
+      }
+
+      utter.onstart = () => {
+        setAIMode('speaking');
+        document.getElementById('voice-bar-label').textContent = 'Speaking...';
+        document.getElementById('voice-bar-dot').className = 'w-2 h-2 rounded-full bg-cyan-400 animate-ping';
+      };
+      utter.onend = () => {
+        if (state.aiMode === 'speaking') setAIMode('idle');
+        document.getElementById('voice-bar-label').textContent = 'Finished';
+        document.getElementById('voice-bar-dot').className = 'w-2 h-2 rounded-full bg-slate-400';
+      };
+      utter.onerror = () => {
+        if (state.aiMode === 'speaking') setAIMode('idle');
+      };
+
+      window.speechSynthesis.speak(utter);
+    }
+
+    function replaySpeech() {
+      if (!state.lastSpokenText) return;
+      const prev = state.settings.autoSpeak;
+      state.settings.autoSpeak = true;
+      speakResponse(state.lastSpokenText);
+      state.settings.autoSpeak = prev;
+    }
+
+    function pauseSpeech() {
+      if ('speechSynthesis' in window && window.speechSynthesis.speaking) {
+        window.speechSynthesis.pause();
+        setAIMode('idle');
+        document.getElementById('voice-bar-label').textContent = 'Paused';
+      }
+    }
+
+    function resumeSpeech() {
+      if ('speechSynthesis' in window && window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+        setAIMode('speaking');
+        document.getElementById('voice-bar-label').textContent = 'Speaking...';
+      }
+    }
+
+    function stopSpeech() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      if (state.aiMode === 'speaking') setAIMode('idle');
+      const lbl = document.getElementById('voice-bar-label');
+      if (lbl) lbl.textContent = 'Stopped';
+    }
+
+    function toggleMuteQuick() {
+      state.settings.autoSpeak = !state.settings.autoSpeak;
+      document.getElementById('chk-autospeak').checked = state.settings.autoSpeak;
+      localStorage.setItem(KEYS.SETTINGS, JSON.stringify(state.settings));
+      document.getElementById('btn-quick-mute').textContent = state.settings.autoSpeak ? '🔊' : '🔇';
+      if (!state.settings.autoSpeak) stopSpeech();
+    }
+
+    function setupSpeechRecognition() {
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SR) return;
+      recognition = new SR();
+      recognition.continuous = false;
+      recognition.interimResults = true;
+      recognition.lang = 'en-IN';
+
+      recognition.onstart = () => {
+        isMicActive = true;
+        stopSpeech();
+        setAIMode('listening');
+        document.getElementById('btn-mic').classList.add('text-cyan-300', 'bg-cyan-500/20');
+        document.getElementById('listening-bar').classList.remove('hidden');
+        document.getElementById('listening-interim').textContent = 'Listening... Speak now';
+      };
+
+      recognition.onresult = (e) => {
+        let interim = '';
+        let finalStr = '';
+        for (let i = e.resultIndex; i < e.results.length; i++) {
+          const t = e.results[i][0].transcript;
+          if (e.results[i].isFinal) finalStr += t;
+          else interim += t;
+        }
+        document.getElementById('listening-interim').textContent = finalStr || interim || 'Listening...';
+        if (finalStr.trim()) {
+          document.getElementById('msg-input').value = finalStr.trim();
+          endMicUI();
+          sendMessage();
+        }
+      };
+
+      recognition.onerror = (e) => {
+        endMicUI();
+        setAIMode('idle');
+        const msg = (e.error === 'not-allowed' || e.error === 'service-not-allowed')
+          ? 'Microphone permission denied. Enable mic access in browser settings.'
+          : 'Voice capture stopped. Tap mic and try again.';
+        showApiBanner(msg, false);
+      };
+
+      recognition.onend = () => {
+        endMicUI();
+        if (state.aiMode === 'listening') setAIMode('idle');
+      };
+    }
+
+    function toggleMic() {
+      playTone('mic');
+      if (!recognition) {
+        showApiBanner('Speech-to-text is not supported in this browser.', false);
+        return;
+      }
+      if (isMicActive) {
+        try { recognition.stop(); } catch (e) {}
+        endMicUI();
+        setAIMode('idle');
+      } else {
+        try { recognition.start(); } catch (e) { endMicUI(); }
+      }
+    }
+
+    function endMicUI() {
+      isMicActive = false;
+      document.getElementById('btn-mic').classList.remove('text-cyan-300', 'bg-cyan-500/20');
+      document.getElementById('listening-bar').classList.add('hidden');
+    }
+
+    // =========================================================================
+    // 8. GEMINI API INTEGRATION (STREAMING + HONEST ERROR HANDLING)
+    // =========================================================================
+    function getApiKey() {
+      return (localStorage.getItem(KEYS.GEMINI_KEY) || '').trim();
+    }
+
+    function saveApiKey() {
+      const k = document.getElementById('input-gemini-key').value.trim();
+      if (k) localStorage.setItem(KEYS.GEMINI_KEY, k);
+      else localStorage.removeItem(KEYS.GEMINI_KEY);
+      updateApiBannerVisibility();
+      closeModal('modal-settings');
+      playTone('send');
+    }
+
+    function updateApiBannerVisibility() {
+      const banner = document.getElementById('api-banner');
+      if (!getApiKey()) {
+        document.getElementById('api-banner-msg').textContent = 'Add your Google Gemini API key in Settings to activate live AI answers.';
+        document.getElementById('btn-api-retry').classList.add('hidden');
+        banner.classList.remove('hidden');
+      } else {
+        banner.classList.add('hidden');
+      }
+    }
+
+    function showApiBanner(text, showRetry = false) {
+      const banner = document.getElementById('api-banner');
+      document.getElementById('api-banner-msg').textContent = text;
+      const retryBtn = document.getElementById('btn-api-retry');
+      if (showRetry) retryBtn.classList.remove('hidden');
+      else retryBtn.classList.add('hidden');
+      banner.classList.remove('hidden');
+    }
+
+    function triggerPrompt(text) {
+      document.getElementById('msg-input').value = text;
+      sendMessage();
+    }
+
+    function retryLastPrompt() {
+      if (state.lastPrompt) {
+        document.getElementById('msg-input').value = state.lastPrompt;
+        sendMessage();
+      }
+    }
+
+    function onFilePicked(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const isImage = file.type.startsWith('image/');
+      const reader = new FileReader();
+      reader.onload = () => {
+        state.attachment = {
+          name: file.name,
+          mimeType: file.type || 'text/plain',
+          data: reader.result,
+          isImage
+        };
+        document.getElementById('attach-chip-name').textContent = file.name;
+        document.getElementById('attach-chip').classList.remove('hidden');
+        playTone('tap');
+      };
+      if (isImage) reader.readAsDataURL(file);
+      else reader.readAsText(file);
+      e.target.value = '';
+    }
+
+    function removeAttachment() {
+      state.attachment = null;
+      document.getElementById('attach-chip').classList.add('hidden');
+    }
+
+    async function sendMessage() {
+      if (state.isGenerating) return;
+      const input = document.getElementById('msg-input');
+      const rawText = input.value.trim();
+      const att = state.attachment;
+
+      if (!rawText && !att) return;
+
+      const apiKey = getApiKey();
+      if (!apiKey) {
+        showApiBanner('Gemini API key missing—NEXORA AI never fakes responses. Add your key in Settings.', false);
+        openSettings('api');
+        return;
+      }
+
+      playTone('send');
+      stopSpeech();
+
+      let chat = getActiveChat();
+      if (!chat) {
+        chat = createChatObj();
+        state.chats.unshift(chat);
+        state.activeChatId = chat.id;
+      }
+
+      const userPrompt = rawText || `Analyze attached file: ${att.name}`;
+      state.lastPrompt = userPrompt;
+
+      if (chat.messages.length === 0) {
+        chat.title = userPrompt.slice(0, 32) + (userPrompt.length > 32 ? '...' : '');
+      }
+
+      chat.messages.push({
+        role: 'user',
+        text: userPrompt,
+        attachmentName: att ? att.name : null
+      });
+
+      input.value = '';
+      removeAttachment();
+      persistChats();
+      renderActiveConversation();
+      renderDrawerHistory();
+
+      state.isGenerating = true;
+      setAIMode('thinking');
+      document.getElementById('api-banner').classList.add('hidden');
+
+      const aiMsg = { role: 'assistant', text: '', streaming: true };
+      chat.messages.push(aiMsg);
+      renderActiveConversation();
+
+      try {
+        const contents = chat.messages.slice(0, -1).slice(-10).map((m, idx, arr) => {
+          const parts = [{ text: m.text }];
+          if (idx === arr.length - 1 && m.role === 'user' && att) {
+            if (att.isImage) {
+              parts.push({
+                inlineData: {
+                  mimeType: att.mimeType,
+                  data: att.data.split(',')[1]
+                }
+              });
+            } else {
+              parts[0].text += `\n\n[Attached File: ${att.name}]\n${att.data.slice(0, 8000)}`;
+            }
+          }
+          return { role: m.role === 'assistant' ? 'model' : 'user', parts };
+        });
+
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:streamGenerateContent?alt=sse&key=${encodeURIComponent(apiKey)}`;
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            systemInstruction: {
+              parts: [{
+                text: 'You are NEXORA AI, a sleek futuristic AI Voice Assistant built by Prashant. Reply naturally in the same language the user uses (English, Hindi in Devanagari, or Hinglish). Keep replies helpful, concise, and natural when spoken aloud.'
+              }]
+            },
+            contents,
+            generationConfig: { temperature: 0.7, maxOutputTokens: 1024 }
+          })
+        });
+
+        if (!res.ok) {
+          const errJson = await res.json().catch(() => ({}));
+          throw new Error(errJson?.error?.message || `HTTP ${res.status}`);
+        }
+
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder('utf-8');
+        let buffer = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop() || '';
+
+          for (const line of lines) {
+            if (!line.startsWith('data: ')) continue;
+            const payload = line.slice(6).trim();
+            if (!payload || payload === '[DONE]') continue;
+            try {
+              const parsed = JSON.parse(payload);
+              const chunk = parsed?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+              if (chunk) {
+                aiMsg.text += chunk;
+                const liveNode = document.getElementById('live-ai-stream');
+                const feed = document.getElementById('chat-feed');
+                if (liveNode) {
+                  liveNode.innerHTML = formatText(aiMsg.text);
+                  feed.scrollTop = feed.scrollHeight;
+                }
+              }
+            } catch (e) {}
+          }
+        }
+
+        if (!aiMsg.text.trim()) {
+          throw new Error('No response text returned from Gemini API.');
+        }
+
+        aiMsg.streaming = false;
+        persistChats();
+        renderActiveConversation();
+        speakResponse(aiMsg.text);
+
+      } catch (err) {
+        chat.messages.pop();
+        persistChats();
+        renderActiveConversation();
+        setAIMode('idle');
+        showApiBanner(`API Error: ${err.message}`, true);
+      } finally {
+        state.isGenerating = false;
+        if (state.aiMode === 'thinking') setAIMode('idle');
+      }
+    }
+
+    // =========================================================================
+    // 9. CHAT RENDERING, COPY & HISTORY MANAGEMENT
+    // =========================================================================
+    function renderActiveConversation() {
+      const chat = getActiveChat();
+      const welcomeBlock = document.getElementById('welcome-hero-block');
+      const feed = document.getElementById('chat-feed');
+      const faceBox = document.getElementById('hero-face-container');
+      const faceCanvas = document.getElementById('nexora-head-canvas');
+      const titleEl = document.getElementById('header-chat-title');
+
+      if (!chat || chat.messages.length === 0) {
+        titleEl.textContent = 'New Chat';
+        welcomeBlock.classList.remove('hidden');
+        feed.classList.add('hidden');
+        faceBox.style.height = '270px';
+        faceCanvas.style.width = '265px';
+        faceCanvas.style.height = '265px';
+        return;
+      }
+
+      titleEl.textContent = chat.title || 'Conversation';
+      welcomeBlock.classList.add('hidden');
+      feed.classList.remove('hidden');
+      // Compact holographic head slightly when reading messages so conversation has generous room
+      faceBox.style.height = '175px';
+      faceCanvas.style.width = '175px';
+      faceCanvas.style.height = '175px';
+
+      feed.innerHTML = chat.messages.map((m, idx) => {
+        if (m.role === 'user') {
+          return `
+            <div class="flex justify-end msg-bubble-anim">
+              <div class="max-w-[82%] px-3.5 py-2.5 rounded-2xl rounded-br-xs bg-[#3b66f5]/30 border border-blue-400/35 text-[13.5px] text-white">
+                ${m.attachmentName ? `<div class="text-[11px] text-cyan-300 mb-1">📎 ${escapeHTML(m.attachmentName)}</div>` : ''}
+                <div class="whitespace-pre-wrap break-words leading-relaxed">${escapeHTML(m.text)}</div>
+              </div>
+            </div>`;
+        } else {
+          const bodyHtml = m.streaming && !m.text
+            ? `<span class="text-xs text-cyan-300 animate-pulse">Synthesizing response...</span>`
+            : formatText(m.text);
+          return `
+            <div class="flex justify-start msg-bubble-anim">
+              <div class="max-w-[88%] px-3.5 py-2.5 rounded-2xl rounded-bl-xs bg-white/[0.06] border border-white/[0.1] text-[13.5px] text-slate-100">
+                <div class="flex items-center justify-between gap-3 mb-1 pb-1 border-b border-white/[0.08]">
+                  <span class="font-orbitron text-[10px] tracking-widest text-cyan-300">NEXORA AI</span>
+                  <div class="flex items-center gap-2 text-[11px] text-slate-400">
+                    <button type="button" onclick="speakMsgAt(${idx})" title="Speak" class="hover:text-cyan-300 cursor-pointer">🔊</button>
+                    <button type="button" onclick="copyMsgAt(${idx}, this)" title="Copy" class="hover:text-cyan-300 cursor-pointer">Copy</button>
+                  </div>
+                </div>
+                <div ${m.streaming ? 'id="live-ai-stream"' : ''} class="whitespace-pre-wrap break-words leading-relaxed">${bodyHtml}</div>
+              </div>
+            </div>`;
+        }
+      }).join('');
+
+      feed.scrollTop = feed.scrollHeight;
+    }
+
+    function formatText(txt) {
+      let s = escapeHTML(txt);
+      s = s.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-semibold">$1</strong>');
+      s = s.replace(/`([^`]+)`/g, '<code class="px-1.5 py-0.5 rounded bg-black/50 text-cyan-300 font-mono text-xs">$1</code>');
+      return s;
+    }
+
+    function speakMsgAt(idx) {
+      const chat = getActiveChat();
+      if (!chat || !chat.messages[idx]) return;
+      const prev = state.settings.autoSpeak;
+      state.settings.autoSpeak = true;
+      speakResponse(chat.messages[idx].text);
+      state.settings.autoSpeak = prev;
+    }
+
+    function copyMsgAt(idx, btn) {
+      const chat = getActiveChat();
+      if (!chat || !chat.messages[idx]) return;
+      const ta = document.createElement('textarea');
+      ta.value = chat.messages[idx].text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand('copy');
+        btn.textContent = 'Copied!';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 1400);
+      } catch (e) {}
+      document.body.removeChild(ta);
+    }
+
+    function createChatObj() {
+      return {
+        id: 'c_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+        title: 'New Chat',
+        messages: []
+      };
+    }
+
+    function loadSavedChats() {
+      try {
+        const list = JSON.parse(localStorage.getItem(KEYS.CHATS) || '[]');
+        state.chats = Array.isArray(list) ? list : [];
+        const active = localStorage.getItem(KEYS.ACTIVE_CHAT);
+        if (active && state.chats.some(c => c.id === active)) {
+          state.activeChatId = active;
+        } else if (state.chats.length > 0) {
+          state.activeChatId = state.chats[0].id;
+        }
+      } catch (e) {
+        state.chats = [];
+      }
+    }
+
+    function persistChats() {
+      localStorage.setItem(KEYS.CHATS, JSON.stringify(state.chats));
+      if (state.activeChatId) localStorage.setItem(KEYS.ACTIVE_CHAT, state.activeChatId);
+    }
+
+    function getActiveChat() {
+      return state.chats.find(c => c.id === state.activeChatId) || null;
+    }
+
+    function startNewChat() {
+      playTone('tap');
+      stopSpeech();
+      const c = createChatObj();
+      state.chats.unshift(c);
+      state.activeChatId = c.id;
+      persistChats();
+      renderActiveConversation();
+      renderDrawerHistory();
+    }
+
+    function openChatById(id) {
+      playTone('tap');
+      stopSpeech();
+      state.activeChatId = id;
+      persistChats();
+      renderActiveConversation();
+      renderDrawerHistory();
+      toggleDrawer(false);
+    }
+
+    function deleteChatById(id, e) {
+      e.stopPropagation();
+      state.chats = state.chats.filter(c => c.id !== id);
+      if (state.activeChatId === id) {
+        state.activeChatId = state.chats[0]?.id || null;
+      }
+      persistChats();
+      renderActiveConversation();
+      renderDrawerHistory();
+    }
+
+    function clearAllChats() {
+      stopSpeech();
+      state.chats = [];
+      state.activeChatId = null;
+      localStorage.removeItem(KEYS.CHATS);
+      localStorage.removeItem(KEYS.ACTIVE_CHAT);
+      renderActiveConversation();
+      renderDrawerHistory();
+    }
+
+    function renderDrawerHistory() {
+      const container = document.getElementById('drawer-chat-list');
+      if (!container) return;
+      const query = (document.getElementById('history-search')?.value || '').toLowerCase();
+      const filtered = state.chats.filter(c => (c.title || '').toLowerCase().includes(query));
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="text-center text-xs text-slate-500 py-8">No conversations found</div>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map(c => {
+        const active = c.id === state.activeChatId;
+        return `
+          <div onclick="openChatById('${c.id}')"
+            class="px-3 py-2.5 rounded-xl flex items-center justify-between gap-2 cursor-pointer transition ${
+              active ? 'bg-blue-600/25 border border-blue-400/40 text-white' : 'bg-white/[0.03] hover:bg-white/[0.07] text-slate-300'
+            }">
+            <span class="text-xs truncate">${escapeHTML(c.title)}</span>
+            <button type="button" onclick="deleteChatById('${c.id}', event)" class="text-slate-500 hover:text-rose-400 text-xs px-1 cursor-pointer">✕</button>
+          </div>`;
+      }).join('');
+    }
+
+    function toggleDrawer(open) {
+      playTone('tap');
+      const drawer = document.getElementById('history-drawer');
+      const backdrop = document.getElementById('drawer-backdrop');
+      if (open) {
+        renderDrawerHistory();
+        drawer.classList.remove('-translate-x-full');
+        backdrop.classList.remove('hidden');
+      } else {
+        drawer.classList.add('-translate-x-full');
+        backdrop.classList.add('hidden');
+      }
+    }
+
+    // =========================================================================
+    // 10. SETTINGS & MODALS
+    // =========================================================================
+    function loadSavedSettings() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(KEYS.SETTINGS) || '{}');
+        state.settings = { ...state.settings, ...saved };
+      } catch (e) {}
+      syncSettingsControls();
+    }
+
+    function syncSettingsControls() {
+      document.getElementById('input-gemini-key').value = getApiKey();
+      document.getElementById('chk-autospeak').checked = state.settings.autoSpeak;
+      document.getElementById('chk-sfx').checked = state.settings.sfx;
+      document.getElementById('rng-speed').value = state.settings.speed;
+      document.getElementById('rng-volume').value = state.settings.volume;
+      document.getElementById('lbl-speed').textContent = `${parseFloat(state.settings.speed).toFixed(1)}x`;
+      document.getElementById('lbl-volume').textContent = `${Math.round(state.settings.volume * 100)}%`;
+      document.getElementById('btn-quick-mute').textContent = state.settings.autoSpeak ? '🔊' : '🔇';
+    }
+
+    function saveSettingsFromUI() {
+      state.settings.voiceURI = document.getElementById('select-voice').value;
+      state.settings.autoSpeak = document.getElementById('chk-autospeak').checked;
+      state.settings.sfx = document.getElementById('chk-sfx').checked;
+      state.settings.speed = parseFloat(document.getElementById('rng-speed').value);
+      state.settings.volume = parseFloat(document.getElementById('rng-volume').value);
+      localStorage.setItem(KEYS.SETTINGS, JSON.stringify(state.settings));
+      syncSettingsControls();
+    }
+
+    function openSettings(focusTarget = '') {
+      playTone('tap');
+      syncSettingsControls();
+      openModal('modal-settings');
+      if (focusTarget === 'api') {
+        setTimeout(() => document.getElementById('input-gemini-key').focus(), 100);
+      }
+    }
+
+    function openModal(id) {
+      document.getElementById(id).classList.remove('hidden');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
+
+    function escapeHTML(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
+</body>
+</html>
+```
