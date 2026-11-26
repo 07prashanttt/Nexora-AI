@@ -3,7 +3,7 @@
 <html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
   <title>NEXORA AI — Built by Prashant</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,6 +13,8 @@
     * {
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
     }
 
     html, body {
@@ -30,7 +32,7 @@
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       overflow: hidden;
       overscroll-behavior: none;
-      touch-action: manipulation;
+      touch-action: none;
     }
 
     /* Enforce 16px+ font size on all inputs/selects/textareas to prevent mobile auto-zoom */
@@ -58,7 +60,7 @@
       max-height: 100dvh;
       overflow: hidden;
       overscroll-behavior: none;
-      touch-action: manipulation;
+      touch-action: none;
     }
 
     /* Isolated Scroll Containers */
@@ -68,6 +70,14 @@
       -webkit-overflow-scrolling: touch;
       overscroll-behavior: contain;
       touch-action: pan-y;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
 
     /* Reference Image 2: Deep Royal Purple Mesh Gradient */
@@ -83,15 +93,6 @@
     .nexora-main-bg {
       background:
         radial-gradient(ellipse at 50% 18%, #102152 0%, #091330 38%, #040711 72%, #020308 100%);
-    }
-
-    /* Subtle Outer Grid on Desktop */
-    .desktop-grid-backdrop {
-      background-color: #02040a;
-      background-image:
-        linear-gradient(to right, rgba(30, 58, 138, 0.14) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(30, 58, 138, 0.14) 1px, transparent 1px);
-      background-size: 44px 44px;
     }
 
     /* Custom Scrollbar */
@@ -145,7 +146,7 @@
     }
   </style>
 </head>
-<body class="desktop-grid-backdrop flex items-center justify-center">
+<body class="nexora-main-bg">
 
   <!-- ===================================================================== -->
   <!-- 1. STARTUP SPLASH SCREEN (Auto-transitions in 2.2s + Instant Skip)    -->
@@ -333,12 +334,12 @@
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 3. MAIN NEXORA AI ASSISTANT SCREEN (Fixed 100dvh Shell + Isolated Feed) -->
+  <!-- 3. MAIN NEXORA AI ASSISTANT SCREEN (Full-Screen 100dvh + Isolated Feed)-->
   <!-- ===================================================================== -->
-  <main id="screen-app" class="hidden relative w-full max-w-[100vw] h-[100vh] h-[100dvh] max-h-[100dvh] md:w-[430px] md:h-[92dvh] md:max-h-[880px] md:rounded-[44px] md:border-[3px] md:border-slate-700/80 md:shadow-[0_0_70px_rgba(16,33,82,0.85)] nexora-main-bg flex flex-col overflow-hidden overscroll-none" style="padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom);">
+  <main id="screen-app" class="hidden locked-screen nexora-main-bg flex flex-col overflow-hidden overscroll-none" style="padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom);">
 
     <!-- TOP BAR (Matches Image 1: Circular Left Menu, Center Title, Circular Right New Chat + Settings) -->
-    <header class="w-full px-4 pt-3 pb-1.5 flex items-center justify-between z-20 shrink-0">
+    <header class="w-full max-w-3xl mx-auto px-4 pt-3 pb-1.5 flex items-center justify-between z-20 shrink-0">
       <!-- Left: Circular Translucent Dark-Glass Menu / History Button -->
       <button type="button" onclick="toggleDrawer(true)" title="History & Menu"
         class="w-10 h-10 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.1] flex items-center justify-center text-slate-200 transition active:scale-95 cursor-pointer">
@@ -351,7 +352,7 @@
 
       <!-- Center: "New Chat" + Guest/User Pill -->
       <div class="flex flex-col items-center">
-        <span id="header-chat-title" class="text-[14px] font-medium text-slate-100 tracking-wide truncate max-w-[170px]">New Chat</span>
+        <span id="header-chat-title" class="text-[14px] font-medium text-slate-100 tracking-wide truncate max-w-[180px] sm:max-w-[260px]">New Chat</span>
         <div class="flex items-center gap-1.5 mt-0.5">
           <span id="header-mode-pill" class="text-[10px] px-2 py-0.2 rounded-full bg-blue-500/15 border border-blue-400/25 text-blue-300 font-medium">
             Guest Mode
@@ -379,40 +380,44 @@
     </header>
 
     <!-- FLOATING VOICE CONTROLLER BAR (Appears when speaking or audio available) -->
-    <div id="voice-bar" class="hidden mx-4 mb-1 px-3 py-1.5 rounded-full bg-slate-900/90 border border-cyan-400/30 flex items-center justify-between text-xs z-20 shrink-0 shadow-lg">
-      <div class="flex items-center gap-2">
-        <span id="voice-bar-dot" class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-        <span id="voice-bar-label" class="text-cyan-200 font-medium text-[11px]">Speaking...</span>
-      </div>
-      <div class="flex items-center gap-1.5">
-        <button type="button" onclick="replaySpeech()" title="Play / Replay" class="px-2 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-[11px] cursor-pointer">▶</button>
-        <button type="button" onclick="pauseSpeech()" title="Pause" class="px-2 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-[11px] cursor-pointer">❚❚</button>
-        <button type="button" onclick="resumeSpeech()" title="Resume" class="px-2 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-[11px] cursor-pointer">⏯</button>
-        <button type="button" onclick="stopSpeech()" title="Stop" class="px-2.5 py-1 rounded-full bg-rose-500/30 hover:bg-rose-500/50 text-rose-200 font-semibold text-[11px] cursor-pointer">Stop</button>
-        <button type="button" onclick="toggleMuteQuick()" id="btn-quick-mute" title="Mute / Unmute Auto-Speak" class="px-2 py-1 rounded-full bg-white/10 hover:bg-white/20 text-cyan-300 text-[11px] cursor-pointer">🔊</button>
+    <div id="voice-bar" class="hidden w-full max-w-3xl mx-auto px-4 mb-1 z-20 shrink-0">
+      <div class="px-3 py-1.5 rounded-full bg-slate-900/90 border border-cyan-400/30 flex items-center justify-between text-xs shadow-lg">
+        <div class="flex items-center gap-2">
+          <span id="voice-bar-dot" class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+          <span id="voice-bar-label" class="text-cyan-200 font-medium text-[11px]">Speaking...</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <button type="button" onclick="replaySpeech()" title="Play / Replay" class="px-2 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-[11px] cursor-pointer">▶</button>
+          <button type="button" onclick="pauseSpeech()" title="Pause" class="px-2 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-[11px] cursor-pointer">❚❚</button>
+          <button type="button" onclick="resumeSpeech()" title="Resume" class="px-2 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-[11px] cursor-pointer">⏯</button>
+          <button type="button" onclick="stopSpeech()" title="Stop" class="px-2.5 py-1 rounded-full bg-rose-500/30 hover:bg-rose-500/50 text-rose-200 font-semibold text-[11px] cursor-pointer">Stop</button>
+          <button type="button" onclick="toggleMuteQuick()" id="btn-quick-mute" title="Mute / Unmute Auto-Speak" class="px-2 py-1 rounded-full bg-white/10 hover:bg-white/20 text-cyan-300 text-[11px] cursor-pointer">🔊</button>
+        </div>
       </div>
     </div>
 
     <!-- HONEST API STATUS / ERROR BANNER -->
-    <div id="api-banner" class="hidden mx-4 mb-1 px-3.5 py-2 rounded-2xl bg-amber-950/85 border border-amber-500/40 text-amber-100 text-xs flex items-center justify-between gap-2 z-20 shrink-0">
-      <span id="api-banner-msg" class="leading-snug">Gemini API key required for live AI responses.</span>
-      <div class="flex items-center gap-1.5 shrink-0">
-        <button id="btn-api-retry" type="button" onclick="retryLastPrompt()" class="hidden px-2.5 py-1 rounded-lg bg-amber-500/25 hover:bg-amber-500/40 text-amber-100 font-medium cursor-pointer">Retry</button>
-        <button type="button" onclick="openSettings('api')" class="px-2.5 py-1 rounded-lg bg-blue-500 hover:bg-blue-400 text-white font-semibold cursor-pointer">API Key</button>
+    <div id="api-banner" class="hidden w-full max-w-3xl mx-auto px-4 mb-1 z-20 shrink-0">
+      <div class="px-3.5 py-2 rounded-2xl bg-amber-950/85 border border-amber-500/40 text-amber-100 text-xs flex items-center justify-between gap-2">
+        <span id="api-banner-msg" class="leading-snug">Gemini API key required for live AI responses.</span>
+        <div class="flex items-center gap-1.5 shrink-0">
+          <button id="btn-api-retry" type="button" onclick="retryLastPrompt()" class="hidden px-2.5 py-1 rounded-lg bg-amber-500/25 hover:bg-amber-500/40 text-amber-100 font-medium cursor-pointer">Retry</button>
+          <button type="button" onclick="openSettings('api')" class="px-2.5 py-1 rounded-lg bg-blue-500 hover:bg-blue-400 text-white font-semibold cursor-pointer">API Key</button>
+        </div>
       </div>
     </div>
 
     <!-- CENTERPIECE: REALISTIC HOLOGRAPHIC HUMANOID AI BUST & HEAD (Matches Image 1) -->
-    <div id="hero-face-container" class="relative w-full flex flex-col items-center justify-center transition-all duration-300 shrink-0" style="height: 245px; touch-action: none;">
+    <div id="hero-face-container" class="relative w-full max-w-3xl mx-auto flex flex-col items-center justify-center transition-all duration-300 shrink-0" style="height: 255px; touch-action: none;">
       <!-- Soft Ambient Backlight -->
-      <div id="face-backglow" class="absolute w-52 h-52 rounded-full bg-blue-600/20 blur-3xl pointer-events-none transition-all duration-500"></div>
-      
+      <div id="face-backglow" class="absolute w-56 h-56 rounded-full bg-blue-600/20 blur-3xl pointer-events-none transition-all duration-500"></div>
+
       <!-- High-Detail HTML5 Canvas 3D-Style Voxel Scanned Humanoid Bust -->
-      <canvas id="nexora-head-canvas" width="360" height="360" class="relative z-10 w-[240px] h-[240px] sm:w-[260px] sm:h-[260px] transition-all duration-300"></canvas>
+      <canvas id="nexora-head-canvas" width="360" height="360" class="relative z-10 w-[250px] h-[250px] sm:w-[275px] sm:h-[275px] transition-all duration-300"></canvas>
     </div>
 
     <!-- WELCOME HERO TEXT (Shown when chat is empty — Exact match to Image 1) -->
-    <section id="welcome-hero-block" class="px-6 pt-1 pb-2 flex-1 min-h-0 flex flex-col justify-end z-10 overflow-hidden">
+    <section id="welcome-hero-block" class="w-full max-w-3xl mx-auto px-6 pt-1 pb-2 flex-1 min-h-0 flex flex-col justify-end z-10 overflow-hidden">
       <div class="mb-1.5 flex items-center gap-2">
         <span id="greeting-user-line" class="text-sm text-slate-400 font-normal">Hello, Guest!</span>
         <span id="ai-live-pill" class="text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-400/25 text-cyan-300">
@@ -420,7 +425,7 @@
         </span>
       </div>
 
-      <h2 class="text-[32px] sm:text-[36px] leading-[1.14] tracking-tight mb-3">
+      <h2 class="text-[32px] sm:text-[38px] leading-[1.14] tracking-tight mb-3">
         <span class="text-slate-400 font-light">How </span><span class="text-white font-bold">can</span><br/>
         <span class="text-white font-bold">I help </span><span class="text-slate-400 font-light">you?</span>
       </h2>
@@ -443,25 +448,29 @@
     </section>
 
     <!-- ISOLATED SCROLLABLE CHAT CONVERSATION FEED (Only this scrolls) -->
-    <section id="chat-feed" class="hidden flex-1 min-h-0 w-full isolated-scroll-y px-4 py-2 space-y-3 z-10"></section>
+    <section id="chat-feed" class="hidden flex-1 min-h-0 w-full max-w-3xl mx-auto isolated-scroll-y px-4 py-2 space-y-3 z-10"></section>
 
     <!-- ATTACHMENT PREVIEW BAR -->
-    <div id="attach-chip" class="hidden mx-4 mb-1.5 px-3 py-1.5 rounded-xl bg-blue-950/80 border border-blue-400/35 flex items-center justify-between text-xs text-blue-200 z-20 shrink-0">
-      <span id="attach-chip-name" class="truncate">attachment.txt</span>
-      <button type="button" onclick="removeAttachment()" class="text-rose-300 hover:text-rose-200 ml-2 font-bold cursor-pointer">✕</button>
+    <div id="attach-chip" class="hidden w-full max-w-3xl mx-auto px-4 mb-1.5 z-20 shrink-0">
+      <div class="px-3 py-1.5 rounded-xl bg-blue-950/80 border border-blue-400/35 flex items-center justify-between text-xs text-blue-200">
+        <span id="attach-chip-name" class="truncate">attachment.txt</span>
+        <button type="button" onclick="removeAttachment()" class="text-rose-300 hover:text-rose-200 ml-2 font-bold cursor-pointer">✕</button>
+      </div>
     </div>
 
     <!-- LIVE VOICE LISTENING OVERLAY BAR -->
-    <div id="listening-bar" class="hidden mx-4 mb-1.5 px-3.5 py-2 rounded-2xl bg-blue-950/90 border border-cyan-400/45 flex items-center justify-between text-xs text-cyan-200 z-20 shrink-0">
-      <div class="flex items-center gap-2 min-w-0">
-        <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping shrink-0"></span>
-        <span id="listening-interim" class="truncate italic">Listening... Speak now</span>
+    <div id="listening-bar" class="hidden w-full max-w-3xl mx-auto px-4 mb-1.5 z-20 shrink-0">
+      <div class="px-3.5 py-2 rounded-2xl bg-blue-950/90 border border-cyan-400/45 flex items-center justify-between text-xs text-cyan-200">
+        <div class="flex items-center gap-2 min-w-0">
+          <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping shrink-0"></span>
+          <span id="listening-interim" class="truncate italic">Listening... Speak now</span>
+        </div>
+        <button type="button" onclick="toggleMic()" class="text-[11px] text-rose-300 font-semibold ml-2 shrink-0 cursor-pointer">Cancel</button>
       </div>
-      <button type="button" onclick="toggleMic()" class="text-[11px] text-rose-300 font-semibold ml-2 shrink-0 cursor-pointer">Cancel</button>
     </div>
 
     <!-- FIXED BOTTOM INPUT DOCK (16px Input Font + Attachment + Mic + Send) -->
-    <footer class="w-full px-4 pt-2 pb-3 z-20 shrink-0">
+    <footer class="w-full max-w-3xl mx-auto px-4 pt-2 pb-3 z-20 shrink-0">
       <div class="flex items-center gap-2.5">
         <input id="file-picker" type="file" class="hidden" accept=".txt,.md,.json,.csv,.js,.py,.html,image/*" onchange="onFilePicked(event)" />
 
@@ -507,8 +516,8 @@
     <!-- =================================================================== -->
     <!-- SLIDE-OUT HISTORY & PROFILE DRAWER                                  -->
     <!-- =================================================================== -->
-    <div id="drawer-backdrop" onclick="toggleDrawer(false)" class="hidden absolute inset-0 z-30 bg-black/70 backdrop-blur-xs"></div>
-    <aside id="history-drawer" class="absolute top-0 left-0 bottom-0 z-40 w-72 max-w-[82vw] bg-[#070d1f] border-r border-white/10 transform -translate-x-full transition-transform duration-300 flex flex-col overflow-hidden">
+    <div id="drawer-backdrop" onclick="toggleDrawer(false)" class="hidden fixed inset-0 z-30 bg-black/70 backdrop-blur-xs"></div>
+    <aside id="history-drawer" class="fixed top-0 left-0 bottom-0 z-40 w-72 max-w-[82vw] bg-[#070d1f] border-r border-white/10 transform -translate-x-full transition-transform duration-300 flex flex-col overflow-hidden">
       <!-- Drawer Header -->
       <div class="p-4 border-b border-white/10 flex items-center justify-between shrink-0">
         <span class="font-orbitron text-xs font-bold tracking-widest text-cyan-300">NEXORA AI</span>
@@ -583,7 +592,7 @@
               Save
             </button>
           </div>
-          <p class="text-[11px] text-slate-400">Saved locally in your browser. Uses <code class="text-cyan-300">gemini-3.8-flash</code> streaming.</p>
+          <p class="text-[11px] text-slate-400">Saved locally in your browser. Connects via <code class="text-cyan-300">gemini-3.8-flash</code> with automatic fallback to active Gemini models.</p>
         </div>
 
         <!-- Voice Selection -->
@@ -698,12 +707,28 @@
         lastTapTime = now;
       }, { passive: false });
 
-      // Prevent stray wheel+ctrl zoom on desktop/trackpad
+      // Prevent stray wheel+ctrl / wheel+meta zoom on desktop/trackpad
       window.addEventListener('wheel', (e) => {
-        if (e.ctrlKey) {
+        if (e.ctrlKey || e.metaKey) {
           e.preventDefault();
         }
       }, { passive: false });
+
+      // Prevent Ctrl/Cmd + (+/- / 0) browser zoom shortcuts
+      window.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && ['+', '-', '=', '0'].includes(e.key)) {
+          e.preventDefault();
+        }
+      }, { passive: false });
+
+      // Lock visualViewport scale & scroll offset when available
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('scroll', () => {
+          if (window.scrollX !== 0 || window.scrollY !== 0) {
+            window.scrollTo(0, 0);
+          }
+        }, { passive: false });
+      }
 
       // Keep outer window locked at (0, 0) on mobile keyboard open/close
       window.addEventListener('scroll', () => {
@@ -724,6 +749,12 @@
       ACTIVE_CHAT: 'nexora_v2_active_chat',
       SETTINGS: 'nexora_v2_settings'
     };
+
+    const GEMINI_MODEL_CANDIDATES = [
+      'gemini-3.8-flash',
+      'gemini-2.5-flash',
+      'gemini-2.0-flash'
+    ];
 
     const state = {
       user: null, // { mode: 'guest'|'firebase', name, email, photoURL }
@@ -1615,7 +1646,7 @@
     }
 
     // =========================================================================
-    // 8. GEMINI API INTEGRATION (STREAMING + HONEST ERROR HANDLING)
+    // 8. GEMINI API INTEGRATION (STREAMING + MODEL FALLBACK + ERROR HANDLING)
     // =========================================================================
     function getApiKey() {
       return (localStorage.getItem(KEYS.GEMINI_KEY) || '').trim();
@@ -1688,6 +1719,92 @@
       document.getElementById('attach-chip').classList.add('hidden');
     }
 
+    function extractCandidateText(payload) {
+      const parts = payload?.candidates?.[0]?.content?.parts;
+      if (!Array.isArray(parts)) return '';
+      return parts.map(p => (typeof p?.text === 'string' ? p.text : '')).join('');
+    }
+
+    function appendStreamChunk(aiMsg, chunk) {
+      if (!chunk) return;
+      aiMsg.text += chunk;
+      const liveNode = document.getElementById('live-ai-stream');
+      const feed = document.getElementById('chat-feed');
+      if (liveNode) {
+        liveNode.innerHTML = formatText(aiMsg.text);
+      }
+      if (feed) {
+        feed.scrollTop = feed.scrollHeight;
+      }
+    }
+
+    async function streamFromGeminiModel(modelName, apiKey, requestBody, aiMsg) {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelName)}:streamGenerateContent?alt=sse&key=${encodeURIComponent(apiKey)}`;
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody)
+      });
+
+      if (!res.ok) {
+        const errJson = await res.json().catch(() => ({}));
+        const errMsg = errJson?.error?.message || `HTTP ${res.status}`;
+        const err = new Error(errMsg);
+        err.status = res.status;
+        err.isModelFallbackCandidate = res.status === 404 || /not found|not supported|models\//i.test(errMsg);
+        throw err;
+      }
+
+      const contentType = (res.headers.get('content-type') || '').toLowerCase();
+
+      // Fallback if endpoint returns standard JSON instead of SSE stream
+      if (!res.body || contentType.includes('application/json')) {
+        const jsonData = await res.json();
+        const fullText = extractCandidateText(jsonData);
+        if (fullText) appendStreamChunk(aiMsg, fullText);
+        return aiMsg.text.trim();
+      }
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder('utf-8');
+      let buffer = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split(/\r?\n/);
+        buffer = lines.pop() || '';
+
+        for (const rawLine of lines) {
+          const line = rawLine.trim();
+          if (!line.startsWith('data:')) continue;
+          const payload = line.slice(5).trim();
+          if (!payload || payload === '[DONE]') continue;
+          try {
+            const parsed = JSON.parse(payload);
+            const chunk = extractCandidateText(parsed);
+            if (chunk) appendStreamChunk(aiMsg, chunk);
+          } catch (e) {}
+        }
+      }
+
+      // Process any trailing buffer line
+      const tail = buffer.trim();
+      if (tail.startsWith('data:')) {
+        const payload = tail.slice(5).trim();
+        if (payload && payload !== '[DONE]') {
+          try {
+            const parsed = JSON.parse(payload);
+            const chunk = extractCandidateText(parsed);
+            if (chunk) appendStreamChunk(aiMsg, chunk);
+          } catch (e) {}
+        }
+      }
+
+      return aiMsg.text.trim();
+    }
+
     async function sendMessage() {
       if (state.isGenerating) return;
       const input = document.getElementById('msg-input');
@@ -1744,7 +1861,7 @@
         const contents = chat.messages.slice(0, -1).slice(-10).map((m, idx, arr) => {
           const parts = [{ text: m.text }];
           if (idx === arr.length - 1 && m.role === 'user' && att) {
-            if (att.isImage) {
+            if (att.isImage && typeof att.data === 'string' && att.data.includes(',')) {
               parts.push({
                 inlineData: {
                   mimeType: att.mimeType,
@@ -1752,67 +1869,44 @@
                 }
               });
             } else {
-              parts[0].text += `\n\n[Attached File: ${att.name}]\n${att.data.slice(0, 8000)}`;
+              parts[0].text += `\n\n[Attached File: ${att.name}]\n${String(att.data || '').slice(0, 8000)}`;
             }
           }
           return { role: m.role === 'assistant' ? 'model' : 'user', parts };
         });
 
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:streamGenerateContent?alt=sse&key=${encodeURIComponent(apiKey)}`;
-        const res = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            systemInstruction: {
-              parts: [{
-                text: 'You are NEXORA AI, a sleek futuristic AI Voice Assistant built by Prashant. Reply naturally in the same language the user uses (English, Hindi in Devanagari, or Hinglish). Keep replies helpful, concise, and natural when spoken aloud.'
-              }]
-            },
-            contents,
-            generationConfig: { temperature: 0.7, maxOutputTokens: 1024 }
-          })
-        });
+        const requestBody = {
+          systemInstruction: {
+            parts: [{
+              text: 'You are NEXORA AI, a sleek futuristic AI Voice Assistant built by Prashant. Reply naturally in the same language the user uses (English, Hindi in Devanagari, or Hinglish). Keep replies helpful, concise, and natural when spoken aloud.'
+            }]
+          },
+          contents,
+          generationConfig: { temperature: 0.7, maxOutputTokens: 1024 }
+        };
 
-        if (!res.ok) {
-          const errJson = await res.json().catch(() => ({}));
-          throw new Error(errJson?.error?.message || `HTTP ${res.status}`);
-        }
+        let finalText = '';
+        let lastErr = null;
 
-        const reader = res.body.getReader();
-        const decoder = new TextDecoder('utf-8');
-        let buffer = '';
-
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          buffer += decoder.decode(value, { stream: true });
-          const lines = buffer.split('\n');
-          buffer = lines.pop() || '';
-
-          for (const line of lines) {
-            if (!line.startsWith('data: ')) continue;
-            const payload = line.slice(6).trim();
-            if (!payload || payload === '[DONE]') continue;
-            try {
-              const parsed = JSON.parse(payload);
-              const chunk = parsed?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-              if (chunk) {
-                aiMsg.text += chunk;
-                const liveNode = document.getElementById('live-ai-stream');
-                const feed = document.getElementById('chat-feed');
-                if (liveNode) {
-                  liveNode.innerHTML = formatText(aiMsg.text);
-                  feed.scrollTop = feed.scrollHeight;
-                }
-              }
-            } catch (e) {}
+        for (const modelName of GEMINI_MODEL_CANDIDATES) {
+          aiMsg.text = '';
+          try {
+            finalText = await streamFromGeminiModel(modelName, apiKey, requestBody, aiMsg);
+            if (finalText) break;
+            lastErr = new Error(`Empty response from ${modelName}.`);
+          } catch (err) {
+            lastErr = err;
+            if (!err.isModelFallbackCandidate) {
+              throw err;
+            }
           }
         }
 
-        if (!aiMsg.text.trim()) {
-          throw new Error('No response text returned from Gemini API.');
+        if (!finalText) {
+          throw lastErr || new Error('No response text returned from Gemini API.');
         }
 
+        aiMsg.text = finalText;
         aiMsg.streaming = false;
         persistChats();
         renderActiveConversation();
@@ -1845,9 +1939,9 @@
         titleEl.textContent = 'New Chat';
         welcomeBlock.classList.remove('hidden');
         feed.classList.add('hidden');
-        faceBox.style.height = '245px';
-        faceCanvas.style.width = '240px';
-        faceCanvas.style.height = '240px';
+        faceBox.style.height = '255px';
+        faceCanvas.style.width = '250px';
+        faceCanvas.style.height = '250px';
         return;
       }
 
@@ -2096,4 +2190,4 @@
   </script>
 </body>
 </html>
-
+```
