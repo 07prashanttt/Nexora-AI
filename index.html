@@ -3,7 +3,7 @@
 <html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>NEXORA AI — Built by Prashant</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,15 +19,55 @@
       margin: 0;
       padding: 0;
       width: 100%;
-      height: 100%;
+      max-width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      max-height: 100dvh;
+      position: fixed;
+      inset: 0;
       background-color: #040711;
       color: #f8fafc;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       overflow: hidden;
+      overscroll-behavior: none;
+      touch-action: manipulation;
+    }
+
+    /* Enforce 16px+ font size on all inputs/selects/textareas to prevent mobile auto-zoom */
+    input, select, textarea {
+      font-size: 16px;
+      touch-action: manipulation;
+    }
+
+    button, a, label {
+      touch-action: manipulation;
     }
 
     .font-orbitron {
       font-family: 'Orbitron', sans-serif;
+    }
+
+    /* Locked Full-Viewport Screens */
+    .locked-screen {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      max-width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      max-height: 100dvh;
+      overflow: hidden;
+      overscroll-behavior: none;
+      touch-action: manipulation;
+    }
+
+    /* Isolated Scroll Containers */
+    .isolated-scroll-y {
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      touch-action: pan-y;
     }
 
     /* Reference Image 2: Deep Royal Purple Mesh Gradient */
@@ -110,16 +150,16 @@
   <!-- ===================================================================== -->
   <!-- 1. STARTUP SPLASH SCREEN (Auto-transitions in 2.2s + Instant Skip)    -->
   <!-- ===================================================================== -->
-  <section id="screen-splash" class="fixed inset-0 z-50 nexora-main-bg flex flex-col items-center justify-between py-10 px-6 transition-opacity duration-500">
-    <div class="w-full flex justify-end max-w-md">
+  <section id="screen-splash" class="locked-screen z-50 nexora-main-bg flex flex-col items-center justify-between py-8 px-6 transition-opacity duration-500" style="padding-top: max(2rem, env(safe-area-inset-top)); padding-bottom: max(2rem, env(safe-area-inset-bottom));">
+    <div class="w-full flex justify-end max-w-md shrink-0">
       <button type="button" onclick="finishSplash()" class="px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-slate-300 tracking-wide transition cursor-pointer">
         Skip →
       </button>
     </div>
 
-    <div class="flex flex-col items-center text-center my-auto">
+    <div class="flex flex-col items-center text-center my-auto shrink-0">
       <!-- Holographic Face Preview Orb -->
-      <div class="relative w-44 h-44 sm:w-52 sm:h-52 mb-6 flex items-center justify-center animate-float-slow">
+      <div class="relative w-44 h-44 sm:w-52 sm:h-52 mb-6 flex items-center justify-center animate-float-slow" style="touch-action: none;">
         <div class="absolute inset-2 rounded-full bg-cyan-500/20 blur-2xl animate-pulse-glow"></div>
         <div class="absolute inset-6 rounded-full bg-amber-500/15 blur-xl"></div>
         <canvas id="splash-canvas" width="240" height="240" class="relative z-10 w-full h-full"></canvas>
@@ -138,7 +178,7 @@
       </div>
     </div>
 
-    <div class="text-[11px] uppercase tracking-[0.2em] text-slate-400/80">
+    <div class="text-[11px] uppercase tracking-[0.2em] text-slate-400/80 shrink-0">
       Built by <span class="text-cyan-300 font-semibold">Prashant</span>
     </div>
   </section>
@@ -146,40 +186,40 @@
   <!-- ===================================================================== -->
   <!-- 2. AUTHENTICATION SCREEN (Exact Match to Reference Image 2)           -->
   <!-- ===================================================================== -->
-  <section id="screen-auth" class="hidden fixed inset-0 z-40 purple-auth-bg overflow-y-auto flex flex-col items-center justify-center px-6 py-8">
+  <section id="screen-auth" class="hidden locked-screen z-40 purple-auth-bg flex flex-col items-center justify-center px-6 py-6" style="padding-top: max(1.5rem, env(safe-area-inset-top)); padding-bottom: max(1.5rem, env(safe-area-inset-bottom));">
     <div class="w-full max-w-[360px] flex flex-col items-center my-auto">
 
       <!-- Top Circular Vibrant Magenta-Purple Avatar Icon (#b812c4) -->
-      <div class="w-24 h-24 rounded-full bg-[#b812c4] flex items-center justify-center shadow-[0_10px_35px_rgba(184,18,196,0.45)] mb-10 animate-float-slow">
-        <svg class="w-12 h-12 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#b812c4] flex items-center justify-center shadow-[0_10px_35px_rgba(184,18,196,0.45)] mb-7 sm:mb-9 animate-float-slow shrink-0">
+        <svg class="w-10 h-10 sm:w-12 sm:h-12 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="8" r="4"></circle>
           <path d="M5 20c0-3.87 3.13-7 7-7s7 3.13 7 7"></path>
         </svg>
       </div>
 
       <!-- Inline Feedback Banner (Never simulates fake success) -->
-      <div id="auth-message" class="hidden w-full mb-5 px-3.5 py-2.5 rounded-lg text-xs leading-relaxed border"></div>
+      <div id="auth-message" class="hidden w-full mb-4 px-3.5 py-2.5 rounded-lg text-xs leading-relaxed border"></div>
 
-      <!-- LOGIN FORM (Matches Image 2 Layout & Underline Inputs) -->
-      <form id="form-login" class="w-full space-y-6" onsubmit="handleLoginSubmit(event)">
+      <!-- LOGIN FORM (Matches Image 2 Layout & Underline Inputs with 16px Font) -->
+      <form id="form-login" class="w-full space-y-5" onsubmit="handleLoginSubmit(event)">
         <!-- Email ID Underline Input -->
-        <div class="relative flex items-center border-b border-white/75 pb-2.5 focus-within:border-white transition">
+        <div class="relative flex items-center border-b border-white/75 pb-2 focus-within:border-white transition">
           <svg class="w-5 h-5 text-white/90 mr-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
             <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/>
           </svg>
           <input id="login-email" type="email" required placeholder="Email ID"
-            class="underline-input w-full bg-transparent text-white placeholder-white/75 text-sm sm:text-[15px] focus:outline-none" />
+            class="underline-input w-full bg-transparent text-white placeholder-white/75 text-[16px] leading-normal focus:outline-none" />
         </div>
 
         <!-- Password Underline Input -->
-        <div class="relative flex items-center border-b border-white/75 pb-2.5 focus-within:border-white transition">
+        <div class="relative flex items-center border-b border-white/75 pb-2 focus-within:border-white transition">
           <svg class="w-5 h-5 text-white/90 mr-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
             <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
           </svg>
           <input id="login-password" type="password" required placeholder="Password"
-            class="underline-input w-full bg-transparent text-white placeholder-white/75 text-sm sm:text-[15px] focus:outline-none pr-7" />
+            class="underline-input w-full bg-transparent text-white placeholder-white/75 text-[16px] leading-normal focus:outline-none pr-9" />
           <button type="button" onclick="togglePassField('login-password', this)" aria-label="Toggle Password"
-            class="text-white/70 hover:text-white text-xs px-1 cursor-pointer">
+            class="text-white/75 hover:text-white text-xs px-1.5 py-0.5 cursor-pointer shrink-0">
             Show
           </button>
         </div>
@@ -187,7 +227,7 @@
         <!-- Remember me & Italic Forgot Password? Row -->
         <div class="flex items-center justify-between text-xs sm:text-[13px] pt-0.5">
           <label class="inline-flex items-center gap-2 cursor-pointer text-white/90 select-none">
-            <input id="login-remember" type="checkbox" checked class="w-3.5 h-3.5 rounded-xs accent-[#b812c4] cursor-pointer" />
+            <input id="login-remember" type="checkbox" checked class="w-4 h-4 rounded-xs accent-[#b812c4] cursor-pointer" />
             <span>Remember me</span>
           </label>
           <button type="button" onclick="handleForgotPassword()" class="italic text-white/85 hover:text-white transition cursor-pointer">
@@ -196,7 +236,7 @@
         </div>
 
         <!-- Solid Vibrant Magenta-Purple LOGIN Button -->
-        <div class="pt-2 space-y-3">
+        <div class="pt-1.5 space-y-2.5">
           <button type="submit"
             class="w-full py-3.5 rounded-[3px] bg-[#b812c4] hover:bg-[#c916d6] active:scale-[0.99] text-white font-semibold text-xs sm:text-[13px] tracking-[0.14em] uppercase shadow-[0_8px_24px_rgba(184,18,196,0.4)] transition cursor-pointer">
             LOGIN
@@ -211,13 +251,13 @@
       </form>
 
       <!-- REGISTER FORM (Clean Toggle with Name, Email, Password, Confirm) -->
-      <form id="form-register" class="hidden w-full space-y-5" onsubmit="handleRegisterSubmit(event)">
+      <form id="form-register" class="hidden w-full space-y-4" onsubmit="handleRegisterSubmit(event)">
         <div class="relative flex items-center border-b border-white/75 pb-2 focus-within:border-white transition">
           <svg class="w-5 h-5 text-white/90 mr-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
           </svg>
           <input id="reg-name" type="text" required placeholder="Full Name"
-            class="underline-input w-full bg-transparent text-white placeholder-white/75 text-sm focus:outline-none" />
+            class="underline-input w-full bg-transparent text-white placeholder-white/75 text-[16px] leading-normal focus:outline-none" />
         </div>
 
         <div class="relative flex items-center border-b border-white/75 pb-2 focus-within:border-white transition">
@@ -225,7 +265,7 @@
             <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/>
           </svg>
           <input id="reg-email" type="email" required placeholder="Email ID"
-            class="underline-input w-full bg-transparent text-white placeholder-white/75 text-sm focus:outline-none" />
+            class="underline-input w-full bg-transparent text-white placeholder-white/75 text-[16px] leading-normal focus:outline-none" />
         </div>
 
         <div class="relative flex items-center border-b border-white/75 pb-2 focus-within:border-white transition">
@@ -233,7 +273,7 @@
             <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
           </svg>
           <input id="reg-password" type="password" required minlength="6" placeholder="Password (min 6 chars)"
-            class="underline-input w-full bg-transparent text-white placeholder-white/75 text-sm focus:outline-none" />
+            class="underline-input w-full bg-transparent text-white placeholder-white/75 text-[16px] leading-normal focus:outline-none" />
         </div>
 
         <div class="relative flex items-center border-b border-white/75 pb-2 focus-within:border-white transition">
@@ -241,12 +281,12 @@
             <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
           </svg>
           <input id="reg-confirm" type="password" required minlength="6" placeholder="Confirm Password"
-            class="underline-input w-full bg-transparent text-white placeholder-white/75 text-sm focus:outline-none" />
+            class="underline-input w-full bg-transparent text-white placeholder-white/75 text-[16px] leading-normal focus:outline-none" />
         </div>
 
-        <div class="pt-1 space-y-3">
+        <div class="pt-1 space-y-2.5">
           <button type="submit"
-            class="w-full py-3.5 rounded-[3px] bg-[#b812c4] hover:bg-[#c916d6] text-white font-semibold text-xs tracking-[0.14em] uppercase shadow-[0_8px_24px_rgba(184,18,196,0.4)] transition cursor-pointer">
+            class="w-full py-3 rounded-[3px] bg-[#b812c4] hover:bg-[#c916d6] text-white font-semibold text-xs tracking-[0.14em] uppercase shadow-[0_8px_24px_rgba(184,18,196,0.4)] transition cursor-pointer">
             CREATE ACCOUNT
           </button>
           <button type="button" onclick="toggleAuthForm('login')"
@@ -257,7 +297,7 @@
       </form>
 
       <!-- OR Divider -->
-      <div class="w-full flex items-center gap-3 my-5">
+      <div class="w-full flex items-center gap-3 my-4">
         <div class="flex-1 h-px bg-white/25"></div>
         <span class="text-[11px] font-semibold tracking-widest text-white/70">OR</span>
         <div class="flex-1 h-px bg-white/25"></div>
@@ -265,7 +305,7 @@
 
       <!-- Continue with Google Button -->
       <button type="button" onclick="handleGoogleSignIn()"
-        class="w-full py-3 px-4 rounded-[4px] bg-white hover:bg-slate-100 active:scale-[0.99] text-slate-800 font-semibold text-xs sm:text-[13px] flex items-center justify-center gap-3 shadow-lg transition cursor-pointer mb-3">
+        class="w-full py-3 px-4 rounded-[4px] bg-white hover:bg-slate-100 active:scale-[0.99] text-slate-800 font-semibold text-xs sm:text-[13px] flex items-center justify-center gap-3 shadow-lg transition cursor-pointer mb-2.5">
         <svg class="w-4 h-4 shrink-0" viewBox="0 0 48 48">
           <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
           <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
@@ -283,7 +323,7 @@
       </button>
 
       <!-- Firebase Setup Trigger & Footer -->
-      <div class="w-full mt-5 flex items-center justify-between text-[11px] text-white/65">
+      <div class="w-full mt-4 flex items-center justify-between text-[11px] text-white/65">
         <button type="button" onclick="openModal('modal-firebase')" class="hover:text-white underline underline-offset-2 cursor-pointer">
           <span id="firebase-badge-text">Configure Firebase Auth</span>
         </button>
@@ -293,12 +333,12 @@
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 3. MAIN NEXORA AI ASSISTANT SCREEN (Exact Match to Reference Image 1) -->
+  <!-- 3. MAIN NEXORA AI ASSISTANT SCREEN (Fixed 100dvh Shell + Isolated Feed) -->
   <!-- ===================================================================== -->
-  <main id="screen-app" class="hidden relative w-full h-full md:w-[430px] md:h-[92dvh] md:max-h-[880px] md:rounded-[44px] md:border-[3px] md:border-slate-700/80 md:shadow-[0_0_70px_rgba(16,33,82,0.85)] nexora-main-bg flex flex-col overflow-hidden">
+  <main id="screen-app" class="hidden relative w-full max-w-[100vw] h-[100vh] h-[100dvh] max-h-[100dvh] md:w-[430px] md:h-[92dvh] md:max-h-[880px] md:rounded-[44px] md:border-[3px] md:border-slate-700/80 md:shadow-[0_0_70px_rgba(16,33,82,0.85)] nexora-main-bg flex flex-col overflow-hidden overscroll-none" style="padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom);">
 
     <!-- TOP BAR (Matches Image 1: Circular Left Menu, Center Title, Circular Right New Chat + Settings) -->
-    <header class="w-full px-4 pt-4 pb-2 flex items-center justify-between z-20 shrink-0">
+    <header class="w-full px-4 pt-3 pb-1.5 flex items-center justify-between z-20 shrink-0">
       <!-- Left: Circular Translucent Dark-Glass Menu / History Button -->
       <button type="button" onclick="toggleDrawer(true)" title="History & Menu"
         class="w-10 h-10 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.1] flex items-center justify-center text-slate-200 transition active:scale-95 cursor-pointer">
@@ -311,7 +351,7 @@
 
       <!-- Center: "New Chat" + Guest/User Pill -->
       <div class="flex flex-col items-center">
-        <span id="header-chat-title" class="text-[14px] font-medium text-slate-100 tracking-wide">New Chat</span>
+        <span id="header-chat-title" class="text-[14px] font-medium text-slate-100 tracking-wide truncate max-w-[170px]">New Chat</span>
         <div class="flex items-center gap-1.5 mt-0.5">
           <span id="header-mode-pill" class="text-[10px] px-2 py-0.2 rounded-full bg-blue-500/15 border border-blue-400/25 text-blue-300 font-medium">
             Guest Mode
@@ -354,7 +394,7 @@
     </div>
 
     <!-- HONEST API STATUS / ERROR BANNER -->
-    <div id="api-banner" class="hidden mx-4 mb-1.5 px-3.5 py-2 rounded-2xl bg-amber-950/85 border border-amber-500/40 text-amber-100 text-xs flex items-center justify-between gap-2 z-20 shrink-0">
+    <div id="api-banner" class="hidden mx-4 mb-1 px-3.5 py-2 rounded-2xl bg-amber-950/85 border border-amber-500/40 text-amber-100 text-xs flex items-center justify-between gap-2 z-20 shrink-0">
       <span id="api-banner-msg" class="leading-snug">Gemini API key required for live AI responses.</span>
       <div class="flex items-center gap-1.5 shrink-0">
         <button id="btn-api-retry" type="button" onclick="retryLastPrompt()" class="hidden px-2.5 py-1 rounded-lg bg-amber-500/25 hover:bg-amber-500/40 text-amber-100 font-medium cursor-pointer">Retry</button>
@@ -363,47 +403,47 @@
     </div>
 
     <!-- CENTERPIECE: REALISTIC HOLOGRAPHIC HUMANOID AI BUST & HEAD (Matches Image 1) -->
-    <div id="hero-face-container" class="relative w-full flex flex-col items-center justify-center transition-all duration-300 shrink-0" style="height: 270px;">
+    <div id="hero-face-container" class="relative w-full flex flex-col items-center justify-center transition-all duration-300 shrink-0" style="height: 245px; touch-action: none;">
       <!-- Soft Ambient Backlight -->
-      <div id="face-backglow" class="absolute w-56 h-56 rounded-full bg-blue-600/20 blur-3xl pointer-events-none transition-all duration-500"></div>
+      <div id="face-backglow" class="absolute w-52 h-52 rounded-full bg-blue-600/20 blur-3xl pointer-events-none transition-all duration-500"></div>
       
       <!-- High-Detail HTML5 Canvas 3D-Style Voxel Scanned Humanoid Bust -->
-      <canvas id="nexora-head-canvas" width="360" height="360" class="relative z-10 w-[265px] h-[265px] sm:w-[280px] sm:h-[280px] transition-all duration-300"></canvas>
+      <canvas id="nexora-head-canvas" width="360" height="360" class="relative z-10 w-[240px] h-[240px] sm:w-[260px] sm:h-[260px] transition-all duration-300"></canvas>
     </div>
 
     <!-- WELCOME HERO TEXT (Shown when chat is empty — Exact match to Image 1) -->
-    <section id="welcome-hero-block" class="px-6 pt-1 pb-3 flex-1 flex flex-col justify-end z-10">
-      <div class="mb-2 flex items-center gap-2">
+    <section id="welcome-hero-block" class="px-6 pt-1 pb-2 flex-1 min-h-0 flex flex-col justify-end z-10 overflow-hidden">
+      <div class="mb-1.5 flex items-center gap-2">
         <span id="greeting-user-line" class="text-sm text-slate-400 font-normal">Hello, Guest!</span>
         <span id="ai-live-pill" class="text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-400/25 text-cyan-300">
           Ready • Tap mic or type
         </span>
       </div>
 
-      <h2 class="text-[34px] sm:text-[38px] leading-[1.14] tracking-tight mb-4">
+      <h2 class="text-[32px] sm:text-[36px] leading-[1.14] tracking-tight mb-3">
         <span class="text-slate-400 font-light">How </span><span class="text-white font-bold">can</span><br/>
         <span class="text-white font-bold">I help </span><span class="text-slate-400 font-light">you?</span>
       </h2>
 
       <!-- Quick Voice/Chat Prompt Chips -->
-      <div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+      <div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar" style="touch-action: pan-x;">
         <button type="button" onclick="triggerPrompt('Hello NEXORA! Who are you and how can you help me?')"
-          class="px-3 py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.09] text-[11px] text-slate-300 whitespace-nowrap transition cursor-pointer">
+          class="px-3 py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.09] text-[11px] text-slate-300 whitespace-nowrap transition cursor-pointer shrink-0">
           ✨ Introduce yourself
         </button>
         <button type="button" onclick="triggerPrompt('Aaj ke liye 3 smart productivity tips do Hinglish mein.')"
-          class="px-3 py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.09] text-[11px] text-slate-300 whitespace-nowrap transition cursor-pointer">
+          class="px-3 py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.09] text-[11px] text-slate-300 whitespace-nowrap transition cursor-pointer shrink-0">
           🇮🇳 Hinglish tips
         </button>
         <button type="button" onclick="triggerPrompt('मुझे आर्टिफिशियल इंटेलिजेंस के बारे में संक्षेप में बताएं।')"
-          class="px-3 py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.09] text-[11px] text-slate-300 whitespace-nowrap transition cursor-pointer">
+          class="px-3 py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.09] text-[11px] text-slate-300 whitespace-nowrap transition cursor-pointer shrink-0">
           🗣️ हिंदी में बात करें
         </button>
       </div>
     </section>
 
-    <!-- SCROLLABLE CHAT CONVERSATION FEED (Replaces Welcome Block once chat begins) -->
-    <section id="chat-feed" class="hidden flex-1 w-full overflow-y-auto px-4 py-2 space-y-3 z-10 scroll-smooth"></section>
+    <!-- ISOLATED SCROLLABLE CHAT CONVERSATION FEED (Only this scrolls) -->
+    <section id="chat-feed" class="hidden flex-1 min-h-0 w-full isolated-scroll-y px-4 py-2 space-y-3 z-10"></section>
 
     <!-- ATTACHMENT PREVIEW BAR -->
     <div id="attach-chip" class="hidden mx-4 mb-1.5 px-3 py-1.5 rounded-xl bg-blue-950/80 border border-blue-400/35 flex items-center justify-between text-xs text-blue-200 z-20 shrink-0">
@@ -420,8 +460,8 @@
       <button type="button" onclick="toggleMic()" class="text-[11px] text-rose-300 font-semibold ml-2 shrink-0 cursor-pointer">Cancel</button>
     </div>
 
-    <!-- BOTTOM INPUT DOCK (Exact match to Image 1: '+' circle, 'Message...' pill with inline mic, Royal Blue Send circle) -->
-    <footer class="w-full px-4 pt-2 pb-4 z-20 shrink-0">
+    <!-- FIXED BOTTOM INPUT DOCK (16px Input Font + Attachment + Mic + Send) -->
+    <footer class="w-full px-4 pt-2 pb-3 z-20 shrink-0">
       <div class="flex items-center gap-2.5">
         <input id="file-picker" type="file" class="hidden" accept=".txt,.md,.json,.csv,.js,.py,.html,image/*" onchange="onFilePicked(event)" />
 
@@ -434,11 +474,11 @@
           </svg>
         </button>
 
-        <!-- Center: Dark Pill Input with Inline Microphone Button -->
+        <!-- Center: Dark Pill Input (16px font to prevent mobile auto-zoom) with Inline Microphone Button -->
         <div class="flex-1 h-11 rounded-full bg-white/[0.05] border border-white/[0.12] focus-within:border-blue-400/50 px-4 flex items-center gap-2 min-w-0 transition">
           <input id="msg-input" type="text" placeholder="Message..." autocomplete="off"
             onkeydown="if(event.key==='Enter' && !event.shiftKey){ event.preventDefault(); sendMessage(); }"
-            class="flex-1 bg-transparent text-[14px] text-white placeholder-slate-500 focus:outline-none min-w-0" />
+            class="flex-1 bg-transparent text-[16px] leading-normal text-white placeholder-slate-500 focus:outline-none min-w-0" />
 
           <!-- Inline Microphone Button -->
           <button id="btn-mic" type="button" onclick="toggleMic()" title="Voice Input"
@@ -459,7 +499,7 @@
       </div>
 
       <!-- Subtle Footer -->
-      <div class="mt-2 text-center text-[10px] tracking-wider text-slate-500">
+      <div class="mt-1.5 text-center text-[10px] tracking-wider text-slate-500">
         NEXORA AI • Built by <span class="text-slate-400 font-medium">Prashant</span>
       </div>
     </footer>
@@ -468,15 +508,15 @@
     <!-- SLIDE-OUT HISTORY & PROFILE DRAWER                                  -->
     <!-- =================================================================== -->
     <div id="drawer-backdrop" onclick="toggleDrawer(false)" class="hidden absolute inset-0 z-30 bg-black/70 backdrop-blur-xs"></div>
-    <aside id="history-drawer" class="absolute top-0 left-0 bottom-0 z-40 w-72 bg-[#070d1f] border-r border-white/10 transform -translate-x-full transition-transform duration-300 flex flex-col">
+    <aside id="history-drawer" class="absolute top-0 left-0 bottom-0 z-40 w-72 max-w-[82vw] bg-[#070d1f] border-r border-white/10 transform -translate-x-full transition-transform duration-300 flex flex-col overflow-hidden">
       <!-- Drawer Header -->
-      <div class="p-4 border-b border-white/10 flex items-center justify-between">
+      <div class="p-4 border-b border-white/10 flex items-center justify-between shrink-0">
         <span class="font-orbitron text-xs font-bold tracking-widest text-cyan-300">NEXORA AI</span>
         <button type="button" onclick="toggleDrawer(false)" class="text-slate-400 hover:text-white p-1 cursor-pointer">✕</button>
       </div>
 
       <!-- User Profile Card -->
-      <div class="p-4 border-b border-white/10 bg-white/[0.02]">
+      <div class="p-4 border-b border-white/10 bg-white/[0.02] shrink-0">
         <div class="flex items-center gap-3">
           <div id="drawer-avatar" class="w-10 h-10 rounded-full bg-blue-600/30 border border-blue-400/40 flex items-center justify-center text-sm font-bold text-cyan-200 overflow-hidden shrink-0">
             G
@@ -499,20 +539,20 @@
       </div>
 
       <!-- New Chat & Search -->
-      <div class="p-3 space-y-2">
+      <div class="p-3 space-y-2 shrink-0">
         <button type="button" onclick="startNewChat(); toggleDrawer(false);"
           class="w-full py-2 px-3 rounded-xl bg-blue-600/25 hover:bg-blue-600/35 border border-blue-400/35 text-blue-200 text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer">
           <span>+ New Chat</span>
         </button>
         <input id="history-search" type="text" placeholder="Search conversations..." oninput="renderDrawerHistory()"
-          class="w-full px-3 py-1.5 rounded-lg bg-white/[0.05] border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-400/40" />
+          class="w-full px-3 py-2 rounded-lg bg-white/[0.05] border border-white/10 text-[16px] leading-normal text-white placeholder-slate-500 focus:outline-none focus:border-blue-400/40" />
       </div>
 
-      <!-- Saved Conversations List -->
-      <div id="drawer-chat-list" class="flex-1 overflow-y-auto px-3 pb-3 space-y-1.5"></div>
+      <!-- Saved Conversations List (Isolated Scroll) -->
+      <div id="drawer-chat-list" class="flex-1 min-h-0 isolated-scroll-y px-3 pb-3 space-y-1.5"></div>
 
       <!-- Drawer Footer -->
-      <div class="p-3 border-t border-white/10 flex items-center justify-between text-[11px] text-slate-400">
+      <div class="p-3 border-t border-white/10 flex items-center justify-between text-[11px] text-slate-400 shrink-0">
         <span>Built by Prashant</span>
         <button type="button" onclick="clearAllChats()" class="text-rose-400 hover:text-rose-300 cursor-pointer">Clear All</button>
       </div>
@@ -522,8 +562,8 @@
   <!-- ===================================================================== -->
   <!-- 4. SETTINGS & GEMINI API KEY MODAL                                    -->
   <!-- ===================================================================== -->
-  <div id="modal-settings" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4">
-    <div class="w-full max-w-md rounded-3xl bg-[#0a1229] border border-blue-500/25 p-5 sm:p-6 text-slate-100 shadow-2xl max-h-[90dvh] overflow-y-auto">
+  <div id="modal-settings" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4" style="touch-action: none;">
+    <div class="w-full max-w-md rounded-3xl bg-[#0a1229] border border-blue-500/25 p-5 sm:p-6 text-slate-100 shadow-2xl max-h-[88dvh] isolated-scroll-y">
       <div class="flex items-center justify-between pb-3 border-b border-white/10">
         <h3 class="font-orbitron text-sm font-bold tracking-wider text-cyan-300">NEXORA SETTINGS</h3>
         <button type="button" onclick="closeModal('modal-settings')" class="text-slate-400 hover:text-white p-1 cursor-pointer">✕</button>
@@ -538,8 +578,8 @@
           </div>
           <div class="flex gap-2">
             <input id="input-gemini-key" type="password" placeholder="AIzaSy..."
-              class="flex-1 px-3 py-2 rounded-xl bg-slate-900 border border-white/15 text-white focus:outline-none focus:border-cyan-400" />
-            <button type="button" onclick="saveApiKey()" class="px-3.5 py-2 rounded-xl bg-[#3b66f5] hover:bg-blue-500 text-white font-semibold cursor-pointer">
+              class="flex-1 min-w-0 px-3 py-2 rounded-xl bg-slate-900 border border-white/15 text-[16px] leading-normal text-white focus:outline-none focus:border-cyan-400" />
+            <button type="button" onclick="saveApiKey()" class="px-3.5 py-2 rounded-xl bg-[#3b66f5] hover:bg-blue-500 text-white font-semibold shrink-0 cursor-pointer">
               Save
             </button>
           </div>
@@ -550,7 +590,7 @@
         <div>
           <label class="block font-medium text-slate-300 mb-1">AI Voice (English / Hindi)</label>
           <select id="select-voice" onchange="saveSettingsFromUI()"
-            class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-white/15 text-white focus:outline-none">
+            class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-white/15 text-[16px] leading-normal text-white focus:outline-none">
             <option value="auto">Auto-Detect (English &amp; Hindi)</option>
           </select>
         </div>
@@ -603,8 +643,8 @@
   <!-- ===================================================================== -->
   <!-- 5. FIREBASE CONFIGURATION MODAL                                       -->
   <!-- ===================================================================== -->
-  <div id="modal-firebase" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4">
-    <div class="w-full max-w-md rounded-3xl bg-[#1c0736] border border-fuchsia-400/35 p-5 sm:p-6 text-white shadow-2xl">
+  <div id="modal-firebase" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4" style="touch-action: none;">
+    <div class="w-full max-w-md rounded-3xl bg-[#1c0736] border border-fuchsia-400/35 p-5 sm:p-6 text-white shadow-2xl max-h-[88dvh] isolated-scroll-y">
       <div class="flex items-center justify-between pb-3 border-b border-white/15">
         <h3 class="font-orbitron text-xs sm:text-sm font-bold tracking-wider text-fuchsia-200">FIREBASE AUTH CONFIG</h3>
         <button type="button" onclick="closeModal('modal-firebase')" class="text-white/70 hover:text-white p-1 cursor-pointer">✕</button>
@@ -612,7 +652,7 @@
       <div class="mt-3 space-y-3 text-xs text-purple-100/85">
         <p>Paste your Firebase Web App <code class="text-cyan-300">firebaseConfig</code> JSON to enable Email/Password &amp; Google Sign-In:</p>
         <textarea id="input-firebase-json" rows="5" placeholder='{"apiKey":"...","authDomain":"...","projectId":"...","appId":"..."}'
-          class="w-full p-3 rounded-xl bg-black/40 border border-fuchsia-400/30 font-mono text-[11px] text-cyan-200 focus:outline-none"></textarea>
+          class="w-full p-3 rounded-xl bg-black/40 border border-fuchsia-400/30 font-mono text-[16px] leading-normal text-cyan-200 focus:outline-none"></textarea>
         <div id="firebase-save-feedback" class="hidden p-2 rounded-lg text-[11px]"></div>
         <div class="flex justify-end gap-2">
           <button type="button" onclick="clearFirebaseConfig()" class="px-3 py-2 rounded-lg bg-rose-500/25 text-rose-200 cursor-pointer">Clear</button>
@@ -626,6 +666,53 @@
   <!-- SELF-CONTAINED JAVASCRIPT (ZERO BLOCKING DEPENDENCIES)                -->
   <!-- ===================================================================== -->
   <script>
+    // =========================================================================
+    // 0. MOBILE PINCH-ZOOM & DOUBLE-TAP ZOOM BLOCKER
+    // =========================================================================
+    (function installMobileZoomGuards() {
+      let lastTapTime = 0;
+
+      // Block Safari/iOS pinch gesture events
+      ['gesturestart', 'gesturechange', 'gestureend'].forEach(evtName => {
+        document.addEventListener(evtName, (e) => {
+          e.preventDefault();
+        }, { passive: false });
+      });
+
+      // Block multi-touch pinch zoom (2+ fingers) across viewport
+      document.addEventListener('touchstart', (e) => {
+        if (e.touches && e.touches.length > 1) {
+          e.preventDefault();
+          return;
+        }
+
+        // Prevent accidental double-tap zoom on non-input/non-scrollable elements
+        const now = Date.now();
+        const target = e.target;
+        const isTextInput = target && target.closest && target.closest('input, textarea, select');
+        const isScrollable = target && target.closest && target.closest('.isolated-scroll-y');
+
+        if (!isTextInput && !isScrollable && now - lastTapTime < 300) {
+          e.preventDefault();
+        }
+        lastTapTime = now;
+      }, { passive: false });
+
+      // Prevent stray wheel+ctrl zoom on desktop/trackpad
+      window.addEventListener('wheel', (e) => {
+        if (e.ctrlKey) {
+          e.preventDefault();
+        }
+      }, { passive: false });
+
+      // Keep outer window locked at (0, 0) on mobile keyboard open/close
+      window.addEventListener('scroll', () => {
+        if (window.scrollX !== 0 || window.scrollY !== 0) {
+          window.scrollTo(0, 0);
+        }
+      }, { passive: false });
+    })();
+
     // =========================================================================
     // 1. APPLICATION STATE & LOCAL STORAGE KEYS
     // =========================================================================
@@ -1758,9 +1845,9 @@
         titleEl.textContent = 'New Chat';
         welcomeBlock.classList.remove('hidden');
         feed.classList.add('hidden');
-        faceBox.style.height = '270px';
-        faceCanvas.style.width = '265px';
-        faceCanvas.style.height = '265px';
+        faceBox.style.height = '245px';
+        faceCanvas.style.width = '240px';
+        faceCanvas.style.height = '240px';
         return;
       }
 
@@ -1768,9 +1855,9 @@
       welcomeBlock.classList.add('hidden');
       feed.classList.remove('hidden');
       // Compact holographic head slightly when reading messages so conversation has generous room
-      faceBox.style.height = '175px';
-      faceCanvas.style.width = '175px';
-      faceCanvas.style.height = '175px';
+      faceBox.style.height = '155px';
+      faceCanvas.style.width = '155px';
+      faceCanvas.style.height = '155px';
 
       feed.innerHTML = chat.messages.map((m, idx) => {
         if (m.role === 'user') {
