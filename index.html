@@ -299,10 +299,8 @@
       </button>
 
       <div class="w-full mt-4 flex items-center justify-between text-[11px] text-white/65">
-        <button type="button" onclick="openModal('modal-firebase')" class="hover:text-white underline underline-offset-2 cursor-pointer">
-          <span id="firebase-badge-text">Firebase: nexora--ai-632f6</span>
-        </button>
-        <span>NEXORA AI • Prashant</span>
+        <span>NEXORA AI</span>
+        <span>Built by Prashant</span>
       </div>
     </div>
   </section>
@@ -327,8 +325,8 @@
           <span id="header-mode-pill" class="text-[10px] px-2 py-0.2 rounded-full bg-blue-500/15 border border-blue-400/25 text-blue-300 font-medium">
             Guest Mode
           </span>
-          <span id="header-provider-pill" class="text-[10px] px-2 py-0.2 rounded-full bg-cyan-500/15 border border-cyan-400/25 text-cyan-300 font-medium">
-            No API
+          <span class="text-[10px] px-2 py-0.2 rounded-full bg-cyan-500/15 border border-cyan-400/25 text-cyan-300 font-medium">
+            NEXORA AI
           </span>
         </div>
       </div>
@@ -341,7 +339,7 @@
             <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
           </svg>
         </button>
-        <button type="button" onclick="openSettings()" title="Settings & API Key"
+        <button type="button" onclick="openSettings()" title="Settings"
           class="w-10 h-10 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.1] flex items-center justify-center text-slate-200 transition active:scale-95 cursor-pointer">
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="3"></circle>
@@ -368,14 +366,11 @@
       </div>
     </div>
 
-    <!-- HONEST API STATUS / ERROR BANNER -->
+    <!-- STATUS / ERROR BANNER -->
     <div id="api-banner" class="hidden w-full max-w-3xl mx-auto px-4 mb-1 z-20 shrink-0">
       <div class="px-3.5 py-2 rounded-2xl bg-amber-950/85 border border-amber-500/40 text-amber-100 text-xs flex items-center justify-between gap-2">
-        <span id="api-banner-msg" class="leading-snug">API key required for live AI responses.</span>
-        <div class="flex items-center gap-1.5 shrink-0">
-          <button id="btn-api-retry" type="button" onclick="retryLastPrompt()" class="hidden px-2.5 py-1 rounded-lg bg-amber-500/25 hover:bg-amber-500/40 text-amber-100 font-medium cursor-pointer">Retry</button>
-          <button type="button" onclick="openSettings('api')" class="px-2.5 py-1 rounded-lg bg-blue-500 hover:bg-blue-400 text-white font-semibold cursor-pointer">API Key</button>
-        </div>
+        <span id="api-banner-msg" class="leading-snug">Unable to reach AI right now.</span>
+        <button id="btn-api-retry" type="button" onclick="retryLastPrompt()" class="hidden px-2.5 py-1 rounded-lg bg-amber-500/25 hover:bg-amber-500/40 text-amber-100 font-medium shrink-0 cursor-pointer">Retry</button>
       </div>
     </div>
 
@@ -524,7 +519,7 @@
     </aside>
   </main>
 
-  <!-- 4. SETTINGS & UNIVERSAL API KEY MODAL -->
+  <!-- 4. SETTINGS MODAL (NO API SECTION FOR ANYONE) -->
   <div id="modal-settings" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4" style="touch-action: none;">
     <div class="w-full max-w-md rounded-3xl bg-[#0a1229] border border-blue-500/25 p-5 sm:p-6 text-slate-100 shadow-2xl max-h-[88dvh] isolated-scroll-y">
       <div class="flex items-center justify-between pb-3 border-b border-white/10">
@@ -533,58 +528,6 @@
       </div>
 
       <div class="mt-4 space-y-4 text-xs">
-        <!-- Universal AI Provider & API Key Setup -->
-        <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-blue-500/30 space-y-2.5">
-          <div class="flex items-center justify-between">
-            <label class="font-semibold text-cyan-300">AI Provider &amp; API Key</label>
-            <span id="detected-provider-badge" class="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-200 font-medium">Auto</span>
-          </div>
-
-          <div class="grid grid-cols-2 gap-2">
-            <div>
-              <label class="block text-[11px] text-slate-400 mb-1">Provider</label>
-              <select id="select-provider" onchange="onProviderChanged()"
-                class="w-full px-2.5 py-2 rounded-xl bg-slate-900 border border-white/15 text-[14px] text-white focus:outline-none focus:border-cyan-400">
-                <option value="auto">Auto-Detect Key</option>
-                <option value="gemini">Google Gemini</option>
-                <option value="openai">OpenAI (ChatGPT)</option>
-                <option value="grok">Grok (xAI)</option>
-                <option value="groq">Groq</option>
-                <option value="openrouter">OpenRouter</option>
-                <option value="custom">Custom (OpenAI-Compatible)</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-[11px] text-slate-400 mb-1">Model (Optional)</label>
-              <input id="input-model-override" type="text" placeholder="Default auto"
-                class="w-full px-2.5 py-2 rounded-xl bg-slate-900 border border-white/15 text-[14px] text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400" />
-            </div>
-          </div>
-
-          <div id="custom-base-url-wrap" class="hidden">
-            <label class="block text-[11px] text-slate-400 mb-1">Base URL (OpenAI-compatible `/chat/completions`)</label>
-            <input id="input-custom-base-url" type="url" placeholder="https://api.example.com/v1"
-              class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-white/15 text-[14px] text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400" />
-          </div>
-
-          <div class="flex gap-2">
-            <input id="input-api-key" type="password" oninput="onApiKeyInput()" placeholder="AIza... / sk-... / xai-... / gsk_..."
-              class="flex-1 min-w-0 px-3 py-2 rounded-xl bg-slate-900 border border-white/15 text-[16px] leading-normal text-white focus:outline-none focus:border-cyan-400" />
-            <button type="button" onclick="testApiKeyConnection()" id="btn-test-key"
-              class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-cyan-200 font-semibold shrink-0 cursor-pointer">
-              Test
-            </button>
-            <button type="button" onclick="saveApiConfig()"
-              class="px-3.5 py-2 rounded-xl bg-[#3b66f5] hover:bg-blue-500 text-white font-semibold shrink-0 cursor-pointer">
-              Save
-            </button>
-          </div>
-          <div id="key-test-result" class="hidden p-2 rounded-lg text-[11px] leading-snug"></div>
-          <p class="text-[11px] text-slate-400 leading-relaxed">
-            Supports <code class="text-cyan-300">AIza...</code> / <code class="text-cyan-300">AQ...</code> (Gemini), <code class="text-cyan-300">sk-...</code> (OpenAI), <code class="text-cyan-300">xai-...</code> (Grok), <code class="text-cyan-300">gsk_...</code> (Groq), <code class="text-cyan-300">sk-or-...</code> (OpenRouter), or any custom endpoint.
-          </p>
-        </div>
-
         <!-- Voice Selection -->
         <div>
           <label class="block font-medium text-slate-300 mb-1">AI Voice (English / Hindi)</label>
@@ -624,36 +567,12 @@
           </div>
         </div>
 
-        <!-- Firebase Setup & Clear History -->
-        <div class="pt-2 border-t border-white/10 flex items-center justify-between">
-          <button type="button" onclick="closeModal('modal-settings'); openModal('modal-firebase');"
-            class="px-3 py-2 rounded-xl bg-purple-600/25 hover:bg-purple-600/40 border border-purple-400/35 text-purple-200 font-medium cursor-pointer">
-            Firebase Setup
-          </button>
+        <!-- Clear History -->
+        <div class="pt-2 border-t border-white/10 flex items-center justify-end">
           <button type="button" onclick="clearAllChats(); closeModal('modal-settings');"
             class="px-3 py-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/35 border border-rose-500/35 text-rose-200 font-medium cursor-pointer">
             Clear History
           </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 5. FIREBASE CONFIGURATION MODAL -->
-  <div id="modal-firebase" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4" style="touch-action: none;">
-    <div class="w-full max-w-md rounded-3xl bg-[#1c0736] border border-fuchsia-400/35 p-5 sm:p-6 text-white shadow-2xl max-h-[88dvh] isolated-scroll-y">
-      <div class="flex items-center justify-between pb-3 border-b border-white/15">
-        <h3 class="font-orbitron text-xs sm:text-sm font-bold tracking-wider text-fuchsia-200">FIREBASE AUTH CONFIG</h3>
-        <button type="button" onclick="closeModal('modal-firebase')" class="text-white/70 hover:text-white p-1 cursor-pointer">✕</button>
-      </div>
-      <div class="mt-3 space-y-3 text-xs text-purple-100/85">
-        <p>Connected Firebase Web App <code class="text-cyan-300">firebaseConfig</code> JSON:</p>
-        <textarea id="input-firebase-json" rows="6" placeholder='{"apiKey":"...","authDomain":"...","projectId":"...","appId":"..."}'
-          class="w-full p-3 rounded-xl bg-black/40 border border-fuchsia-400/30 font-mono text-[16px] leading-normal text-cyan-200 focus:outline-none"></textarea>
-        <div id="firebase-save-feedback" class="hidden p-2 rounded-lg text-[11px]"></div>
-        <div class="flex justify-end gap-2">
-          <button type="button" onclick="resetDefaultFirebaseConfig()" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white cursor-pointer">Reset Default</button>
-          <button type="button" onclick="saveFirebaseConfig()" class="px-4 py-2 rounded-lg bg-[#b812c4] hover:bg-[#c916d6] font-semibold text-white cursor-pointer">Save Config</button>
         </div>
       </div>
     </div>
@@ -710,9 +629,16 @@
     })();
 
     // =========================================================================
-    // 1. APPLICATION STATE, FIREBASE CONFIG & STORAGE KEYS
+    // 1. SIRF 1 BAAR YAHAN API KEY DAALO — SABME AUTO CHALEGA
     // =========================================================================
-    const DEFAULT_FIREBASE_CONFIG = {
+    const MASTER_API_CONFIG = {
+      provider: 'auto',      // 'auto' | 'gemini' | 'openai' | 'grok' | 'groq' | 'openrouter' | 'custom'
+      apiKey: '',            // <-- Yahan apni API key daalo
+      model: '',             // Optional model name (empty = auto)
+      customBaseUrl: ''      // Optional custom endpoint (if provider === 'custom')
+    };
+
+    const FIREBASE_CONFIG = {
       apiKey: "AIzaSyAx09sp6at-277Pg_o9Gyk6uptu_lY6vEc",
       authDomain: "nexora--ai-632f6.firebaseapp.com",
       projectId: "nexora--ai-632f6",
@@ -722,9 +648,6 @@
     };
 
     const KEYS = {
-      GEMINI_KEY: 'nexora_v2_gemini_key',
-      API_CFG: 'nexora_v3_api_cfg',
-      FIREBASE_CFG: 'nexora_v2_firebase_cfg',
       SESSION: 'nexora_v2_session',
       CHATS: 'nexora_v2_chats',
       ACTIVE_CHAT: 'nexora_v2_active_chat',
@@ -733,31 +656,25 @@
 
     const PROVIDER_PRESETS = {
       gemini: {
-        label: 'Gemini',
         models: ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash']
       },
       openai: {
-        label: 'OpenAI',
         baseUrl: 'https://api.openai.com/v1',
         models: ['gpt-4o-mini', 'gpt-4.1-mini', 'gpt-4o']
       },
       grok: {
-        label: 'Grok (xAI)',
         baseUrl: 'https://api.x.ai/v1',
         models: ['grok-3-mini', 'grok-3', 'grok-2-latest']
       },
       groq: {
-        label: 'Groq',
         baseUrl: 'https://api.groq.com/openai/v1',
         models: ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'gemma2-9b-it']
       },
       openrouter: {
-        label: 'OpenRouter',
         baseUrl: 'https://openrouter.ai/api/v1',
         models: ['openrouter/free', 'openai/gpt-4o-mini', 'google/gemini-2.0-flash-001']
       },
       custom: {
-        label: 'Custom',
         baseUrl: '',
         models: ['gpt-4o-mini']
       }
@@ -772,13 +689,6 @@
       lastPrompt: '',
       lastSpokenText: '',
       attachment: null,
-      firebaseReady: true,
-      apiConfig: {
-        provider: 'auto',
-        apiKey: '',
-        model: '',
-        customBaseUrl: ''
-      },
       settings: {
         voiceURI: 'auto',
         autoSpeak: true,
@@ -1070,13 +980,11 @@
     // 4. STARTUP & LOGIN-FIRST NAVIGATION
     // =========================================================================
     window.addEventListener('DOMContentLoaded', () => {
-      loadApiConfig();
       loadSavedSettings();
       loadSavedChats();
       startHeadAnimationLoop();
       setupSpeechVoices();
       setupSpeechRecognition();
-      checkFirebaseSavedConfig();
 
       const bar = document.getElementById('splash-bar');
       if (bar) {
@@ -1099,7 +1007,6 @@
       splash.style.opacity = '0';
       setTimeout(() => {
         splash.classList.add('hidden');
-        // Always start on Login screen so user explicitly logs in or continues as Guest
         document.getElementById('screen-app').classList.add('hidden');
         document.getElementById('screen-auth').classList.remove('hidden');
       }, 420);
@@ -1144,53 +1051,6 @@
       }
     }
 
-    function getActiveFirebaseConfig() {
-      const raw = localStorage.getItem(KEYS.FIREBASE_CFG);
-      if (!raw) return DEFAULT_FIREBASE_CONFIG;
-      try {
-        const parsed = JSON.parse(raw);
-        if (parsed && parsed.apiKey && parsed.authDomain) {
-          return parsed;
-        }
-      } catch (e) {}
-      return DEFAULT_FIREBASE_CONFIG;
-    }
-
-    function checkFirebaseSavedConfig() {
-      const cfg = getActiveFirebaseConfig();
-      state.firebaseReady = Boolean(cfg && cfg.apiKey && cfg.authDomain);
-      document.getElementById('firebase-badge-text').textContent = `Firebase: ${cfg.projectId || 'Ready'}`;
-      document.getElementById('input-firebase-json').value = JSON.stringify(cfg, null, 2);
-    }
-
-    function saveFirebaseConfig() {
-      const raw = document.getElementById('input-firebase-json').value.trim();
-      const fbBox = document.getElementById('firebase-save-feedback');
-      try {
-        const cfg = JSON.parse(raw);
-        if (!cfg.apiKey || !cfg.authDomain) {
-          throw new Error('JSON must include "apiKey" and "authDomain".');
-        }
-        localStorage.setItem(KEYS.FIREBASE_CFG, JSON.stringify(cfg));
-        state.firebaseReady = true;
-        document.getElementById('firebase-badge-text').textContent = `Firebase: ${cfg.projectId || 'Ready'}`;
-        fbBox.className = 'p-2 rounded-lg text-[11px] bg-emerald-500/20 border border-emerald-400/40 text-emerald-200 block';
-        fbBox.textContent = 'Firebase configuration saved!';
-        setTimeout(() => closeModal('modal-firebase'), 900);
-      } catch (err) {
-        fbBox.className = 'p-2 rounded-lg text-[11px] bg-rose-500/25 border border-rose-400/40 text-rose-200 block';
-        fbBox.textContent = 'Invalid JSON: ' + err.message;
-      }
-    }
-
-    function resetDefaultFirebaseConfig() {
-      localStorage.setItem(KEYS.FIREBASE_CFG, JSON.stringify(DEFAULT_FIREBASE_CONFIG));
-      checkFirebaseSavedConfig();
-      const fbBox = document.getElementById('firebase-save-feedback');
-      fbBox.className = 'p-2 rounded-lg text-[11px] bg-emerald-500/20 border border-emerald-400/40 text-emerald-200 block';
-      fbBox.textContent = 'Restored NEXORA default Firebase config!';
-    }
-
     function ensureFirebaseSDKLoaded() {
       return new Promise((resolve, reject) => {
         if (window.firebase && window.firebase.auth) {
@@ -1211,10 +1071,9 @@
     }
 
     async function getFirebaseAuthInstance() {
-      const cfg = getActiveFirebaseConfig();
       const fb = await ensureFirebaseSDKLoaded();
       if (!fb.apps.length) {
-        fb.initializeApp(cfg);
+        fb.initializeApp(FIREBASE_CONFIG);
       }
       return fb.auth();
     }
@@ -1226,7 +1085,7 @@
       const password = document.getElementById('login-password').value;
       const remember = document.getElementById('login-remember').checked;
 
-      showAuthFeedback('Signing in with Firebase...', 'ok');
+      showAuthFeedback('Signing in...', 'ok');
 
       try {
         const auth = await getFirebaseAuthInstance();
@@ -1379,8 +1238,6 @@
         document.getElementById('drawer-logout-btn').classList.remove('hidden');
       }
 
-      updateProviderHeaderBadge();
-      updateApiBannerVisibility();
       renderActiveConversation();
       renderDrawerHistory();
     }
@@ -1562,7 +1419,7 @@
         const msg = (e.error === 'not-allowed' || e.error === 'service-not-allowed')
           ? 'Microphone permission denied. Enable mic access in browser settings.'
           : 'Voice capture stopped. Tap mic and try again.';
-        showApiBanner(msg, false);
+        showBanner(msg, false);
       };
 
       recognition.onend = () => {
@@ -1574,7 +1431,7 @@
     function toggleMic() {
       playTone('mic');
       if (!recognition) {
-        showApiBanner('Speech-to-text is not supported in this browser.', false);
+        showBanner('Speech-to-text is not supported in this browser.', false);
         return;
       }
       if (isMicActive) {
@@ -1593,10 +1450,14 @@
     }
 
     // =========================================================================
-    // 8. UNIVERSAL MULTI-PROVIDER AI ENGINE (GEMINI, OPENAI, GROK, GROQ, OPENROUTER, CUSTOM)
+    // 8. SHARED AUTO AI ENGINE (USES MASTER_API_CONFIG FOR EVERYONE)
     // =========================================================================
     function sanitizeApiKey(raw) {
       return String(raw || '').replace(/[\s\u200B-\u200D\uFEFF"']/g, '').trim();
+    }
+
+    function getApiKey() {
+      return sanitizeApiKey(MASTER_API_CONFIG.apiKey);
     }
 
     function detectProviderFromKey(key) {
@@ -1610,129 +1471,28 @@
       return 'openai';
     }
 
-    function resolveEffectiveProvider(selectedProvider, key) {
-      if (selectedProvider && selectedProvider !== 'auto') {
-        return selectedProvider;
+    function resolveEffectiveProvider(key) {
+      if (MASTER_API_CONFIG.provider && MASTER_API_CONFIG.provider !== 'auto') {
+        return MASTER_API_CONFIG.provider;
       }
       return detectProviderFromKey(key);
-    }
-
-    function loadApiConfig() {
-      try {
-        const raw = localStorage.getItem(KEYS.API_CFG);
-        if (raw) {
-          const parsed = JSON.parse(raw);
-          state.apiConfig = {
-            provider: parsed.provider || 'auto',
-            apiKey: sanitizeApiKey(parsed.apiKey || ''),
-            model: String(parsed.model || '').trim(),
-            customBaseUrl: String(parsed.customBaseUrl || '').trim()
-          };
-        }
-      } catch (e) {}
-
-      if (!state.apiConfig.apiKey) {
-        const legacyKey = sanitizeApiKey(localStorage.getItem(KEYS.GEMINI_KEY));
-        if (legacyKey) {
-          state.apiConfig.apiKey = legacyKey;
-          state.apiConfig.provider = 'auto';
-          persistApiConfig();
-        }
-      }
-    }
-
-    function persistApiConfig() {
-      state.apiConfig.apiKey = sanitizeApiKey(state.apiConfig.apiKey);
-      localStorage.setItem(KEYS.API_CFG, JSON.stringify(state.apiConfig));
-      if (resolveEffectiveProvider(state.apiConfig.provider, state.apiConfig.apiKey) === 'gemini' && state.apiConfig.apiKey) {
-        localStorage.setItem(KEYS.GEMINI_KEY, state.apiConfig.apiKey);
-      }
-      updateProviderHeaderBadge();
-    }
-
-    function getApiKey() {
-      return sanitizeApiKey(state.apiConfig.apiKey);
-    }
-
-    function updateProviderHeaderBadge() {
-      const badge = document.getElementById('header-provider-pill');
-      if (!badge) return;
-      const key = getApiKey();
-      if (!key) {
-        badge.textContent = 'No API';
-        return;
-      }
-      const eff = resolveEffectiveProvider(state.apiConfig.provider, key);
-      const label = PROVIDER_PRESETS[eff]?.label || eff.toUpperCase();
-      badge.textContent = state.apiConfig.model ? `${label} • ${state.apiConfig.model}` : label;
-    }
-
-    function syncApiConfigInputs() {
-      document.getElementById('select-provider').value = state.apiConfig.provider || 'auto';
-      document.getElementById('input-model-override').value = state.apiConfig.model || '';
-      document.getElementById('input-custom-base-url').value = state.apiConfig.customBaseUrl || '';
-      document.getElementById('input-api-key').value = state.apiConfig.apiKey || '';
-      onProviderChanged();
-      onApiKeyInput();
-    }
-
-    function onProviderChanged() {
-      const prov = document.getElementById('select-provider').value;
-      const customWrap = document.getElementById('custom-base-url-wrap');
-      if (prov === 'custom') {
-        customWrap.classList.remove('hidden');
-      } else {
-        customWrap.classList.add('hidden');
-      }
-      onApiKeyInput();
-    }
-
-    function onApiKeyInput() {
-      const provSel = document.getElementById('select-provider').value;
-      const keyVal = sanitizeApiKey(document.getElementById('input-api-key').value);
-      const badge = document.getElementById('detected-provider-badge');
-      const eff = resolveEffectiveProvider(provSel, keyVal);
-      const name = PROVIDER_PRESETS[eff]?.label || eff;
-      badge.textContent = provSel === 'auto'
-        ? (keyVal ? `Auto: ${name}` : 'Auto')
-        : name;
-    }
-
-    function formatFriendlyApiError(status, rawMsg, provider, key) {
-      const msg = String(rawMsg || '');
-      if (status === 401 || /incorrect api key|invalid api key|unauthorized|authentication/i.test(msg)) {
-        return `Invalid or Unauthorized API Key (${status}) for ${PROVIDER_PRESETS[provider]?.label || provider}. Check that your key is active and has credits/quota.`;
-      }
-      if (status === 400 && /API key not valid|INVALID_ARGUMENT/i.test(msg)) {
-        const hint = key.startsWith('AQ.')
-          ? 'Note: AQ... keys require Generative Language API / Express access enabled on your Google Cloud project.'
-          : 'Check for extra spaces or generate a fresh key.';
-        return `Bad Request / Invalid Key (400). ${hint}`;
-      }
-      if (status === 403) {
-        return `Access Denied (403): API access or domain referrer restriction blocked this request.`;
-      }
-      if (status === 429) {
-        return `Rate Limit / Quota Exceeded (429): Wait a moment or check billing/quota on your provider account.`;
-      }
-      return msg || `HTTP Error ${status}`;
     }
 
     function normalizeBaseUrl(url) {
       return String(url || '').trim().replace(/\/+$/, '');
     }
 
-    function getOpenAICompatBaseUrl(provider, customBaseUrl) {
+    function getOpenAICompatBaseUrl(provider) {
       if (provider === 'custom') {
-        const cleaned = normalizeBaseUrl(customBaseUrl);
-        if (!cleaned) throw new Error('Please enter a Custom Base URL in Settings.');
+        const cleaned = normalizeBaseUrl(MASTER_API_CONFIG.customBaseUrl);
+        if (!cleaned) throw new Error('Custom endpoint is not configured.');
         return cleaned;
       }
       return PROVIDER_PRESETS[provider]?.baseUrl || 'https://api.openai.com/v1';
     }
 
-    function getCandidateModels(provider, overrideModel) {
-      const custom = String(overrideModel || '').trim();
+    function getCandidateModels(provider) {
+      const custom = String(MASTER_API_CONFIG.model || '').trim();
       const defaults = PROVIDER_PRESETS[provider]?.models || ['gpt-4o-mini'];
       if (custom) {
         return [custom, ...defaults.filter(m => m !== custom)];
@@ -1778,148 +1538,7 @@
       return '';
     }
 
-    async function testOpenAICompatibleConnection(provider, baseUrl, key, models) {
-      const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${key}`
-      };
-      if (provider === 'openrouter') {
-        headers['HTTP-Referer'] = window.location.origin || 'https://nexora.local';
-        headers['X-Title'] = 'NEXORA AI';
-      }
-
-      let lastErr = 'Connection failed.';
-      for (const model of models) {
-        const res = await fetch(`${baseUrl}/chat/completions`, {
-          method: 'POST',
-          headers,
-          body: JSON.stringify({
-            model,
-            messages: [{ role: 'user', content: 'Reply with OK' }],
-            max_tokens: 8,
-            stream: false
-          })
-        });
-
-        if (res.ok) {
-          return model;
-        }
-        const errJson = await res.json().catch(() => ({}));
-        const rawMsg = errJson?.error?.message || `HTTP ${res.status}`;
-        lastErr = formatFriendlyApiError(res.status, rawMsg, provider, key);
-        if (res.status === 401 || res.status === 403 || res.status === 429) {
-          throw new Error(lastErr);
-        }
-      }
-      throw new Error(lastErr);
-    }
-
-    async function testApiKeyConnection() {
-      const inputEl = document.getElementById('input-api-key');
-      const provSel = document.getElementById('select-provider').value;
-      const modelOverride = document.getElementById('input-model-override').value.trim();
-      const customBaseUrl = document.getElementById('input-custom-base-url').value.trim();
-      const resBox = document.getElementById('key-test-result');
-      const btn = document.getElementById('btn-test-key');
-      const key = sanitizeApiKey(inputEl.value);
-
-      if (!key) {
-        resBox.className = 'p-2 rounded-lg text-[11px] bg-rose-500/20 border border-rose-400/40 text-rose-200 block';
-        resBox.textContent = 'Please paste your API key first.';
-        return;
-      }
-
-      inputEl.value = key;
-      const effectiveProvider = resolveEffectiveProvider(provSel, key);
-      const models = getCandidateModels(effectiveProvider, modelOverride);
-
-      btn.disabled = true;
-      btn.textContent = '...';
-      resBox.className = 'p-2 rounded-lg text-[11px] bg-blue-500/20 border border-blue-400/40 text-blue-200 block';
-      resBox.textContent = `Testing ${PROVIDER_PRESETS[effectiveProvider]?.label || effectiveProvider} connection...`;
-
-      try {
-        let connectedModel = null;
-
-        if (effectiveProvider === 'gemini') {
-          let lastError = null;
-          for (const model of models) {
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(key)}`;
-            const r = await fetch(url, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                contents: [{ role: 'user', parts: [{ text: 'Reply with OK' }] }],
-                generationConfig: { maxOutputTokens: 8 }
-              })
-            });
-            if (r.ok) {
-              connectedModel = model;
-              break;
-            } else {
-              const errJson = await r.json().catch(() => ({}));
-              lastError = formatFriendlyApiError(r.status, errJson?.error?.message, 'gemini', key);
-              if (r.status === 400 || r.status === 403) break;
-            }
-          }
-          if (!connectedModel) throw new Error(lastError || 'Gemini connection failed.');
-        } else {
-          const baseUrl = getOpenAICompatBaseUrl(effectiveProvider, customBaseUrl);
-          connectedModel = await testOpenAICompatibleConnection(effectiveProvider, baseUrl, key, models);
-        }
-
-        state.apiConfig = {
-          provider: provSel,
-          apiKey: key,
-          model: modelOverride,
-          customBaseUrl
-        };
-        persistApiConfig();
-        updateApiBannerVisibility();
-
-        resBox.className = 'p-2 rounded-lg text-[11px] bg-emerald-500/20 border border-emerald-400/40 text-emerald-200 block';
-        resBox.textContent = `Connected & Saved (${PROVIDER_PRESETS[effectiveProvider]?.label || effectiveProvider})! Model: ${connectedModel}`;
-      } catch (e) {
-        resBox.className = 'p-2 rounded-lg text-[11px] bg-rose-500/20 border border-rose-400/40 text-rose-200 block';
-        resBox.textContent = 'Connection Error: ' + e.message;
-      } finally {
-        btn.disabled = false;
-        btn.textContent = 'Test';
-      }
-    }
-
-    function saveApiConfig() {
-      const inputEl = document.getElementById('input-api-key');
-      const provSel = document.getElementById('select-provider').value;
-      const modelOverride = document.getElementById('input-model-override').value.trim();
-      const customBaseUrl = document.getElementById('input-custom-base-url').value.trim();
-      const k = sanitizeApiKey(inputEl.value);
-
-      inputEl.value = k;
-      state.apiConfig = {
-        provider: provSel,
-        apiKey: k,
-        model: modelOverride,
-        customBaseUrl
-      };
-      persistApiConfig();
-      updateApiBannerVisibility();
-      closeModal('modal-settings');
-      playTone('send');
-    }
-
-    function updateApiBannerVisibility() {
-      const banner = document.getElementById('api-banner');
-      if (!getApiKey()) {
-        document.getElementById('api-banner-msg').textContent = 'Add your AI API key (Gemini, OpenAI, Grok, Groq, OpenRouter) in Settings.';
-        document.getElementById('btn-api-retry').classList.add('hidden');
-        banner.classList.remove('hidden');
-      } else {
-        banner.classList.add('hidden');
-      }
-    }
-
-    function showApiBanner(text, showRetry = false) {
+    function showBanner(text, showRetry = false) {
       const banner = document.getElementById('api-banner');
       document.getElementById('api-banner-msg').textContent = text;
       const retryBtn = document.getElementById('btn-api-retry');
@@ -1996,15 +1615,13 @@
       if (!res.ok) {
         const errJson = await res.json().catch(() => ({}));
         const rawErrMsg = errJson?.error?.message || `HTTP ${res.status}`;
-        const friendlyMsg = formatFriendlyApiError(res.status, rawErrMsg, 'gemini', apiKey);
-        const err = new Error(friendlyMsg);
+        const err = new Error(rawErrMsg);
         err.status = res.status;
         err.isModelFallbackCandidate = res.status === 404 || /not found|not supported|models\//i.test(rawErrMsg);
         throw err;
       }
 
       const contentType = (res.headers.get('content-type') || '').toLowerCase();
-
       if (!res.body || contentType.includes('application/json')) {
         const jsonData = await res.json();
         const fullText = extractCandidateText(jsonData);
@@ -2076,8 +1693,7 @@
       if (!res.ok) {
         const errJson = await res.json().catch(() => ({}));
         const rawErrMsg = errJson?.error?.message || `HTTP ${res.status}`;
-        const friendlyMsg = formatFriendlyApiError(res.status, rawErrMsg, provider, apiKey);
-        const err = new Error(friendlyMsg);
+        const err = new Error(rawErrMsg);
         err.status = res.status;
         err.isModelFallbackCandidate = res.status === 404 || /model.*not found|does not exist|invalid model/i.test(rawErrMsg);
         throw err;
@@ -2140,8 +1756,7 @@
 
       const apiKey = getApiKey();
       if (!apiKey) {
-        showApiBanner('API key missing—add your key in Settings to activate live responses.', false);
-        openSettings('api');
+        showBanner('AI service is currently offline.', false);
         return;
       }
 
@@ -2184,8 +1799,8 @@
 
       const systemPrompt = 'You are NEXORA AI, a sleek futuristic AI Voice Assistant built by Prashant. Reply naturally in the same language the user uses (English, Hindi in Devanagari, or Hinglish). Keep replies helpful, concise, and natural when spoken aloud.';
       const historySlice = chat.messages.slice(0, -1).slice(-10);
-      const effectiveProvider = resolveEffectiveProvider(state.apiConfig.provider, apiKey);
-      const candidateModels = getCandidateModels(effectiveProvider, state.apiConfig.model);
+      const effectiveProvider = resolveEffectiveProvider(apiKey);
+      const candidateModels = getCandidateModels(effectiveProvider);
 
       try {
         let finalText = '';
@@ -2227,7 +1842,7 @@
             }
           }
         } else {
-          const baseUrl = getOpenAICompatBaseUrl(effectiveProvider, state.apiConfig.customBaseUrl);
+          const baseUrl = getOpenAICompatBaseUrl(effectiveProvider);
           const messagesPayload = buildOpenAIMessages(historySlice, att, systemPrompt);
 
           for (const modelName of candidateModels) {
@@ -2251,7 +1866,7 @@
         }
 
         if (!finalText) {
-          throw lastErr || new Error('No response text returned from AI API.');
+          throw lastErr || new Error('No response returned.');
         }
 
         aiMsg.text = finalText;
@@ -2265,7 +1880,7 @@
         persistChats();
         renderActiveConversation();
         setAIMode('idle');
-        showApiBanner(err.message, true);
+        showBanner('Could not get response right now. Please try again.', true);
       } finally {
         state.isGenerating = false;
         if (state.aiMode === 'thinking') setAIMode('idle');
@@ -2489,7 +2104,6 @@
     }
 
     function syncSettingsControls() {
-      syncApiConfigInputs();
       document.getElementById('chk-autospeak').checked = state.settings.autoSpeak;
       document.getElementById('chk-sfx').checked = state.settings.sfx;
       document.getElementById('rng-speed').value = state.settings.speed;
@@ -2509,14 +2123,10 @@
       syncSettingsControls();
     }
 
-    function openSettings(focusTarget = '') {
+    function openSettings() {
       playTone('tap');
       syncSettingsControls();
-      document.getElementById('key-test-result').classList.add('hidden');
       openModal('modal-settings');
-      if (focusTarget === 'api') {
-        setTimeout(() => document.getElementById('input-api-key').focus(), 100);
-      }
     }
 
     function openModal(id) {
@@ -2537,4 +2147,4 @@
     }
   </script>
 </body>
-      </html>
+</html>
