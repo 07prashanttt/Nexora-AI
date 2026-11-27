@@ -327,6 +327,9 @@
           <span id="header-mode-pill" class="text-[10px] px-2 py-0.2 rounded-full bg-blue-500/15 border border-blue-400/25 text-blue-300 font-medium">
             Guest Mode
           </span>
+          <span id="header-provider-pill" class="text-[10px] px-2 py-0.2 rounded-full bg-cyan-500/15 border border-cyan-400/25 text-cyan-300 font-medium">
+            No API
+          </span>
         </div>
       </div>
 
@@ -342,7 +345,7 @@
           class="w-10 h-10 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.1] flex items-center justify-center text-slate-200 transition active:scale-95 cursor-pointer">
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="3"></circle>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
           </svg>
         </button>
       </div>
@@ -368,7 +371,7 @@
     <!-- HONEST API STATUS / ERROR BANNER -->
     <div id="api-banner" class="hidden w-full max-w-3xl mx-auto px-4 mb-1 z-20 shrink-0">
       <div class="px-3.5 py-2 rounded-2xl bg-amber-950/85 border border-amber-500/40 text-amber-100 text-xs flex items-center justify-between gap-2">
-        <span id="api-banner-msg" class="leading-snug">Gemini API key required for live AI responses.</span>
+        <span id="api-banner-msg" class="leading-snug">API key required for live AI responses.</span>
         <div class="flex items-center gap-1.5 shrink-0">
           <button id="btn-api-retry" type="button" onclick="retryLastPrompt()" class="hidden px-2.5 py-1 rounded-lg bg-amber-500/25 hover:bg-amber-500/40 text-amber-100 font-medium cursor-pointer">Retry</button>
           <button type="button" onclick="openSettings('api')" class="px-2.5 py-1 rounded-lg bg-blue-500 hover:bg-blue-400 text-white font-semibold cursor-pointer">API Key</button>
@@ -521,7 +524,7 @@
     </aside>
   </main>
 
-  <!-- 4. SETTINGS & GEMINI API KEY MODAL -->
+  <!-- 4. SETTINGS & UNIVERSAL API KEY MODAL -->
   <div id="modal-settings" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4" style="touch-action: none;">
     <div class="w-full max-w-md rounded-3xl bg-[#0a1229] border border-blue-500/25 p-5 sm:p-6 text-slate-100 shadow-2xl max-h-[88dvh] isolated-scroll-y">
       <div class="flex items-center justify-between pb-3 border-b border-white/10">
@@ -530,27 +533,55 @@
       </div>
 
       <div class="mt-4 space-y-4 text-xs">
-        <!-- Gemini API Key Setup -->
+        <!-- Universal AI Provider & API Key Setup -->
         <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-blue-500/30 space-y-2.5">
           <div class="flex items-center justify-between">
-            <label class="font-semibold text-cyan-300">Google Gemini API Key</label>
-            <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" class="text-blue-400 underline">Get Free Key ↗</a>
+            <label class="font-semibold text-cyan-300">AI Provider &amp; API Key</label>
+            <span id="detected-provider-badge" class="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-200 font-medium">Auto</span>
           </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1">Provider</label>
+              <select id="select-provider" onchange="onProviderChanged()"
+                class="w-full px-2.5 py-2 rounded-xl bg-slate-900 border border-white/15 text-[14px] text-white focus:outline-none focus:border-cyan-400">
+                <option value="auto">Auto-Detect Key</option>
+                <option value="gemini">Google Gemini</option>
+                <option value="openai">OpenAI (ChatGPT)</option>
+                <option value="grok">Grok (xAI)</option>
+                <option value="groq">Groq</option>
+                <option value="openrouter">OpenRouter</option>
+                <option value="custom">Custom (OpenAI-Compatible)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1">Model (Optional)</label>
+              <input id="input-model-override" type="text" placeholder="Default auto"
+                class="w-full px-2.5 py-2 rounded-xl bg-slate-900 border border-white/15 text-[14px] text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400" />
+            </div>
+          </div>
+
+          <div id="custom-base-url-wrap" class="hidden">
+            <label class="block text-[11px] text-slate-400 mb-1">Base URL (OpenAI-compatible `/chat/completions`)</label>
+            <input id="input-custom-base-url" type="url" placeholder="https://api.example.com/v1"
+              class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-white/15 text-[14px] text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400" />
+          </div>
+
           <div class="flex gap-2">
-            <input id="input-gemini-key" type="password" placeholder="AIzaSy... or AQ..."
+            <input id="input-api-key" type="password" oninput="onApiKeyInput()" placeholder="AIza... / sk-... / xai-... / gsk_..."
               class="flex-1 min-w-0 px-3 py-2 rounded-xl bg-slate-900 border border-white/15 text-[16px] leading-normal text-white focus:outline-none focus:border-cyan-400" />
             <button type="button" onclick="testApiKeyConnection()" id="btn-test-key"
               class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-cyan-200 font-semibold shrink-0 cursor-pointer">
               Test
             </button>
-            <button type="button" onclick="saveApiKey()"
+            <button type="button" onclick="saveApiConfig()"
               class="px-3.5 py-2 rounded-xl bg-[#3b66f5] hover:bg-blue-500 text-white font-semibold shrink-0 cursor-pointer">
               Save
             </button>
           </div>
           <div id="key-test-result" class="hidden p-2 rounded-lg text-[11px] leading-snug"></div>
           <p class="text-[11px] text-slate-400 leading-relaxed">
-            Google AI Studio keys start with <code class="text-cyan-300">AIza...</code> (Vertex/Express keys start with <code class="text-cyan-300">AQ...</code>). Ensure the <strong>Generative Language API</strong> is enabled and no HTTP referrer restriction blocks your domain.
+            Supports <code class="text-cyan-300">AIza...</code> / <code class="text-cyan-300">AQ...</code> (Gemini), <code class="text-cyan-300">sk-...</code> (OpenAI), <code class="text-cyan-300">xai-...</code> (Grok), <code class="text-cyan-300">gsk_...</code> (Groq), <code class="text-cyan-300">sk-or-...</code> (OpenRouter), or any custom endpoint.
           </p>
         </div>
 
@@ -682,7 +713,8 @@
     // 1. APPLICATION STATE & STORAGE KEYS
     // =========================================================================
     const KEYS = {
-      GEMINI_KEY: 'nexora_v2_gemini_key',
+      GEMINI_KEY: 'nexora_v2_gemini_key', // kept for backwards compatibility
+      API_CFG: 'nexora_v3_api_cfg',
       FIREBASE_CFG: 'nexora_v2_firebase_cfg',
       SESSION: 'nexora_v2_session',
       CHATS: 'nexora_v2_chats',
@@ -690,11 +722,37 @@
       SETTINGS: 'nexora_v2_settings'
     };
 
-    const GEMINI_MODEL_CANDIDATES = [
-      'gemini-2.5-flash',
-      'gemini-2.0-flash',
-      'gemini-1.5-flash'
-    ];
+    const PROVIDER_PRESETS = {
+      gemini: {
+        label: 'Gemini',
+        models: ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash']
+      },
+      openai: {
+        label: 'OpenAI',
+        baseUrl: 'https://api.openai.com/v1',
+        models: ['gpt-4o-mini', 'gpt-4.1-mini', 'gpt-4o']
+      },
+      grok: {
+        label: 'Grok (xAI)',
+        baseUrl: 'https://api.x.ai/v1',
+        models: ['grok-3-mini', 'grok-3', 'grok-2-latest']
+      },
+      groq: {
+        label: 'Groq',
+        baseUrl: 'https://api.groq.com/openai/v1',
+        models: ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'gemma2-9b-it']
+      },
+      openrouter: {
+        label: 'OpenRouter',
+        baseUrl: 'https://openrouter.ai/api/v1',
+        models: ['openrouter/free', 'openai/gpt-4o-mini', 'google/gemini-2.0-flash-001']
+      },
+      custom: {
+        label: 'Custom',
+        baseUrl: '',
+        models: ['gpt-4o-mini']
+      }
+    };
 
     const state = {
       user: null,
@@ -706,6 +764,12 @@
       lastSpokenText: '',
       attachment: null,
       firebaseReady: false,
+      apiConfig: {
+        provider: 'auto',
+        apiKey: '',
+        model: '',
+        customBaseUrl: ''
+      },
       settings: {
         voiceURI: 'auto',
         autoSpeak: true,
@@ -997,6 +1061,7 @@
     // 4. STARTUP & SCREEN NAVIGATION
     // =========================================================================
     window.addEventListener('DOMContentLoaded', () => {
+      loadApiConfig();
       loadSavedSettings();
       loadSavedChats();
       startHeadAnimationLoop();
@@ -1342,6 +1407,7 @@
         document.getElementById('drawer-logout-btn').classList.remove('hidden');
       }
 
+      updateProviderHeaderBadge();
       updateApiBannerVisibility();
       renderActiveConversation();
       renderDrawerHistory();
@@ -1555,35 +1621,233 @@
     }
 
     // =========================================================================
-    // 8. GEMINI API INTEGRATION (AIza + AQ SUPPORT, TESTER & SMART DIAGNOSTICS)
+    // 8. UNIVERSAL MULTI-PROVIDER AI ENGINE (GEMINI, OPENAI, GROK, GROQ, OPENROUTER, CUSTOM)
     // =========================================================================
     function sanitizeApiKey(raw) {
       return String(raw || '').replace(/[\s\u200B-\u200D\uFEFF"']/g, '').trim();
     }
 
-    function getApiKey() {
-      return sanitizeApiKey(localStorage.getItem(KEYS.GEMINI_KEY));
+    function detectProviderFromKey(key) {
+      const k = sanitizeApiKey(key);
+      if (!k) return 'gemini';
+      if (k.startsWith('AIza') || k.startsWith('AQ.')) return 'gemini';
+      if (k.startsWith('xai-')) return 'grok';
+      if (k.startsWith('gsk_')) return 'groq';
+      if (k.startsWith('sk-or-')) return 'openrouter';
+      if (k.startsWith('sk-')) return 'openai';
+      return 'openai';
     }
 
-    function formatFriendlyApiError(status, rawMsg, key) {
+    function resolveEffectiveProvider(selectedProvider, key) {
+      if (selectedProvider && selectedProvider !== 'auto') {
+        return selectedProvider;
+      }
+      return detectProviderFromKey(key);
+    }
+
+    function loadApiConfig() {
+      try {
+        const raw = localStorage.getItem(KEYS.API_CFG);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          state.apiConfig = {
+            provider: parsed.provider || 'auto',
+            apiKey: sanitizeApiKey(parsed.apiKey || ''),
+            model: String(parsed.model || '').trim(),
+            customBaseUrl: String(parsed.customBaseUrl || '').trim()
+          };
+        }
+      } catch (e) {}
+
+      // Migrate legacy Gemini key if present
+      if (!state.apiConfig.apiKey) {
+        const legacyKey = sanitizeApiKey(localStorage.getItem(KEYS.GEMINI_KEY));
+        if (legacyKey) {
+          state.apiConfig.apiKey = legacyKey;
+          state.apiConfig.provider = 'auto';
+          persistApiConfig();
+        }
+      }
+    }
+
+    function persistApiConfig() {
+      state.apiConfig.apiKey = sanitizeApiKey(state.apiConfig.apiKey);
+      localStorage.setItem(KEYS.API_CFG, JSON.stringify(state.apiConfig));
+      if (resolveEffectiveProvider(state.apiConfig.provider, state.apiConfig.apiKey) === 'gemini' && state.apiConfig.apiKey) {
+        localStorage.setItem(KEYS.GEMINI_KEY, state.apiConfig.apiKey);
+      }
+      updateProviderHeaderBadge();
+    }
+
+    function getApiKey() {
+      return sanitizeApiKey(state.apiConfig.apiKey);
+    }
+
+    function updateProviderHeaderBadge() {
+      const badge = document.getElementById('header-provider-pill');
+      if (!badge) return;
+      const key = getApiKey();
+      if (!key) {
+        badge.textContent = 'No API';
+        return;
+      }
+      const eff = resolveEffectiveProvider(state.apiConfig.provider, key);
+      const label = PROVIDER_PRESETS[eff]?.label || eff.toUpperCase();
+      badge.textContent = state.apiConfig.model ? `${label} • ${state.apiConfig.model}` : label;
+    }
+
+    function syncApiConfigInputs() {
+      document.getElementById('select-provider').value = state.apiConfig.provider || 'auto';
+      document.getElementById('input-model-override').value = state.apiConfig.model || '';
+      document.getElementById('input-custom-base-url').value = state.apiConfig.customBaseUrl || '';
+      document.getElementById('input-api-key').value = state.apiConfig.apiKey || '';
+      onProviderChanged();
+      onApiKeyInput();
+    }
+
+    function onProviderChanged() {
+      const prov = document.getElementById('select-provider').value;
+      const customWrap = document.getElementById('custom-base-url-wrap');
+      if (prov === 'custom') {
+        customWrap.classList.remove('hidden');
+      } else {
+        customWrap.classList.add('hidden');
+      }
+      onApiKeyInput();
+    }
+
+    function onApiKeyInput() {
+      const provSel = document.getElementById('select-provider').value;
+      const keyVal = sanitizeApiKey(document.getElementById('input-api-key').value);
+      const badge = document.getElementById('detected-provider-badge');
+      const eff = resolveEffectiveProvider(provSel, keyVal);
+      const name = PROVIDER_PRESETS[eff]?.label || eff;
+      badge.textContent = provSel === 'auto'
+        ? (keyVal ? `Auto: ${name}` : 'Auto')
+        : name;
+    }
+
+    function formatFriendlyApiError(status, rawMsg, provider, key) {
       const msg = String(rawMsg || '');
+      if (status === 401 || /incorrect api key|invalid api key|unauthorized|authentication/i.test(msg)) {
+        return `Invalid or Unauthorized API Key (${status}) for ${PROVIDER_PRESETS[provider]?.label || provider}. Check that your key is active and has credits/quota.`;
+      }
       if (status === 400 && /API key not valid|INVALID_ARGUMENT/i.test(msg)) {
         const hint = key.startsWith('AQ.')
-          ? 'Note: AQ... keys only work on Vertex AI Express endpoints or if Generative Language API is enabled on your Google Cloud project.'
-          : 'Check for extra characters or generate a fresh AIza... key from Google AI Studio.';
-        return `Invalid API Key (400). ${hint}`;
+          ? 'Note: AQ... keys require Generative Language API / Express access enabled on your Google Cloud project.'
+          : 'Check for extra spaces or generate a fresh key.';
+        return `Bad Request / Invalid Key (400). ${hint}`;
       }
       if (status === 403) {
-        return `Access Denied (403): Generative Language API is disabled on this project, or HTTP referrer/IP restrictions are blocking this page.`;
+        return `Access Denied (403): API access or domain referrer restriction blocked this request.`;
       }
       if (status === 429) {
-        return `Quota Exceeded (429): Rate limit or free tier quota reached. Wait 1 minute or check billing in Google AI Studio.`;
+        return `Rate Limit / Quota Exceeded (429): Wait a moment or check billing/quota on your provider account.`;
       }
       return msg || `HTTP Error ${status}`;
     }
 
+    function normalizeBaseUrl(url) {
+      return String(url || '').trim().replace(/\/+$/, '');
+    }
+
+    function getOpenAICompatBaseUrl(provider, customBaseUrl) {
+      if (provider === 'custom') {
+        const cleaned = normalizeBaseUrl(customBaseUrl);
+        if (!cleaned) throw new Error('Please enter a Custom Base URL in Settings.');
+        return cleaned;
+      }
+      return PROVIDER_PRESETS[provider]?.baseUrl || 'https://api.openai.com/v1';
+    }
+
+    function getCandidateModels(provider, overrideModel) {
+      const custom = String(overrideModel || '').trim();
+      const defaults = PROVIDER_PRESETS[provider]?.models || ['gpt-4o-mini'];
+      if (custom) {
+        return [custom, ...defaults.filter(m => m !== custom)];
+      }
+      return defaults;
+    }
+
+    function buildOpenAIMessages(messages, att, systemPrompt) {
+      const out = [{ role: 'system', content: systemPrompt }];
+      messages.forEach((m, idx) => {
+        const isLastUser = idx === messages.length - 1 && m.role === 'user';
+        if (isLastUser && att && att.isImage && typeof att.data === 'string' && att.data.startsWith('data:image/')) {
+          out.push({
+            role: 'user',
+            content: [
+              { type: 'text', text: m.text },
+              { type: 'image_url', image_url: { url: att.data } }
+            ]
+          });
+        } else if (isLastUser && att && !att.isImage) {
+          out.push({
+            role: 'user',
+            content: `${m.text}\n\n[Attached File: ${att.name}]\n${String(att.data || '').slice(0, 8000)}`
+          });
+        } else {
+          out.push({
+            role: m.role === 'assistant' ? 'assistant' : 'user',
+            content: m.text
+          });
+        }
+      });
+      return out;
+    }
+
+    function extractOpenAIDelta(parsed) {
+      const c = parsed?.choices?.[0];
+      if (!c) return '';
+      if (typeof c.delta?.content === 'string') return c.delta.content;
+      if (Array.isArray(c.delta?.content)) {
+        return c.delta.content.map(item => (typeof item?.text === 'string' ? item.text : '')).join('');
+      }
+      if (typeof c.message?.content === 'string') return c.message.content;
+      return '';
+    }
+
+    async function testOpenAICompatibleConnection(provider, baseUrl, key, models) {
+      const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${key}`
+      };
+      if (provider === 'openrouter') {
+        headers['HTTP-Referer'] = window.location.origin || 'https://nexora.local';
+        headers['X-Title'] = 'NEXORA AI';
+      }
+
+      let lastErr = 'Connection failed.';
+      for (const model of models) {
+        const res = await fetch(`${baseUrl}/chat/completions`, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({
+            model,
+            messages: [{ role: 'user', content: 'Reply with OK' }],
+            max_tokens: 8,
+            stream: false
+          })
+        });
+
+        if (res.ok) {
+          return model;
+        }
+        const errJson = await res.json().catch(() => ({}));
+        const rawMsg = errJson?.error?.message || `HTTP ${res.status}`;
+        lastErr = formatFriendlyApiError(res.status, rawMsg, provider, key);
+        if (res.status === 401 || res.status === 403 || res.status === 429) {
+          throw new Error(lastErr);
+        }
+      }
+      throw new Error(lastErr);
+    }
+
     async function testApiKeyConnection() {
-      const inputEl = document.getElementById('input-gemini-key');
+      const inputEl = document.getElementById('input-api-key');
+      const provSel = document.getElementById('select-provider').value;
+      const modelOverride = document.getElementById('input-model-override').value.trim();
+      const customBaseUrl = document.getElementById('input-custom-base-url').value.trim();
       const resBox = document.getElementById('key-test-result');
       const btn = document.getElementById('btn-test-key');
       const key = sanitizeApiKey(inputEl.value);
@@ -1595,60 +1859,79 @@
       }
 
       inputEl.value = key;
+      const effectiveProvider = resolveEffectiveProvider(provSel, key);
+      const models = getCandidateModels(effectiveProvider, modelOverride);
+
       btn.disabled = true;
       btn.textContent = '...';
       resBox.className = 'p-2 rounded-lg text-[11px] bg-blue-500/20 border border-blue-400/40 text-blue-200 block';
-      resBox.textContent = 'Testing connection with Gemini API...';
+      resBox.textContent = `Testing ${PROVIDER_PRESETS[effectiveProvider]?.label || effectiveProvider} connection...`;
 
       try {
         let connectedModel = null;
-        let lastError = null;
 
-        for (const model of GEMINI_MODEL_CANDIDATES) {
-          const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(key)}`;
-          const r = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              contents: [{ role: 'user', parts: [{ text: 'Reply with OK' }] }],
-              generationConfig: { maxOutputTokens: 8 }
-            })
-          });
-
-          if (r.ok) {
-            connectedModel = model;
-            break;
-          } else {
-            const errJson = await r.json().catch(() => ({}));
-            lastError = formatFriendlyApiError(r.status, errJson?.error?.message, key);
-            if (r.status === 400 || r.status === 403) break;
+        if (effectiveProvider === 'gemini') {
+          let lastError = null;
+          for (const model of models) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(key)}`;
+            const r = await fetch(url, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                contents: [{ role: 'user', parts: [{ text: 'Reply with OK' }] }],
+                generationConfig: { maxOutputTokens: 8 }
+              })
+            });
+            if (r.ok) {
+              connectedModel = model;
+              break;
+            } else {
+              const errJson = await r.json().catch(() => ({}));
+              lastError = formatFriendlyApiError(r.status, errJson?.error?.message, 'gemini', key);
+              if (r.status === 400 || r.status === 403) break;
+            }
           }
+          if (!connectedModel) throw new Error(lastError || 'Gemini connection failed.');
+        } else {
+          const baseUrl = getOpenAICompatBaseUrl(effectiveProvider, customBaseUrl);
+          connectedModel = await testOpenAICompatibleConnection(effectiveProvider, baseUrl, key, models);
         }
 
-        if (connectedModel) {
-          localStorage.setItem(KEYS.GEMINI_KEY, key);
-          updateApiBannerVisibility();
-          resBox.className = 'p-2 rounded-lg text-[11px] bg-emerald-500/20 border border-emerald-400/40 text-emerald-200 block';
-          resBox.textContent = `Connected & Saved! Active model: ${connectedModel}`;
-        } else {
-          resBox.className = 'p-2 rounded-lg text-[11px] bg-rose-500/20 border border-rose-400/40 text-rose-200 block';
-          resBox.textContent = lastError || 'Connection failed.';
-        }
+        state.apiConfig = {
+          provider: provSel,
+          apiKey: key,
+          model: modelOverride,
+          customBaseUrl
+        };
+        persistApiConfig();
+        updateApiBannerVisibility();
+
+        resBox.className = 'p-2 rounded-lg text-[11px] bg-emerald-500/20 border border-emerald-400/40 text-emerald-200 block';
+        resBox.textContent = `Connected & Saved (${PROVIDER_PRESETS[effectiveProvider]?.label || effectiveProvider})! Model: ${connectedModel}`;
       } catch (e) {
         resBox.className = 'p-2 rounded-lg text-[11px] bg-rose-500/20 border border-rose-400/40 text-rose-200 block';
-        resBox.textContent = 'Network Error: ' + e.message;
+        resBox.textContent = 'Connection Error: ' + e.message;
       } finally {
         btn.disabled = false;
         btn.textContent = 'Test';
       }
     }
 
-    function saveApiKey() {
-      const inputEl = document.getElementById('input-gemini-key');
+    function saveApiConfig() {
+      const inputEl = document.getElementById('input-api-key');
+      const provSel = document.getElementById('select-provider').value;
+      const modelOverride = document.getElementById('input-model-override').value.trim();
+      const customBaseUrl = document.getElementById('input-custom-base-url').value.trim();
       const k = sanitizeApiKey(inputEl.value);
+
       inputEl.value = k;
-      if (k) localStorage.setItem(KEYS.GEMINI_KEY, k);
-      else localStorage.removeItem(KEYS.GEMINI_KEY);
+      state.apiConfig = {
+        provider: provSel,
+        apiKey: k,
+        model: modelOverride,
+        customBaseUrl
+      };
+      persistApiConfig();
       updateApiBannerVisibility();
       closeModal('modal-settings');
       playTone('send');
@@ -1657,7 +1940,7 @@
     function updateApiBannerVisibility() {
       const banner = document.getElementById('api-banner');
       if (!getApiKey()) {
-        document.getElementById('api-banner-msg').textContent = 'Add your Google Gemini API key in Settings to activate live AI answers.';
+        document.getElementById('api-banner-msg').textContent = 'Add your AI API key (Gemini, OpenAI, Grok, Groq, OpenRouter) in Settings.';
         document.getElementById('btn-api-retry').classList.add('hidden');
         banner.classList.remove('hidden');
       } else {
@@ -1742,7 +2025,7 @@
       if (!res.ok) {
         const errJson = await res.json().catch(() => ({}));
         const rawErrMsg = errJson?.error?.message || `HTTP ${res.status}`;
-        const friendlyMsg = formatFriendlyApiError(res.status, rawErrMsg, apiKey);
+        const friendlyMsg = formatFriendlyApiError(res.status, rawErrMsg, 'gemini', apiKey);
         const err = new Error(friendlyMsg);
         err.status = res.status;
         err.isModelFallbackCandidate = res.status === 404 || /not found|not supported|models\//i.test(rawErrMsg);
@@ -1797,6 +2080,85 @@
       return aiMsg.text.trim();
     }
 
+    async function streamFromOpenAICompatModel(provider, baseUrl, modelName, apiKey, messagesPayload, aiMsg) {
+      const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      };
+      if (provider === 'openrouter') {
+        headers['HTTP-Referer'] = window.location.origin || 'https://nexora.local';
+        headers['X-Title'] = 'NEXORA AI';
+      }
+
+      const res = await fetch(`${baseUrl}/chat/completions`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          model: modelName,
+          messages: messagesPayload,
+          temperature: 0.7,
+          max_tokens: 1024,
+          stream: true
+        })
+      });
+
+      if (!res.ok) {
+        const errJson = await res.json().catch(() => ({}));
+        const rawErrMsg = errJson?.error?.message || `HTTP ${res.status}`;
+        const friendlyMsg = formatFriendlyApiError(res.status, rawErrMsg, provider, apiKey);
+        const err = new Error(friendlyMsg);
+        err.status = res.status;
+        err.isModelFallbackCandidate = res.status === 404 || /model.*not found|does not exist|invalid model/i.test(rawErrMsg);
+        throw err;
+      }
+
+      const contentType = (res.headers.get('content-type') || '').toLowerCase();
+      if (!res.body || contentType.includes('application/json')) {
+        const jsonData = await res.json();
+        const fullText = extractOpenAIDelta(jsonData);
+        if (fullText) appendStreamChunk(aiMsg, fullText);
+        return aiMsg.text.trim();
+      }
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder('utf-8');
+      let buffer = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split(/\r?\n/);
+        buffer = lines.pop() || '';
+
+        for (const rawLine of lines) {
+          const line = rawLine.trim();
+          if (!line.startsWith('data:')) continue;
+          const payload = line.slice(5).trim();
+          if (!payload || payload === '[DONE]') continue;
+          try {
+            const parsed = JSON.parse(payload);
+            const chunk = extractOpenAIDelta(parsed);
+            if (chunk) appendStreamChunk(aiMsg, chunk);
+          } catch (e) {}
+        }
+      }
+
+      const tail = buffer.trim();
+      if (tail.startsWith('data:')) {
+        const payload = tail.slice(5).trim();
+        if (payload && payload !== '[DONE]') {
+          try {
+            const parsed = JSON.parse(payload);
+            const chunk = extractOpenAIDelta(parsed);
+            if (chunk) appendStreamChunk(aiMsg, chunk);
+          } catch (e) {}
+        }
+      }
+
+      return aiMsg.text.trim();
+    }
+
     async function sendMessage() {
       if (state.isGenerating) return;
       const input = document.getElementById('msg-input');
@@ -1807,7 +2169,7 @@
 
       const apiKey = getApiKey();
       if (!apiKey) {
-        showApiBanner('Gemini API key missing—add your key in Settings to activate live responses.', false);
+        showApiBanner('API key missing—add your key in Settings to activate live responses.', false);
         openSettings('api');
         return;
       }
@@ -1849,53 +2211,76 @@
       chat.messages.push(aiMsg);
       renderActiveConversation();
 
+      const systemPrompt = 'You are NEXORA AI, a sleek futuristic AI Voice Assistant built by Prashant. Reply naturally in the same language the user uses (English, Hindi in Devanagari, or Hinglish). Keep replies helpful, concise, and natural when spoken aloud.';
+      const historySlice = chat.messages.slice(0, -1).slice(-10);
+      const effectiveProvider = resolveEffectiveProvider(state.apiConfig.provider, apiKey);
+      const candidateModels = getCandidateModels(effectiveProvider, state.apiConfig.model);
+
       try {
-        const contents = chat.messages.slice(0, -1).slice(-10).map((m, idx, arr) => {
-          const parts = [{ text: m.text }];
-          if (idx === arr.length - 1 && m.role === 'user' && att) {
-            if (att.isImage && typeof att.data === 'string' && att.data.includes(',')) {
-              parts.push({
-                inlineData: {
-                  mimeType: att.mimeType,
-                  data: att.data.split(',')[1]
-                }
-              });
-            } else {
-              parts[0].text += `\n\n[Attached File: ${att.name}]\n${String(att.data || '').slice(0, 8000)}`;
-            }
-          }
-          return { role: m.role === 'assistant' ? 'model' : 'user', parts };
-        });
-
-        const requestBody = {
-          systemInstruction: {
-            parts: [{
-              text: 'You are NEXORA AI, a sleek futuristic AI Voice Assistant built by Prashant. Reply naturally in the same language the user uses (English, Hindi in Devanagari, or Hinglish). Keep replies helpful, concise, and natural when spoken aloud.'
-            }]
-          },
-          contents,
-          generationConfig: { temperature: 0.7, maxOutputTokens: 1024 }
-        };
-
         let finalText = '';
         let lastErr = null;
 
-        for (const modelName of GEMINI_MODEL_CANDIDATES) {
-          aiMsg.text = '';
-          try {
-            finalText = await streamFromGeminiModel(modelName, apiKey, requestBody, aiMsg);
-            if (finalText) break;
-            lastErr = new Error(`Empty response from ${modelName}.`);
-          } catch (err) {
-            lastErr = err;
-            if (!err.isModelFallbackCandidate) {
-              throw err;
+        if (effectiveProvider === 'gemini') {
+          const contents = historySlice.map((m, idx, arr) => {
+            const parts = [{ text: m.text }];
+            if (idx === arr.length - 1 && m.role === 'user' && att) {
+              if (att.isImage && typeof att.data === 'string' && att.data.includes(',')) {
+                parts.push({
+                  inlineData: {
+                    mimeType: att.mimeType,
+                    data: att.data.split(',')[1]
+                  }
+                });
+              } else {
+                parts[0].text += `\n\n[Attached File: ${att.name}]\n${String(att.data || '').slice(0, 8000)}`;
+              }
+            }
+            return { role: m.role === 'assistant' ? 'model' : 'user', parts };
+          });
+
+          const requestBody = {
+            systemInstruction: { parts: [{ text: systemPrompt }] },
+            contents,
+            generationConfig: { temperature: 0.7, maxOutputTokens: 1024 }
+          };
+
+          for (const modelName of candidateModels) {
+            aiMsg.text = '';
+            try {
+              finalText = await streamFromGeminiModel(modelName, apiKey, requestBody, aiMsg);
+              if (finalText) break;
+              lastErr = new Error(`Empty response from ${modelName}.`);
+            } catch (err) {
+              lastErr = err;
+              if (!err.isModelFallbackCandidate) throw err;
+            }
+          }
+        } else {
+          const baseUrl = getOpenAICompatBaseUrl(effectiveProvider, state.apiConfig.customBaseUrl);
+          const messagesPayload = buildOpenAIMessages(historySlice, att, systemPrompt);
+
+          for (const modelName of candidateModels) {
+            aiMsg.text = '';
+            try {
+              finalText = await streamFromOpenAICompatModel(
+                effectiveProvider,
+                baseUrl,
+                modelName,
+                apiKey,
+                messagesPayload,
+                aiMsg
+              );
+              if (finalText) break;
+              lastErr = new Error(`Empty response from ${modelName}.`);
+            } catch (err) {
+              lastErr = err;
+              if (!err.isModelFallbackCandidate) throw err;
             }
           }
         }
 
         if (!finalText) {
-          throw lastErr || new Error('No response text returned from Gemini API.');
+          throw lastErr || new Error('No response text returned from AI API.');
         }
 
         aiMsg.text = finalText;
@@ -2133,7 +2518,7 @@
     }
 
     function syncSettingsControls() {
-      document.getElementById('input-gemini-key').value = getApiKey();
+      syncApiConfigInputs();
       document.getElementById('chk-autospeak').checked = state.settings.autoSpeak;
       document.getElementById('chk-sfx').checked = state.settings.sfx;
       document.getElementById('rng-speed').value = state.settings.speed;
@@ -2159,7 +2544,7 @@
       document.getElementById('key-test-result').classList.add('hidden');
       openModal('modal-settings');
       if (focusTarget === 'api') {
-        setTimeout(() => document.getElementById('input-gemini-key').focus(), 100);
+        setTimeout(() => document.getElementById('input-api-key').focus(), 100);
       }
     }
 
