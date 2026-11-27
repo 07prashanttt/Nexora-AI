@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
@@ -35,7 +34,6 @@
       touch-action: none;
     }
 
-    /* Enforce 16px+ font size on all inputs/selects/textareas to prevent mobile auto-zoom */
     input, select, textarea {
       font-size: 16px;
       touch-action: manipulation;
@@ -49,7 +47,6 @@
       font-family: 'Orbitron', sans-serif;
     }
 
-    /* Locked Full-Viewport Screens */
     .locked-screen {
       position: fixed;
       inset: 0;
@@ -63,7 +60,6 @@
       touch-action: none;
     }
 
-    /* Isolated Scroll Containers */
     .isolated-scroll-y {
       overflow-y: auto;
       overflow-x: hidden;
@@ -80,7 +76,6 @@
       scrollbar-width: none;
     }
 
-    /* Reference Image 2: Deep Royal Purple Mesh Gradient */
     .purple-auth-bg {
       background:
         radial-gradient(circle at 82% 18%, rgba(139, 12, 198, 0.55) 0%, transparent 48%),
@@ -89,13 +84,11 @@
         linear-gradient(155deg, #4b0082 0%, #3a0078 45%, #240046 100%);
     }
 
-    /* Reference Image 1: Midnight Navy to Deep Obsidian Radial Background */
     .nexora-main-bg {
       background:
         radial-gradient(ellipse at 50% 18%, #102152 0%, #091330 38%, #040711 72%, #020308 100%);
     }
 
-    /* Custom Scrollbar */
     ::-webkit-scrollbar {
       width: 4px;
       height: 4px;
@@ -108,7 +101,6 @@
       border-radius: 9999px;
     }
 
-    /* Animations */
     @keyframes floatSlow {
       0%, 100% { transform: translateY(0px); }
       50% { transform: translateY(-6px); }
@@ -136,7 +128,6 @@
       animation: msgAppear 0.25s ease-out forwards;
     }
 
-    /* Underline Input Autofill Fix for Purple Auth Screen */
     .underline-input:-webkit-autofill,
     .underline-input:-webkit-autofill:hover,
     .underline-input:-webkit-autofill:focus {
@@ -148,9 +139,7 @@
 </head>
 <body class="nexora-main-bg">
 
-  <!-- ===================================================================== -->
-  <!-- 1. STARTUP SPLASH SCREEN (Auto-transitions in 2.2s + Instant Skip)    -->
-  <!-- ===================================================================== -->
+  <!-- 1. STARTUP SPLASH SCREEN -->
   <section id="screen-splash" class="locked-screen z-50 nexora-main-bg flex flex-col items-center justify-between py-8 px-6 transition-opacity duration-500" style="padding-top: max(2rem, env(safe-area-inset-top)); padding-bottom: max(2rem, env(safe-area-inset-bottom));">
     <div class="w-full flex justify-end max-w-md shrink-0">
       <button type="button" onclick="finishSplash()" class="px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-slate-300 tracking-wide transition cursor-pointer">
@@ -159,7 +148,6 @@
     </div>
 
     <div class="flex flex-col items-center text-center my-auto shrink-0">
-      <!-- Holographic Face Preview Orb -->
       <div class="relative w-44 h-44 sm:w-52 sm:h-52 mb-6 flex items-center justify-center animate-float-slow" style="touch-action: none;">
         <div class="absolute inset-2 rounded-full bg-cyan-500/20 blur-2xl animate-pulse-glow"></div>
         <div class="absolute inset-6 rounded-full bg-amber-500/15 blur-xl"></div>
@@ -173,7 +161,6 @@
         Your intelligent voice companion.
       </p>
 
-      <!-- Progress Indicator -->
       <div class="mt-8 w-48 h-1 bg-slate-800/90 rounded-full overflow-hidden">
         <div id="splash-bar" class="h-full w-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-amber-400 transition-all duration-[2000ms] ease-out"></div>
       </div>
@@ -184,13 +171,10 @@
     </div>
   </section>
 
-  <!-- ===================================================================== -->
-  <!-- 2. AUTHENTICATION SCREEN (Exact Match to Reference Image 2)           -->
-  <!-- ===================================================================== -->
+  <!-- 2. AUTHENTICATION SCREEN -->
   <section id="screen-auth" class="hidden locked-screen z-40 purple-auth-bg flex flex-col items-center justify-center px-6 py-6" style="padding-top: max(1.5rem, env(safe-area-inset-top)); padding-bottom: max(1.5rem, env(safe-area-inset-bottom));">
     <div class="w-full max-w-[360px] flex flex-col items-center my-auto">
 
-      <!-- Top Circular Vibrant Magenta-Purple Avatar Icon (#b812c4) -->
       <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#b812c4] flex items-center justify-center shadow-[0_10px_35px_rgba(184,18,196,0.45)] mb-7 sm:mb-9 animate-float-slow shrink-0">
         <svg class="w-10 h-10 sm:w-12 sm:h-12 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="8" r="4"></circle>
@@ -198,12 +182,10 @@
         </svg>
       </div>
 
-      <!-- Inline Feedback Banner (Never simulates fake success) -->
       <div id="auth-message" class="hidden w-full mb-4 px-3.5 py-2.5 rounded-lg text-xs leading-relaxed border"></div>
 
-      <!-- LOGIN FORM (Matches Image 2 Layout & Underline Inputs with 16px Font) -->
+      <!-- LOGIN FORM -->
       <form id="form-login" class="w-full space-y-5" onsubmit="handleLoginSubmit(event)">
-        <!-- Email ID Underline Input -->
         <div class="relative flex items-center border-b border-white/75 pb-2 focus-within:border-white transition">
           <svg class="w-5 h-5 text-white/90 mr-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
             <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/>
@@ -212,7 +194,6 @@
             class="underline-input w-full bg-transparent text-white placeholder-white/75 text-[16px] leading-normal focus:outline-none" />
         </div>
 
-        <!-- Password Underline Input -->
         <div class="relative flex items-center border-b border-white/75 pb-2 focus-within:border-white transition">
           <svg class="w-5 h-5 text-white/90 mr-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
             <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
@@ -225,7 +206,6 @@
           </button>
         </div>
 
-        <!-- Remember me & Italic Forgot Password? Row -->
         <div class="flex items-center justify-between text-xs sm:text-[13px] pt-0.5">
           <label class="inline-flex items-center gap-2 cursor-pointer text-white/90 select-none">
             <input id="login-remember" type="checkbox" checked class="w-4 h-4 rounded-xs accent-[#b812c4] cursor-pointer" />
@@ -236,14 +216,12 @@
           </button>
         </div>
 
-        <!-- Solid Vibrant Magenta-Purple LOGIN Button -->
         <div class="pt-1.5 space-y-2.5">
           <button type="submit"
             class="w-full py-3.5 rounded-[3px] bg-[#b812c4] hover:bg-[#c916d6] active:scale-[0.99] text-white font-semibold text-xs sm:text-[13px] tracking-[0.14em] uppercase shadow-[0_8px_24px_rgba(184,18,196,0.4)] transition cursor-pointer">
             LOGIN
           </button>
 
-          <!-- Translucent Dark-Magenta Gradient REGISTER Button -->
           <button type="button" onclick="toggleAuthForm('register')"
             class="w-full py-3 rounded-[3px] bg-gradient-to-r from-[#580882]/80 to-[#870a85]/80 hover:from-[#670a96] hover:to-[#9b0d99] active:scale-[0.99] text-white/85 hover:text-white font-medium text-xs tracking-[0.14em] uppercase transition cursor-pointer">
             REGISTER
@@ -251,7 +229,7 @@
         </div>
       </form>
 
-      <!-- REGISTER FORM (Clean Toggle with Name, Email, Password, Confirm) -->
+      <!-- REGISTER FORM -->
       <form id="form-register" class="hidden w-full space-y-4" onsubmit="handleRegisterSubmit(event)">
         <div class="relative flex items-center border-b border-white/75 pb-2 focus-within:border-white transition">
           <svg class="w-5 h-5 text-white/90 mr-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
@@ -297,14 +275,12 @@
         </div>
       </form>
 
-      <!-- OR Divider -->
       <div class="w-full flex items-center gap-3 my-4">
         <div class="flex-1 h-px bg-white/25"></div>
         <span class="text-[11px] font-semibold tracking-widest text-white/70">OR</span>
         <div class="flex-1 h-px bg-white/25"></div>
       </div>
 
-      <!-- Continue with Google Button -->
       <button type="button" onclick="handleGoogleSignIn()"
         class="w-full py-3 px-4 rounded-[4px] bg-white hover:bg-slate-100 active:scale-[0.99] text-slate-800 font-semibold text-xs sm:text-[13px] flex items-center justify-center gap-3 shadow-lg transition cursor-pointer mb-2.5">
         <svg class="w-4 h-4 shrink-0" viewBox="0 0 48 48">
@@ -316,14 +292,12 @@
         <span>Continue with Google</span>
       </button>
 
-      <!-- Continue as Guest Button -->
       <button type="button" onclick="continueAsGuest()"
         class="w-full py-3 px-4 rounded-[4px] bg-white/12 hover:bg-white/20 active:scale-[0.99] border border-white/25 text-white font-medium text-xs sm:text-[13px] flex items-center justify-center gap-2 transition cursor-pointer">
         <span>Continue as Guest</span>
         <span class="text-white/75">→</span>
       </button>
 
-      <!-- Firebase Setup Trigger & Footer -->
       <div class="w-full mt-4 flex items-center justify-between text-[11px] text-white/65">
         <button type="button" onclick="openModal('modal-firebase')" class="hover:text-white underline underline-offset-2 cursor-pointer">
           <span id="firebase-badge-text">Configure Firebase Auth</span>
@@ -333,14 +307,11 @@
     </div>
   </section>
 
-  <!-- ===================================================================== -->
-  <!-- 3. MAIN NEXORA AI ASSISTANT SCREEN (Full-Screen 100dvh + Isolated Feed)-->
-  <!-- ===================================================================== -->
+  <!-- 3. MAIN NEXORA AI ASSISTANT SCREEN -->
   <main id="screen-app" class="hidden locked-screen nexora-main-bg flex flex-col overflow-hidden overscroll-none" style="padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom);">
 
-    <!-- TOP BAR (Matches Image 1: Circular Left Menu, Center Title, Circular Right New Chat + Settings) -->
+    <!-- TOP BAR -->
     <header class="w-full max-w-3xl mx-auto px-4 pt-3 pb-1.5 flex items-center justify-between z-20 shrink-0">
-      <!-- Left: Circular Translucent Dark-Glass Menu / History Button -->
       <button type="button" onclick="toggleDrawer(true)" title="History & Menu"
         class="w-10 h-10 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.1] flex items-center justify-center text-slate-200 transition active:scale-95 cursor-pointer">
         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
@@ -350,7 +321,6 @@
         </svg>
       </button>
 
-      <!-- Center: "New Chat" + Guest/User Pill -->
       <div class="flex flex-col items-center">
         <span id="header-chat-title" class="text-[14px] font-medium text-slate-100 tracking-wide truncate max-w-[180px] sm:max-w-[260px]">New Chat</span>
         <div class="flex items-center gap-1.5 mt-0.5">
@@ -360,7 +330,6 @@
         </div>
       </div>
 
-      <!-- Right: New Chat Icon + Settings Gear -->
       <div class="flex items-center gap-2">
         <button type="button" onclick="startNewChat()" title="New Chat"
           class="w-10 h-10 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.1] flex items-center justify-center text-slate-200 transition active:scale-95 cursor-pointer">
@@ -379,7 +348,7 @@
       </div>
     </header>
 
-    <!-- FLOATING VOICE CONTROLLER BAR (Appears when speaking or audio available) -->
+    <!-- FLOATING VOICE CONTROLLER BAR -->
     <div id="voice-bar" class="hidden w-full max-w-3xl mx-auto px-4 mb-1 z-20 shrink-0">
       <div class="px-3 py-1.5 rounded-full bg-slate-900/90 border border-cyan-400/30 flex items-center justify-between text-xs shadow-lg">
         <div class="flex items-center gap-2">
@@ -407,16 +376,13 @@
       </div>
     </div>
 
-    <!-- CENTERPIECE: REALISTIC HOLOGRAPHIC HUMANOID AI BUST & HEAD (Matches Image 1) -->
+    <!-- CENTERPIECE: HOLOGRAPHIC HUMANOID AI BUST & HEAD -->
     <div id="hero-face-container" class="relative w-full max-w-3xl mx-auto flex flex-col items-center justify-center transition-all duration-300 shrink-0" style="height: 255px; touch-action: none;">
-      <!-- Soft Ambient Backlight -->
       <div id="face-backglow" class="absolute w-56 h-56 rounded-full bg-blue-600/20 blur-3xl pointer-events-none transition-all duration-500"></div>
-
-      <!-- High-Detail HTML5 Canvas 3D-Style Voxel Scanned Humanoid Bust -->
       <canvas id="nexora-head-canvas" width="360" height="360" class="relative z-10 w-[250px] h-[250px] sm:w-[275px] sm:h-[275px] transition-all duration-300"></canvas>
     </div>
 
-    <!-- WELCOME HERO TEXT (Shown when chat is empty — Exact match to Image 1) -->
+    <!-- WELCOME HERO TEXT -->
     <section id="welcome-hero-block" class="w-full max-w-3xl mx-auto px-6 pt-1 pb-2 flex-1 min-h-0 flex flex-col justify-end z-10 overflow-hidden">
       <div class="mb-1.5 flex items-center gap-2">
         <span id="greeting-user-line" class="text-sm text-slate-400 font-normal">Hello, Guest!</span>
@@ -430,7 +396,6 @@
         <span class="text-white font-bold">I help </span><span class="text-slate-400 font-light">you?</span>
       </h2>
 
-      <!-- Quick Voice/Chat Prompt Chips -->
       <div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar" style="touch-action: pan-x;">
         <button type="button" onclick="triggerPrompt('Hello NEXORA! Who are you and how can you help me?')"
           class="px-3 py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.09] text-[11px] text-slate-300 whitespace-nowrap transition cursor-pointer shrink-0">
@@ -447,7 +412,7 @@
       </div>
     </section>
 
-    <!-- ISOLATED SCROLLABLE CHAT CONVERSATION FEED (Only this scrolls) -->
+    <!-- ISOLATED SCROLLABLE CHAT CONVERSATION FEED -->
     <section id="chat-feed" class="hidden flex-1 min-h-0 w-full max-w-3xl mx-auto isolated-scroll-y px-4 py-2 space-y-3 z-10"></section>
 
     <!-- ATTACHMENT PREVIEW BAR -->
@@ -469,12 +434,11 @@
       </div>
     </div>
 
-    <!-- FIXED BOTTOM INPUT DOCK (16px Input Font + Attachment + Mic + Send) -->
+    <!-- FIXED BOTTOM INPUT DOCK -->
     <footer class="w-full max-w-3xl mx-auto px-4 pt-2 pb-3 z-20 shrink-0">
       <div class="flex items-center gap-2.5">
         <input id="file-picker" type="file" class="hidden" accept=".txt,.md,.json,.csv,.js,.py,.html,image/*" onchange="onFilePicked(event)" />
 
-        <!-- Left: Circular Dark-Glass '+' Attachment Button -->
         <button type="button" onclick="document.getElementById('file-picker').click()" title="Attach File or Image"
           class="w-11 h-11 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.1] flex items-center justify-center text-slate-300 hover:text-white transition active:scale-95 shrink-0 cursor-pointer">
           <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
@@ -483,13 +447,11 @@
           </svg>
         </button>
 
-        <!-- Center: Dark Pill Input (16px font to prevent mobile auto-zoom) with Inline Microphone Button -->
         <div class="flex-1 h-11 rounded-full bg-white/[0.05] border border-white/[0.12] focus-within:border-blue-400/50 px-4 flex items-center gap-2 min-w-0 transition">
           <input id="msg-input" type="text" placeholder="Message..." autocomplete="off"
             onkeydown="if(event.key==='Enter' && !event.shiftKey){ event.preventDefault(); sendMessage(); }"
             class="flex-1 bg-transparent text-[16px] leading-normal text-white placeholder-slate-500 focus:outline-none min-w-0" />
 
-          <!-- Inline Microphone Button -->
           <button id="btn-mic" type="button" onclick="toggleMic()" title="Voice Input"
             class="w-7 h-7 rounded-full flex items-center justify-center text-slate-400 hover:text-cyan-300 transition shrink-0 cursor-pointer">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -498,7 +460,6 @@
           </button>
         </div>
 
-        <!-- Right: Electric Royal Blue (#3b66f5) Circular Send Button -->
         <button id="btn-send" type="button" onclick="sendMessage()" title="Send Message"
           class="w-11 h-11 rounded-full bg-[#3b66f5] hover:bg-[#4c75ff] active:scale-95 flex items-center justify-center text-white shadow-[0_4px_20px_rgba(59,102,245,0.5)] transition shrink-0 cursor-pointer">
           <svg class="w-4 h-4 translate-x-[0.5px]" viewBox="0 0 24 24" fill="currentColor">
@@ -507,24 +468,19 @@
         </button>
       </div>
 
-      <!-- Subtle Footer -->
       <div class="mt-1.5 text-center text-[10px] tracking-wider text-slate-500">
         NEXORA AI • Built by <span class="text-slate-400 font-medium">Prashant</span>
       </div>
     </footer>
 
-    <!-- =================================================================== -->
-    <!-- SLIDE-OUT HISTORY & PROFILE DRAWER                                  -->
-    <!-- =================================================================== -->
+    <!-- SLIDE-OUT HISTORY & PROFILE DRAWER -->
     <div id="drawer-backdrop" onclick="toggleDrawer(false)" class="hidden fixed inset-0 z-30 bg-black/70 backdrop-blur-xs"></div>
     <aside id="history-drawer" class="fixed top-0 left-0 bottom-0 z-40 w-72 max-w-[82vw] bg-[#070d1f] border-r border-white/10 transform -translate-x-full transition-transform duration-300 flex flex-col overflow-hidden">
-      <!-- Drawer Header -->
       <div class="p-4 border-b border-white/10 flex items-center justify-between shrink-0">
         <span class="font-orbitron text-xs font-bold tracking-widest text-cyan-300">NEXORA AI</span>
         <button type="button" onclick="toggleDrawer(false)" class="text-slate-400 hover:text-white p-1 cursor-pointer">✕</button>
       </div>
 
-      <!-- User Profile Card -->
       <div class="p-4 border-b border-white/10 bg-white/[0.02] shrink-0">
         <div class="flex items-center gap-3">
           <div id="drawer-avatar" class="w-10 h-10 rounded-full bg-blue-600/30 border border-blue-400/40 flex items-center justify-center text-sm font-bold text-cyan-200 overflow-hidden shrink-0">
@@ -547,7 +503,6 @@
         </div>
       </div>
 
-      <!-- New Chat & Search -->
       <div class="p-3 space-y-2 shrink-0">
         <button type="button" onclick="startNewChat(); toggleDrawer(false);"
           class="w-full py-2 px-3 rounded-xl bg-blue-600/25 hover:bg-blue-600/35 border border-blue-400/35 text-blue-200 text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer">
@@ -557,10 +512,8 @@
           class="w-full px-3 py-2 rounded-lg bg-white/[0.05] border border-white/10 text-[16px] leading-normal text-white placeholder-slate-500 focus:outline-none focus:border-blue-400/40" />
       </div>
 
-      <!-- Saved Conversations List (Isolated Scroll) -->
       <div id="drawer-chat-list" class="flex-1 min-h-0 isolated-scroll-y px-3 pb-3 space-y-1.5"></div>
 
-      <!-- Drawer Footer -->
       <div class="p-3 border-t border-white/10 flex items-center justify-between text-[11px] text-slate-400 shrink-0">
         <span>Built by Prashant</span>
         <button type="button" onclick="clearAllChats()" class="text-rose-400 hover:text-rose-300 cursor-pointer">Clear All</button>
@@ -568,9 +521,7 @@
     </aside>
   </main>
 
-  <!-- ===================================================================== -->
-  <!-- 4. SETTINGS & GEMINI API KEY MODAL                                    -->
-  <!-- ===================================================================== -->
+  <!-- 4. SETTINGS & GEMINI API KEY MODAL -->
   <div id="modal-settings" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4" style="touch-action: none;">
     <div class="w-full max-w-md rounded-3xl bg-[#0a1229] border border-blue-500/25 p-5 sm:p-6 text-slate-100 shadow-2xl max-h-[88dvh] isolated-scroll-y">
       <div class="flex items-center justify-between pb-3 border-b border-white/10">
@@ -580,19 +531,27 @@
 
       <div class="mt-4 space-y-4 text-xs">
         <!-- Gemini API Key Setup -->
-        <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-blue-500/30 space-y-2">
+        <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-blue-500/30 space-y-2.5">
           <div class="flex items-center justify-between">
             <label class="font-semibold text-cyan-300">Google Gemini API Key</label>
-            <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" class="text-blue-400 underline">Get API Key</a>
+            <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" class="text-blue-400 underline">Get Free Key ↗</a>
           </div>
           <div class="flex gap-2">
-            <input id="input-gemini-key" type="password" placeholder="AIzaSy..."
+            <input id="input-gemini-key" type="password" placeholder="AIzaSy... or AQ..."
               class="flex-1 min-w-0 px-3 py-2 rounded-xl bg-slate-900 border border-white/15 text-[16px] leading-normal text-white focus:outline-none focus:border-cyan-400" />
-            <button type="button" onclick="saveApiKey()" class="px-3.5 py-2 rounded-xl bg-[#3b66f5] hover:bg-blue-500 text-white font-semibold shrink-0 cursor-pointer">
+            <button type="button" onclick="testApiKeyConnection()" id="btn-test-key"
+              class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-cyan-200 font-semibold shrink-0 cursor-pointer">
+              Test
+            </button>
+            <button type="button" onclick="saveApiKey()"
+              class="px-3.5 py-2 rounded-xl bg-[#3b66f5] hover:bg-blue-500 text-white font-semibold shrink-0 cursor-pointer">
               Save
             </button>
           </div>
-          <p class="text-[11px] text-slate-400">Saved locally in your browser. Connects via <code class="text-cyan-300">gemini-3.8-flash</code> with automatic fallback to active Gemini models.</p>
+          <div id="key-test-result" class="hidden p-2 rounded-lg text-[11px] leading-snug"></div>
+          <p class="text-[11px] text-slate-400 leading-relaxed">
+            Google AI Studio keys start with <code class="text-cyan-300">AIza...</code> (Vertex/Express keys start with <code class="text-cyan-300">AQ...</code>). Ensure the <strong>Generative Language API</strong> is enabled and no HTTP referrer restriction blocks your domain.
+          </p>
         </div>
 
         <!-- Voice Selection -->
@@ -616,7 +575,7 @@
           </label>
         </div>
 
-        <!-- Sliders: Speech Speed & Volume -->
+        <!-- Sliders -->
         <div class="grid grid-cols-2 gap-2.5">
           <div class="p-3 rounded-xl bg-white/[0.04] border border-white/10">
             <div class="flex justify-between mb-1">
@@ -649,9 +608,7 @@
     </div>
   </div>
 
-  <!-- ===================================================================== -->
-  <!-- 5. FIREBASE CONFIGURATION MODAL                                       -->
-  <!-- ===================================================================== -->
+  <!-- 5. FIREBASE CONFIGURATION MODAL -->
   <div id="modal-firebase" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4" style="touch-action: none;">
     <div class="w-full max-w-md rounded-3xl bg-[#1c0736] border border-fuchsia-400/35 p-5 sm:p-6 text-white shadow-2xl max-h-[88dvh] isolated-scroll-y">
       <div class="flex items-center justify-between pb-3 border-b border-white/15">
@@ -671,9 +628,6 @@
     </div>
   </div>
 
-  <!-- ===================================================================== -->
-  <!-- SELF-CONTAINED JAVASCRIPT (ZERO BLOCKING DEPENDENCIES)                -->
-  <!-- ===================================================================== -->
   <script>
     // =========================================================================
     // 0. MOBILE PINCH-ZOOM & DOUBLE-TAP ZOOM BLOCKER
@@ -681,21 +635,17 @@
     (function installMobileZoomGuards() {
       let lastTapTime = 0;
 
-      // Block Safari/iOS pinch gesture events
       ['gesturestart', 'gesturechange', 'gestureend'].forEach(evtName => {
         document.addEventListener(evtName, (e) => {
           e.preventDefault();
         }, { passive: false });
       });
 
-      // Block multi-touch pinch zoom (2+ fingers) across viewport
       document.addEventListener('touchstart', (e) => {
         if (e.touches && e.touches.length > 1) {
           e.preventDefault();
           return;
         }
-
-        // Prevent accidental double-tap zoom on non-input/non-scrollable elements
         const now = Date.now();
         const target = e.target;
         const isTextInput = target && target.closest && target.closest('input, textarea, select');
@@ -707,39 +657,29 @@
         lastTapTime = now;
       }, { passive: false });
 
-      // Prevent stray wheel+ctrl / wheel+meta zoom on desktop/trackpad
       window.addEventListener('wheel', (e) => {
-        if (e.ctrlKey || e.metaKey) {
-          e.preventDefault();
-        }
+        if (e.ctrlKey || e.metaKey) e.preventDefault();
       }, { passive: false });
 
-      // Prevent Ctrl/Cmd + (+/- / 0) browser zoom shortcuts
       window.addEventListener('keydown', (e) => {
         if ((e.ctrlKey || e.metaKey) && ['+', '-', '=', '0'].includes(e.key)) {
           e.preventDefault();
         }
       }, { passive: false });
 
-      // Lock visualViewport scale & scroll offset when available
       if (window.visualViewport) {
         window.visualViewport.addEventListener('scroll', () => {
-          if (window.scrollX !== 0 || window.scrollY !== 0) {
-            window.scrollTo(0, 0);
-          }
+          if (window.scrollX !== 0 || window.scrollY !== 0) window.scrollTo(0, 0);
         }, { passive: false });
       }
 
-      // Keep outer window locked at (0, 0) on mobile keyboard open/close
       window.addEventListener('scroll', () => {
-        if (window.scrollX !== 0 || window.scrollY !== 0) {
-          window.scrollTo(0, 0);
-        }
+        if (window.scrollX !== 0 || window.scrollY !== 0) window.scrollTo(0, 0);
       }, { passive: false });
     })();
 
     // =========================================================================
-    // 1. APPLICATION STATE & LOCAL STORAGE KEYS
+    // 1. APPLICATION STATE & STORAGE KEYS
     // =========================================================================
     const KEYS = {
       GEMINI_KEY: 'nexora_v2_gemini_key',
@@ -751,16 +691,16 @@
     };
 
     const GEMINI_MODEL_CANDIDATES = [
-      'gemini-3.8-flash',
       'gemini-2.5-flash',
-      'gemini-2.0-flash'
+      'gemini-2.0-flash',
+      'gemini-1.5-flash'
     ];
 
     const state = {
-      user: null, // { mode: 'guest'|'firebase', name, email, photoURL }
+      user: null,
       chats: [],
       activeChatId: null,
-      aiMode: 'idle', // 'idle' | 'listening' | 'thinking' | 'speaking'
+      aiMode: 'idle',
       isGenerating: false,
       lastPrompt: '',
       lastSpokenText: '',
@@ -781,7 +721,7 @@
     let splashTimer = null;
 
     // =========================================================================
-    // 2. REALISTIC 3D VOXEL-SCANNED HUMANOID AI HEAD RENDERER (IMAGE 1 MATCH)
+    // 2. 3D VOXEL-SCANNED HUMANOID AI HEAD RENDERER
     // =========================================================================
     function renderHumanoidHead(canvas, timeSec, mode = 'idle') {
       if (!canvas) return;
@@ -793,12 +733,10 @@
 
       ctx.clearRect(0, 0, w, h);
 
-      // Subtle floating motion
       const floatY = Math.sin(timeSec * 2.1) * 4;
       ctx.save();
       ctx.translate(0, floatY);
 
-      // Mode-dependent energy multipliers
       const isSpeaking = mode === 'speaking';
       const isListening = mode === 'listening';
       const isThinking = mode === 'thinking';
@@ -806,7 +744,6 @@
       const pulse = 0.5 + 0.5 * Math.sin(timeSec * (isThinking ? 7 : isSpeaking ? 9 : 2.6));
       const mouthOpen = isSpeaking ? (0.35 + 0.65 * Math.abs(Math.sin(timeSec * 14) * Math.cos(timeSec * 8.5))) : 0;
 
-      // --- A. Listening / Speaking Holographic Aura Rings ---
       if (isListening || isSpeaking) {
         const ringCount = 3;
         for (let i = 0; i < ringCount; i++) {
@@ -823,7 +760,6 @@
         }
       }
 
-      // --- B. Sculpted Humanoid Neck & Shoulders ---
       const neckGrad = ctx.createLinearGradient(cx, cy + 52, cx, cy + 165);
       neckGrad.addColorStop(0, '#09152e');
       neckGrad.addColorStop(0.45, '#060d1f');
@@ -838,12 +774,10 @@
       ctx.fillStyle = neckGrad;
       ctx.fill();
 
-      // Subtle Cyan Edge Rim on Neck
       ctx.strokeStyle = 'rgba(56, 189, 248, 0.24)';
       ctx.lineWidth = 1.4;
       ctx.stroke();
 
-      // Neck anatomical tendons highlight
       ctx.beginPath();
       ctx.moveTo(cx - 20, cy + 68);
       ctx.quadraticCurveTo(cx - 16, cy + 105, cx - 32, cy + 135);
@@ -853,7 +787,6 @@
       ctx.lineWidth = 1.5;
       ctx.stroke();
 
-      // --- C. Sculpted Humanoid Ears ---
       [-1, 1].forEach(side => {
         ctx.beginPath();
         ctx.ellipse(cx + side * 62, cy - 2, 8.5, 20, side * 0.12, 0, Math.PI * 2);
@@ -867,19 +800,15 @@
         ctx.stroke();
       });
 
-      // --- D. Sculpted 3D Android Cranium & Jaw Silhouette ---
       ctx.save();
       ctx.beginPath();
-      // Top cranium dome
       ctx.moveTo(cx - 60, cy - 22);
       ctx.bezierCurveTo(cx - 64, cy - 88, cx + 64, cy - 88, cx + 60, cy - 22);
-      // Cheekbones & tapered chin
       ctx.bezierCurveTo(cx + 60, cy + 18, cx + 44, cy + 52, cx + 18, cy + 66);
       ctx.quadraticCurveTo(cx, cy + 74, cx - 18, cy + 66);
       ctx.bezierCurveTo(cx - 44, cy + 52, cx - 60, cy + 18, cx - 60, cy - 22);
       ctx.closePath();
 
-      // Base Dark Metallic Obsidian Shading
       const headBaseGrad = ctx.createRadialGradient(cx, cy - 35, 10, cx, cy, 98);
       headBaseGrad.addColorStop(0, '#10254a');
       headBaseGrad.addColorStop(0.55, '#071024');
@@ -887,10 +816,8 @@
       ctx.fillStyle = headBaseGrad;
       ctx.fill();
 
-      // Clip inside head silhouette for authentic voxel/pixel light scan bands (Reference Image 1)
       ctx.clip();
 
-      // 1. Upper Forehead / Cranium Luminous Cyan-Blue Dome Glow (Image 1 top glow)
       const scanShiftY = isThinking ? Math.sin(timeSec * 5) * 14 : Math.sin(timeSec * 1.8) * 3;
       const domeGrad = ctx.createRadialGradient(cx, cy - 58 + scanShiftY * 0.3, 6, cx, cy - 48, 56);
       domeGrad.addColorStop(0, 'rgba(224, 248, 255, 0.95)');
@@ -900,7 +827,6 @@
       ctx.fillStyle = domeGrad;
       ctx.fillRect(cx - 65, cy - 92, 130, 68);
 
-      // Dark Visor Shadow Band across Eyes (Creates the dramatic shadowed brow look in Image 1)
       const visorGrad = ctx.createLinearGradient(cx, cy - 28, cx, cy + 6);
       visorGrad.addColorStop(0, 'rgba(3, 7, 18, 0.92)');
       visorGrad.addColorStop(0.5, 'rgba(2, 5, 14, 0.96)');
@@ -908,7 +834,6 @@
       ctx.fillStyle = visorGrad;
       ctx.fillRect(cx - 65, cy - 28, 130, 34);
 
-      // 2. Warm Amber-Gold & Cyan Holographic Cheek/Nose Scan Band (Signature look in Image 1!)
       const bandY = cy + 12 + (isThinking ? Math.cos(timeSec * 5) * 16 : Math.sin(timeSec * 2.2) * 2.5);
       const goldBandGrad = ctx.createLinearGradient(cx, bandY - 16, cx, bandY + 18);
       goldBandGrad.addColorStop(0, 'rgba(56, 189, 248, 0)');
@@ -919,11 +844,9 @@
       ctx.fillStyle = goldBandGrad;
       ctx.fillRect(cx - 65, bandY - 18, 130, 38);
 
-      // 3. Pixelated / Voxel Hologram Matrix Overlay (Reproduces the digital mosaic cells from Image 1)
       const cellSize = 4.5;
       for (let py = cy - 86; py < cy + 68; py += cellSize) {
         for (let px = cx - 60; px < cx + 60; px += cellSize) {
-          // Concentrate mosaic pixels on forehead dome and cheek/nose scan zone
           const inForehead = py < cy - 26;
           const inMidScan = Math.abs(py - bandY) < 16;
           if (!inForehead && !inMidScan) continue;
@@ -938,7 +861,6 @@
         }
       }
 
-      // 4. Sculpted Nose Bridge & Nostrils
       const noseGrad = ctx.createLinearGradient(cx, cy - 14, cx, cy + 16);
       noseGrad.addColorStop(0, 'rgba(56, 189, 248, 0.18)');
       noseGrad.addColorStop(0.6, 'rgba(147, 197, 253, 0.65)');
@@ -952,13 +874,11 @@
       ctx.closePath();
       ctx.fill();
 
-      // Nose tip shadow
       ctx.beginPath();
       ctx.ellipse(cx, cy + 14, 9, 4.5, 0, 0, Math.PI * 2);
       ctx.fillStyle = 'rgba(12, 8, 18, 0.65)';
       ctx.fill();
 
-      // 5. Subtle Glowing Eyes inside Visor (Brighten during Listening/Thinking/Speaking)
       const eyeAlpha = mode === 'idle' ? 0.22 : (0.65 + pulse * 0.35);
       [-1, 1].forEach(side => {
         ctx.beginPath();
@@ -969,9 +889,7 @@
         ctx.fill();
       });
 
-      // 6. Sculpted Lips & Reactive Speaking Mouth Glow
       const mouthY = cy + 31;
-      // Upper lip highlight
       ctx.beginPath();
       ctx.moveTo(cx - 17, mouthY);
       ctx.quadraticCurveTo(cx - 6, mouthY - 4, cx, mouthY - 2);
@@ -980,7 +898,6 @@
       ctx.fillStyle = 'rgba(148, 197, 255, 0.55)';
       ctx.fill();
 
-      // Speaking Mouth Aperture Glow
       if (isSpeaking) {
         ctx.beginPath();
         ctx.ellipse(cx, mouthY + 2, 13, 1.5 + mouthOpen * 5.5, 0, 0, Math.PI * 2);
@@ -988,21 +905,18 @@
         ctx.fill();
       }
 
-      // Lower lip highlight
       ctx.beginPath();
       ctx.ellipse(cx, mouthY + 4.5 + mouthOpen * 3, 13, 3.2, 0, 0, Math.PI);
       ctx.fillStyle = 'rgba(125, 211, 252, 0.45)';
       ctx.fill();
 
-      // Chin specular highlight
       ctx.beginPath();
       ctx.ellipse(cx, cy + 53, 12, 5, 0, 0, Math.PI * 2);
       ctx.fillStyle = 'rgba(56, 189, 248, 0.22)';
       ctx.fill();
 
-      ctx.restore(); // End head clip
+      ctx.restore();
 
-      // Crisp Holographic Rim Outline around Head
       ctx.beginPath();
       ctx.moveTo(cx - 60, cy - 22);
       ctx.bezierCurveTo(cx - 64, cy - 88, cx + 64, cy - 88, cx + 60, cy - 22);
@@ -1020,7 +934,6 @@
       ctx.restore();
     }
 
-    // Continuous 60fps Animation Loop
     function startHeadAnimationLoop() {
       const splashCanvas = document.getElementById('splash-canvas');
       const mainCanvas = document.getElementById('nexora-head-canvas');
@@ -1039,7 +952,7 @@
     }
 
     // =========================================================================
-    // 3. SOUND EFFECTS (WEB AUDIO API)
+    // 3. SOUND EFFECTS
     // =========================================================================
     function playTone(type = 'tap') {
       if (!state.settings.sfx) return;
@@ -1081,7 +994,7 @@
     }
 
     // =========================================================================
-    // 4. STARTUP & SCREEN NAVIGATION (GUARANTEED IMMEDIATE RENDER)
+    // 4. STARTUP & SCREEN NAVIGATION
     // =========================================================================
     window.addEventListener('DOMContentLoaded', () => {
       loadSavedSettings();
@@ -1091,13 +1004,11 @@
       setupSpeechRecognition();
       checkFirebaseSavedConfig();
 
-      // Trigger progress bar smoothly
       const bar = document.getElementById('splash-bar');
       if (bar) {
         setTimeout(() => { bar.style.width = '100%'; }, 60);
       }
 
-      // Auto-transition after 2.2s
       splashTimer = setTimeout(() => {
         finishSplash();
       }, 2200);
@@ -1136,7 +1047,7 @@
     }
 
     // =========================================================================
-    // 5. AUTHENTICATION (LOGIN, REGISTER, GOOGLE FIREBASE, GUEST MODE)
+    // 5. AUTHENTICATION
     // =========================================================================
     function showAuthFeedback(htmlText, kind = 'error') {
       const box = document.getElementById('auth-message');
@@ -1220,7 +1131,6 @@
       closeModal('modal-firebase');
     }
 
-    // Lazy-load Firebase SDKs only when user actually attempts Firebase auth
     function ensureFirebaseSDKLoaded() {
       return new Promise((resolve, reject) => {
         if (window.firebase && window.firebase.auth) {
@@ -1373,7 +1283,6 @@
       }
     }
 
-    // Immediate Guest Mode Entry (Zero registration, zero fake popups)
     function continueAsGuest() {
       playTone('mic');
       state.user = {
@@ -1646,14 +1555,98 @@
     }
 
     // =========================================================================
-    // 8. GEMINI API INTEGRATION (STREAMING + MODEL FALLBACK + ERROR HANDLING)
+    // 8. GEMINI API INTEGRATION (AIza + AQ SUPPORT, TESTER & SMART DIAGNOSTICS)
     // =========================================================================
+    function sanitizeApiKey(raw) {
+      return String(raw || '').replace(/[\s\u200B-\u200D\uFEFF"']/g, '').trim();
+    }
+
     function getApiKey() {
-      return (localStorage.getItem(KEYS.GEMINI_KEY) || '').trim();
+      return sanitizeApiKey(localStorage.getItem(KEYS.GEMINI_KEY));
+    }
+
+    function formatFriendlyApiError(status, rawMsg, key) {
+      const msg = String(rawMsg || '');
+      if (status === 400 && /API key not valid|INVALID_ARGUMENT/i.test(msg)) {
+        const hint = key.startsWith('AQ.')
+          ? 'Note: AQ... keys only work on Vertex AI Express endpoints or if Generative Language API is enabled on your Google Cloud project.'
+          : 'Check for extra characters or generate a fresh AIza... key from Google AI Studio.';
+        return `Invalid API Key (400). ${hint}`;
+      }
+      if (status === 403) {
+        return `Access Denied (403): Generative Language API is disabled on this project, or HTTP referrer/IP restrictions are blocking this page.`;
+      }
+      if (status === 429) {
+        return `Quota Exceeded (429): Rate limit or free tier quota reached. Wait 1 minute or check billing in Google AI Studio.`;
+      }
+      return msg || `HTTP Error ${status}`;
+    }
+
+    async function testApiKeyConnection() {
+      const inputEl = document.getElementById('input-gemini-key');
+      const resBox = document.getElementById('key-test-result');
+      const btn = document.getElementById('btn-test-key');
+      const key = sanitizeApiKey(inputEl.value);
+
+      if (!key) {
+        resBox.className = 'p-2 rounded-lg text-[11px] bg-rose-500/20 border border-rose-400/40 text-rose-200 block';
+        resBox.textContent = 'Please paste your API key first.';
+        return;
+      }
+
+      inputEl.value = key;
+      btn.disabled = true;
+      btn.textContent = '...';
+      resBox.className = 'p-2 rounded-lg text-[11px] bg-blue-500/20 border border-blue-400/40 text-blue-200 block';
+      resBox.textContent = 'Testing connection with Gemini API...';
+
+      try {
+        let connectedModel = null;
+        let lastError = null;
+
+        for (const model of GEMINI_MODEL_CANDIDATES) {
+          const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(key)}`;
+          const r = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ role: 'user', parts: [{ text: 'Reply with OK' }] }],
+              generationConfig: { maxOutputTokens: 8 }
+            })
+          });
+
+          if (r.ok) {
+            connectedModel = model;
+            break;
+          } else {
+            const errJson = await r.json().catch(() => ({}));
+            lastError = formatFriendlyApiError(r.status, errJson?.error?.message, key);
+            if (r.status === 400 || r.status === 403) break;
+          }
+        }
+
+        if (connectedModel) {
+          localStorage.setItem(KEYS.GEMINI_KEY, key);
+          updateApiBannerVisibility();
+          resBox.className = 'p-2 rounded-lg text-[11px] bg-emerald-500/20 border border-emerald-400/40 text-emerald-200 block';
+          resBox.textContent = `Connected & Saved! Active model: ${connectedModel}`;
+        } else {
+          resBox.className = 'p-2 rounded-lg text-[11px] bg-rose-500/20 border border-rose-400/40 text-rose-200 block';
+          resBox.textContent = lastError || 'Connection failed.';
+        }
+      } catch (e) {
+        resBox.className = 'p-2 rounded-lg text-[11px] bg-rose-500/20 border border-rose-400/40 text-rose-200 block';
+        resBox.textContent = 'Network Error: ' + e.message;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Test';
+      }
     }
 
     function saveApiKey() {
-      const k = document.getElementById('input-gemini-key').value.trim();
+      const inputEl = document.getElementById('input-gemini-key');
+      const k = sanitizeApiKey(inputEl.value);
+      inputEl.value = k;
       if (k) localStorage.setItem(KEYS.GEMINI_KEY, k);
       else localStorage.removeItem(KEYS.GEMINI_KEY);
       updateApiBannerVisibility();
@@ -1748,16 +1741,16 @@
 
       if (!res.ok) {
         const errJson = await res.json().catch(() => ({}));
-        const errMsg = errJson?.error?.message || `HTTP ${res.status}`;
-        const err = new Error(errMsg);
+        const rawErrMsg = errJson?.error?.message || `HTTP ${res.status}`;
+        const friendlyMsg = formatFriendlyApiError(res.status, rawErrMsg, apiKey);
+        const err = new Error(friendlyMsg);
         err.status = res.status;
-        err.isModelFallbackCandidate = res.status === 404 || /not found|not supported|models\//i.test(errMsg);
+        err.isModelFallbackCandidate = res.status === 404 || /not found|not supported|models\//i.test(rawErrMsg);
         throw err;
       }
 
       const contentType = (res.headers.get('content-type') || '').toLowerCase();
 
-      // Fallback if endpoint returns standard JSON instead of SSE stream
       if (!res.body || contentType.includes('application/json')) {
         const jsonData = await res.json();
         const fullText = extractCandidateText(jsonData);
@@ -1789,7 +1782,6 @@
         }
       }
 
-      // Process any trailing buffer line
       const tail = buffer.trim();
       if (tail.startsWith('data:')) {
         const payload = tail.slice(5).trim();
@@ -1815,7 +1807,7 @@
 
       const apiKey = getApiKey();
       if (!apiKey) {
-        showApiBanner('Gemini API key missing—NEXORA AI never fakes responses. Add your key in Settings.', false);
+        showApiBanner('Gemini API key missing—add your key in Settings to activate live responses.', false);
         openSettings('api');
         return;
       }
@@ -1917,7 +1909,7 @@
         persistChats();
         renderActiveConversation();
         setAIMode('idle');
-        showApiBanner(`API Error: ${err.message}`, true);
+        showApiBanner(err.message, true);
       } finally {
         state.isGenerating = false;
         if (state.aiMode === 'thinking') setAIMode('idle');
@@ -1925,7 +1917,7 @@
     }
 
     // =========================================================================
-    // 9. CHAT RENDERING, COPY & HISTORY MANAGEMENT
+    // 9. CHAT RENDERING & HISTORY MANAGEMENT
     // =========================================================================
     function renderActiveConversation() {
       const chat = getActiveChat();
@@ -1948,7 +1940,6 @@
       titleEl.textContent = chat.title || 'Conversation';
       welcomeBlock.classList.add('hidden');
       feed.classList.remove('hidden');
-      // Compact holographic head slightly when reading messages so conversation has generous room
       faceBox.style.height = '155px';
       faceCanvas.style.width = '155px';
       faceCanvas.style.height = '155px';
@@ -2165,6 +2156,7 @@
     function openSettings(focusTarget = '') {
       playTone('tap');
       syncSettingsControls();
+      document.getElementById('key-test-result').classList.add('hidden');
       openModal('modal-settings');
       if (focusTarget === 'api') {
         setTimeout(() => document.getElementById('input-gemini-key').focus(), 100);
@@ -2190,4 +2182,3 @@
   </script>
 </body>
 </html>
-```
